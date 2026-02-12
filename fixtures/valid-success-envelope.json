@@ -1,0 +1,29 @@
+{
+  "$schema": "https://lafs.dev/schemas/v1/envelope.schema.json",
+  "_meta": {
+    "specVersion": "1.0.0",
+    "schemaVersion": "1.0.0",
+    "timestamp": "2026-02-11T00:00:00Z",
+    "operation": "example.list",
+    "requestId": "req_01",
+    "transport": "cli",
+    "strict": true,
+    "mvi": true,
+    "contextVersion": 0
+  },
+  "success": true,
+  "result": {
+    "items": [
+      { "id": "a1", "title": "Item A" }
+    ]
+  },
+  "error": null,
+  "page": {
+    "mode": "offset",
+    "limit": 50,
+    "offset": 0,
+    "nextCursor": null,
+    "hasMore": false,
+    "total": 1
+  }
+}

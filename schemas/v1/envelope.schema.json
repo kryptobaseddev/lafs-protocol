@@ -1,0 +1,193 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://lafs.dev/schemas/v1/envelope.schema.json",
+  "title": "LAFS Envelope v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "_meta",
+    "success",
+    "result",
+    "error",
+    "page"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "const": "https://lafs.dev/schemas/v1/envelope.schema.json"
+    },
+    "_meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "specVersion",
+        "schemaVersion",
+        "timestamp",
+        "operation",
+        "requestId",
+        "transport",
+        "strict",
+        "mvi",
+        "contextVersion"
+      ],
+      "properties": {
+        "specVersion": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "schemaVersion": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "operation": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "requestId": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 128
+        },
+        "transport": {
+          "type": "string",
+          "enum": ["cli", "http", "grpc", "sdk"]
+        },
+        "strict": {
+          "type": "boolean"
+        },
+        "mvi": {
+          "type": "boolean"
+        },
+        "contextVersion": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "success": {
+      "type": "boolean"
+    },
+    "result": {
+      "type": ["object", "array", "null"]
+    },
+    "error": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "message",
+        "category",
+        "retryable",
+        "retryAfterMs",
+        "details"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "pattern": "^E_[A-Z0-9]+_[A-Z0-9_]+$"
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "VALIDATION",
+            "AUTH",
+            "PERMISSION",
+            "NOT_FOUND",
+            "CONFLICT",
+            "RATE_LIMIT",
+            "TRANSIENT",
+            "INTERNAL",
+            "CONTRACT",
+            "MIGRATION"
+          ]
+        },
+        "retryable": {
+          "type": "boolean"
+        },
+        "retryAfterMs": {
+          "type": ["integer", "null"],
+          "minimum": 0
+        },
+        "details": {
+          "type": "object"
+        }
+      }
+    },
+    "page": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "limit",
+        "offset",
+        "nextCursor",
+        "hasMore",
+        "total"
+      ],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["offset", "cursor", "none"]
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000
+        },
+        "offset": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "nextCursor": {
+          "type": ["string", "null"],
+          "maxLength": 2048
+        },
+        "hasMore": {
+          "type": "boolean"
+        },
+        "total": {
+          "type": ["integer", "null"],
+          "minimum": 0
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "success": { "const": true }
+        }
+      },
+      "then": {
+        "properties": {
+          "error": { "type": "null" }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "success": { "const": false }
+        }
+      },
+      "then": {
+        "properties": {
+          "result": { "type": "null" },
+          "error": { "type": "object" }
+        }
+      }
+    }
+  ]
+}
