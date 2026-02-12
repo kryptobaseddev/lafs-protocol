@@ -15,11 +15,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cleocode/lafs-protocol.git"
+    "url": "git+https://github.com/kryptobaseddev/lafs-protocol.git"
   },
-  "homepage": "https://github.com/cleocode/lafs-protocol#readme",
+  "homepage": "https://github.com/kryptobaseddev/lafs-protocol#readme",
   "bugs": {
-    "url": "https://github.com/cleocode/lafs-protocol/issues"
+    "url": "https://github.com/kryptobaseddev/lafs-protocol/issues"
   },
   "publishConfig": {
     "access": "public"
