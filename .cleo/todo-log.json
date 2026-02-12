@@ -1,0 +1,42 @@
+{
+  "$schema": "./schemas/log.schema.json",
+  "version": "2.4.0",
+  "project": "lafs-protocol",
+  "_meta": {
+    "schemaVersion": "2.4.0",
+    "totalEntries": 2,
+    "firstEntry": "2026-02-12T01:56:01Z",
+    "lastEntry": "2026-02-12T01:59:14Z",
+    "entriesPruned": 0
+  },
+  "entries": [
+    {
+      "id": "log_1e143a80fdc4",
+      "timestamp": "2026-02-12T01:56:01Z",
+      "sessionId": null,
+      "action": "system_initialized",
+      "actor": "system",
+      "taskId": null,
+      "before": null,
+      "after": null,
+      "details": "CLEO system initialized for project: lafs-protocol"
+    },
+    {
+      "id": "log_0c393a8c37b4",
+      "timestamp": "2026-02-12T01:59:14Z",
+      "sessionId": "session_20260211_175914_7b7c2e",
+      "action": "session_start",
+      "actor": "system",
+      "taskId": "",
+      "before": null,
+      "after": null,
+      "details": "Multi-session started",
+      "scope": {
+        "type": "custom",
+        "taskIds": [
+          "T001"
+        ]
+      }
+    }
+  ]
+}
