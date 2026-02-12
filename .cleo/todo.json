@@ -47,14 +47,14 @@
       }
     }
   },
-  "lastUpdated": "2026-02-12T02:08:48Z",
+  "lastUpdated": "2026-02-12T15:53:56Z",
   "_meta": {
     "schemaVersion": "2.10.0",
-    "checksum": "bf48bef4ad5942c0",
+    "checksum": "c6898ad273f733a2",
     "configVersion": "2.10.0",
     "lastSessionId": null,
     "activeSession": null,
-    "generation": 9,
+    "generation": 10,
     "lastModified": "2026-02-12T01:59:14Z",
     "multiSessionEnabled": true,
     "activeSessionCount": 1
@@ -216,6 +216,98 @@
         "lastUpdated": "2026-02-12T02:08:47Z",
         "failureLog": []
       }
+    },
+    {
+      "id": "T006",
+      "title": "LAFS Protocol Hardening",
+      "status": "pending",
+      "priority": "high",
+      "type": "epic",
+      "parentId": null,
+      "createdAt": "2026-02-12T15:53:40Z",
+      "updatedAt": "2026-02-12T15:53:40Z",
+      "size": "medium",
+      "position": 2,
+      "positionVersion": 0,
+      "phase": "setup",
+      "description": "Harden test coverage, fixtures, and governance for the LAFS protocol repo. Ensure all 8 CONFORMANCE.md checks have explicit tests, missing fixtures are added, and document tracking policy is resolved.",
+      "labels": [
+        "conformance",
+        "governance",
+        "hardening"
+      ]
+    },
+    {
+      "id": "T007",
+      "title": "Harden conformance test coverage for all 8 CONFORMANCE.md checks",
+      "status": "pending",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T006",
+      "createdAt": "2026-02-12T15:53:47Z",
+      "updatedAt": "2026-02-12T15:53:47Z",
+      "size": "medium",
+      "position": 1,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "conformance",
+        "testing"
+      ],
+      "acceptance": [
+        "Tests cover --human flag resolution",
+        "Tests cover pagination metadata validation",
+        "Tests cover context-critical mutation failure",
+        "All 8 CONFORMANCE.md checks have explicit test cases"
+      ]
+    },
+    {
+      "id": "T008",
+      "title": "Add missing test fixtures: valid error envelope, pagination envelope, human flag",
+      "status": "pending",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T006",
+      "createdAt": "2026-02-12T15:53:49Z",
+      "updatedAt": "2026-02-12T15:53:56Z",
+      "size": "small",
+      "position": 2,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "fixtures",
+        "testing"
+      ],
+      "acceptance": [
+        "Valid error envelope fixture exists",
+        "Pagination envelope fixture exists",
+        "Human flag resolution fixture exists",
+        "All fixtures validate against envelope schema"
+      ],
+      "depends": [
+        "T007"
+      ]
+    },
+    {
+      "id": "T009",
+      "title": "Decide tracking policy for AGENTS.md and GEMINI.md",
+      "status": "pending",
+      "priority": "medium",
+      "type": "task",
+      "parentId": "T006",
+      "createdAt": "2026-02-12T15:53:51Z",
+      "updatedAt": "2026-02-12T15:53:51Z",
+      "size": "small",
+      "position": 3,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "governance"
+      ],
+      "acceptance": [
+        "Files are either git-tracked or added to .gitignore",
+        "Decision documented"
+      ]
     }
   ],
   "labels": {}
