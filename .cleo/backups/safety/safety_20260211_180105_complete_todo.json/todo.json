@@ -47,14 +47,14 @@
       }
     }
   },
-  "lastUpdated": "2026-02-12T02:08:48Z",
+  "lastUpdated": "2026-02-12T02:01:05Z",
   "_meta": {
     "schemaVersion": "2.10.0",
-    "checksum": "bf48bef4ad5942c0",
+    "checksum": "29fd765d97efde11",
     "configVersion": "2.10.0",
     "lastSessionId": null,
     "activeSession": null,
-    "generation": 9,
+    "generation": 4,
     "lastModified": "2026-02-12T01:59:14Z",
     "multiSessionEnabled": true,
     "activeSessionCount": 1
@@ -70,20 +70,16 @@
     {
       "id": "T001",
       "title": "LAFS Protocol Release",
-      "status": "done",
+      "status": "pending",
       "priority": "high",
       "type": "epic",
       "parentId": null,
       "createdAt": "2026-02-12T01:59:19Z",
-      "updatedAt": "2026-02-12T02:08:48Z",
+      "updatedAt": "2026-02-12T01:59:19Z",
       "size": "medium",
       "position": 1,
       "positionVersion": 0,
-      "phase": "setup",
-      "completedAt": "2026-02-12T02:08:48Z",
-      "notes": [
-        "[COMPLETED 2026-02-12T02:08:48Z] Bootstrapped standalone LAFS protocol repo with schemas, tests, CI, and npm release pipeline."
-      ]
+      "phase": "setup"
     },
     {
       "id": "T002",
@@ -154,68 +150,30 @@
     {
       "id": "T004",
       "title": "Add CI and npm publish provenance workflow",
-      "status": "done",
+      "status": "pending",
       "priority": "high",
       "type": "task",
       "parentId": "T001",
       "createdAt": "2026-02-12T01:59:25Z",
-      "updatedAt": "2026-02-12T02:01:05Z",
+      "updatedAt": "2026-02-12T01:59:25Z",
       "size": "medium",
       "position": 3,
       "positionVersion": 0,
-      "phase": "setup",
-      "completedAt": "2026-02-12T02:01:05Z",
-      "notes": [
-        "[COMPLETED 2026-02-12T02:01:05Z] Added GitHub CI and npm provenance release workflows."
-      ],
-      "verification": {
-        "passed": false,
-        "round": 0,
-        "gates": {
-          "implemented": true,
-          "testsPassed": null,
-          "qaPassed": null,
-          "cleanupDone": null,
-          "securityPassed": null,
-          "documented": null
-        },
-        "lastAgent": "coder",
-        "lastUpdated": "2026-02-12T02:01:06Z",
-        "failureLog": []
-      }
+      "phase": "setup"
     },
     {
       "id": "T005",
       "title": "Wire CAAMP consumer integration",
-      "status": "done",
+      "status": "pending",
       "priority": "high",
       "type": "task",
       "parentId": "T001",
       "createdAt": "2026-02-12T01:59:25Z",
-      "updatedAt": "2026-02-12T02:08:47Z",
+      "updatedAt": "2026-02-12T01:59:25Z",
       "size": "medium",
       "position": 4,
       "positionVersion": 0,
-      "phase": "setup",
-      "completedAt": "2026-02-12T02:08:47Z",
-      "notes": [
-        "[COMPLETED 2026-02-12T02:08:47Z] Integrated CAAMP advanced LAFS helper with @cleocode/lafs-protocol package and validated typecheck."
-      ],
-      "verification": {
-        "passed": false,
-        "round": 0,
-        "gates": {
-          "implemented": true,
-          "testsPassed": null,
-          "qaPassed": null,
-          "cleanupDone": null,
-          "securityPassed": null,
-          "documented": null
-        },
-        "lastAgent": "coder",
-        "lastUpdated": "2026-02-12T02:08:47Z",
-        "failureLog": []
-      }
+      "phase": "setup"
     }
   ],
   "labels": {}

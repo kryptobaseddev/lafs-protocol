@@ -1,0 +1,70 @@
+{
+  "$schema": "https://cleo-dev.com/schemas/v1/backup-manifest.schema.json",
+  "_meta": {
+    "version": "1.0.0",
+    "created": "2026-02-12T02:01:03Z",
+    "lastModified": "2026-02-12T02:08:48Z"
+  },
+  "backups": [
+    {
+      "id": "safety_20260211_180103_complete_todo.json",
+      "type": "safety",
+      "timestamp": "2026-02-12T02:01:03Z",
+      "path": ".cleo/backups/safety/safety_20260211_180103_complete_todo.json",
+      "files": [
+        "todo.json"
+      ],
+      "checksumSummary": "2cd8a9bf42d1531ea809cc9db621e213dc857ce4686ef44d707f6476adfa8671",
+      "sizeBytes": 3767,
+      "neverDelete": false
+    },
+    {
+      "id": "safety_20260211_180104_complete_todo.json",
+      "type": "safety",
+      "timestamp": "2026-02-12T02:01:04Z",
+      "path": ".cleo/backups/safety/safety_20260211_180104_complete_todo.json",
+      "files": [
+        "todo.json"
+      ],
+      "checksumSummary": "9206871c0724c8c02ca3a3c5d579a5ccb533bf41ea7d81ee088e44132d224165",
+      "sizeBytes": 4341,
+      "neverDelete": false
+    },
+    {
+      "id": "safety_20260211_180105_complete_todo.json",
+      "type": "safety",
+      "timestamp": "2026-02-12T02:01:05Z",
+      "path": ".cleo/backups/safety/safety_20260211_180105_complete_todo.json",
+      "files": [
+        "todo.json"
+      ],
+      "checksumSummary": "ebfcc95ca6e389ed05797f42c4d2763569e3f817fdf2493684c04a06862c3236",
+      "sizeBytes": 4921,
+      "neverDelete": false
+    },
+    {
+      "id": "safety_20260211_180847_complete_todo.json",
+      "type": "safety",
+      "timestamp": "2026-02-12T02:08:47Z",
+      "path": ".cleo/backups/safety/safety_20260211_180847_complete_todo.json",
+      "files": [
+        "todo.json"
+      ],
+      "checksumSummary": "5576d3f5972c48b9c7974c603edc982c556221d19a8e4076c5e0be34660167b7",
+      "sizeBytes": 5480,
+      "neverDelete": false
+    },
+    {
+      "id": "safety_20260211_180848_complete_todo.json",
+      "type": "safety",
+      "timestamp": "2026-02-12T02:08:48Z",
+      "path": ".cleo/backups/safety/safety_20260211_180848_complete_todo.json",
+      "files": [
+        "todo.json"
+      ],
+      "checksumSummary": "6cfbc7958854efa15bc2b96615cbeba829500bd4e24ac08e78a05f7aaefa493f",
+      "sizeBytes": 6085,
+      "neverDelete": false
+    }
+  ]
+}

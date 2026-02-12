@@ -1,0 +1,13 @@
+{
+  "version": "1.0.0",
+  "timestamp": "2026-02-12T15:25:00Z",
+  "staleAfterMs": 5000,
+  "contextWindow": {
+    "maxTokens": 200000,
+    "currentTokens": 52782,
+    "percentage": 26
+  },
+  "status": "ok",
+  "sessionId": "",
+  "workspace": "/mnt/projects/lafs-protocol"
+}

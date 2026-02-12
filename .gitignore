@@ -2,4 +2,6 @@ node_modules/
 dist/
 coverage/
 .DS_Store
-.cleo/
+.cleo/.cache/
+.cleo/*.lock
+.cleo/**/*.lock
