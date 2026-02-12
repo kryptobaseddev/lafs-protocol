@@ -47,14 +47,14 @@
       }
     }
   },
-  "lastUpdated": "2026-02-12T16:11:58Z",
+  "lastUpdated": "2026-02-12T17:40:51Z",
   "_meta": {
     "schemaVersion": "2.10.0",
-    "checksum": "a22e09beaf3f013a",
+    "checksum": "e110139851b50bb2",
     "configVersion": "2.10.0",
     "lastSessionId": null,
     "activeSession": null,
-    "generation": 24,
+    "generation": 25,
     "lastModified": "2026-02-12T01:59:14Z",
     "multiSessionEnabled": true,
     "activeSessionCount": 1
@@ -240,12 +240,12 @@
     {
       "id": "T007",
       "title": "Harden conformance test coverage for all 8 CONFORMANCE.md checks",
-      "status": "pending",
+      "status": "cancelled",
       "priority": "high",
       "type": "task",
       "parentId": "T006",
       "createdAt": "2026-02-12T15:53:47Z",
-      "updatedAt": "2026-02-12T15:54:18Z",
+      "updatedAt": "2026-02-12T17:40:51Z",
       "size": "medium",
       "position": 1,
       "positionVersion": 0,
@@ -262,6 +262,11 @@
       ],
       "depends": [
         "T008"
+      ],
+      "cancelledAt": "2026-02-12T17:40:51Z",
+      "cancelReason": "Superseded by unified v1.0.0 roadmap — conformance coverage merged into Phase 0 and Phase 3A epics",
+      "notes": [
+        "[CANCELLED 2026-02-12T17:40:51Z] Superseded by unified v1.0.0 roadmap — conformance coverage merged into Phase 0 and Phase 3A epics"
       ]
     },
     {
