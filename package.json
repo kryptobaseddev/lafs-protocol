@@ -4,8 +4,8 @@
   "private": false,
   "type": "module",
   "description": "LLM-Agent-First Specification schemas and conformance tooling",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
   "files": [
     "dist",
     "schemas",
@@ -25,10 +25,10 @@
     "access": "public"
   },
   "bin": {
-    "lafs-conformance": "dist/cli.js"
+    "lafs-conformance": "dist/src/cli.js"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "rm -rf dist && tsc -p tsconfig.build.json",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "conformance": "tsx src/cli.ts"
