@@ -11,6 +11,8 @@ This repository is language-neutral at the protocol layer and TypeScript-first f
 - Error registry and transport mappings: `schemas/v1/error-registry.json`
 - TypeScript validation/conformance toolkit: `src/`
 - Automated conformance tests: `tests/`
+- Vision and governance boundary docs: `docs/VISION.md`, `docs/BOUNDARY-MODEL.md`
+- Consumer adoption template: `docs/CONSUMER-PROFILE-TEMPLATE.md`
 
 ## Install
 
