@@ -47,14 +47,14 @@
       }
     }
   },
-  "lastUpdated": "2026-02-12T15:53:56Z",
+  "lastUpdated": "2026-02-12T16:06:44Z",
   "_meta": {
     "schemaVersion": "2.10.0",
-    "checksum": "c6898ad273f733a2",
+    "checksum": "af411226d59c2db0",
     "configVersion": "2.10.0",
     "lastSessionId": null,
     "activeSession": null,
-    "generation": 10,
+    "generation": 14,
     "lastModified": "2026-02-12T01:59:14Z",
     "multiSessionEnabled": true,
     "activeSessionCount": 1
@@ -245,7 +245,7 @@
       "type": "task",
       "parentId": "T006",
       "createdAt": "2026-02-12T15:53:47Z",
-      "updatedAt": "2026-02-12T15:53:47Z",
+      "updatedAt": "2026-02-12T15:54:18Z",
       "size": "medium",
       "position": 1,
       "positionVersion": 0,
@@ -259,6 +259,9 @@
         "Tests cover pagination metadata validation",
         "Tests cover context-critical mutation failure",
         "All 8 CONFORMANCE.md checks have explicit test cases"
+      ],
+      "depends": [
+        "T008"
       ]
     },
     {
@@ -269,7 +272,7 @@
       "type": "task",
       "parentId": "T006",
       "createdAt": "2026-02-12T15:53:49Z",
-      "updatedAt": "2026-02-12T15:53:56Z",
+      "updatedAt": "2026-02-12T15:54:14Z",
       "size": "small",
       "position": 2,
       "positionVersion": 0,
@@ -283,9 +286,6 @@
         "Pagination envelope fixture exists",
         "Human flag resolution fixture exists",
         "All fixtures validate against envelope schema"
-      ],
-      "depends": [
-        "T007"
       ]
     },
     {
@@ -307,6 +307,130 @@
       "acceptance": [
         "Files are either git-tracked or added to .gitignore",
         "Decision documented"
+      ]
+    },
+    {
+      "id": "T010",
+      "title": "RCSD: Adversarial Challenge of LAFS Protocol Vision and Specification",
+      "status": "active",
+      "priority": "critical",
+      "type": "epic",
+      "parentId": null,
+      "createdAt": "2026-02-12T15:56:40Z",
+      "updatedAt": "2026-02-12T15:56:59Z",
+      "size": "medium",
+      "position": 3,
+      "positionVersion": 0,
+      "phase": "setup",
+      "description": "Full RCSD pipeline adversarial review of LAFS protocol. Challenge the vision, spec, schemas, conformance model, MVI/progressive disclosure design. Find every gap, hole, and weakness. Trust nothing.",
+      "labels": [
+        "adversarial",
+        "consensus",
+        "rcsd",
+        "research"
+      ]
+    },
+    {
+      "id": "T011",
+      "title": "RESEARCH: Protocol gap analysis — find technical holes in spec, schema, and conformance",
+      "status": "done",
+      "priority": "critical",
+      "type": "task",
+      "parentId": "T010",
+      "createdAt": "2026-02-12T15:56:49Z",
+      "updatedAt": "2026-02-12T16:06:44Z",
+      "size": "large",
+      "position": 1,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "adversarial",
+        "rcsd",
+        "research"
+      ],
+      "completedAt": "2026-02-12T16:06:44Z",
+      "notes": [
+        "[COMPLETED 2026-02-12T16:06:44Z] Adversarial protocol gap analysis complete. 15 findings across spec-schema drift, conformance gaps, and missing enforcement. Output: claudedocs/agent-outputs/T011-protocol-gap-analysis.md"
+      ]
+    },
+    {
+      "id": "T012",
+      "title": "RESEARCH: Vision and mission challenge — is LAFS actually the right canonical model?",
+      "status": "pending",
+      "priority": "critical",
+      "type": "task",
+      "parentId": "T010",
+      "createdAt": "2026-02-12T15:56:50Z",
+      "updatedAt": "2026-02-12T15:56:50Z",
+      "size": "medium",
+      "position": 2,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "adversarial",
+        "rcsd",
+        "research"
+      ]
+    },
+    {
+      "id": "T013",
+      "title": "RESEARCH: MVI and progressive disclosure audit — are these truly first-class protocol citizens?",
+      "status": "pending",
+      "priority": "critical",
+      "type": "task",
+      "parentId": "T010",
+      "createdAt": "2026-02-12T15:56:50Z",
+      "updatedAt": "2026-02-12T15:56:50Z",
+      "size": "medium",
+      "position": 3,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "adversarial",
+        "rcsd",
+        "research"
+      ]
+    },
+    {
+      "id": "T014",
+      "title": "RESEARCH: Competitive landscape — what exists, where does LAFS fit, what's missing?",
+      "status": "pending",
+      "priority": "critical",
+      "type": "task",
+      "parentId": "T010",
+      "createdAt": "2026-02-12T15:56:51Z",
+      "updatedAt": "2026-02-12T15:56:51Z",
+      "size": "medium",
+      "position": 4,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "rcsd",
+        "research"
+      ]
+    },
+    {
+      "id": "T015",
+      "title": "CONSENSUS: Synthesize all research findings into actionable gap report",
+      "status": "pending",
+      "priority": "critical",
+      "type": "task",
+      "parentId": "T010",
+      "createdAt": "2026-02-12T15:56:51Z",
+      "updatedAt": "2026-02-12T15:56:51Z",
+      "size": "large",
+      "position": 5,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "consensus",
+        "rcsd"
+      ],
+      "depends": [
+        "T011",
+        "T012",
+        "T013",
+        "T014"
       ]
     }
   ],
