@@ -2,9 +2,13 @@
 
 ## 1. Scope
 
-LAFS defines a protocol for software systems whose primary consumer is an LLM agent.
+LAFS is a **response envelope contract specification**. It defines the canonical shape of structured responses — success envelopes, error envelopes, pagination metadata, and context preservation — for software systems whose primary consumer is an LLM agent or AI-driven tool.
 
-LAFS is transport-agnostic and language-agnostic. It applies to CLI, SDK, HTTP, gRPC, and orchestrated multi-agent systems.
+LAFS is **not** a protocol, framework, or runtime. It specifies **what** a conformant response looks like, not how that response is transported or generated. Implementations MAY deliver LAFS envelopes over HTTP, gRPC, CLI, SDK interfaces, message queues, or any other transport mechanism. LAFS is transport-agnostic and language-agnostic.
+
+LAFS is designed to complement — not compete with — existing agent and tool-integration protocols. The Model Context Protocol (MCP) defines how LLM hosts discover and invoke tools; the Agent-to-Agent protocol (A2A) defines how autonomous agents communicate and delegate tasks. LAFS operates at a different layer: it standardizes the **response contract** that tools and agents SHOULD return, regardless of the protocol used to invoke them. An MCP tool server, an A2A agent, or a plain REST API MAY all return LAFS-conformant envelopes.
+
+While LAFS is purpose-built for AI and LLM tool ecosystems — where deterministic, machine-parseable responses are critical — the specification is generally applicable to any API that benefits from structured, predictable response contracts.
 
 ---
 
@@ -208,6 +212,55 @@ See `docs/VERSIONING.md` and `docs/DEPRECATION.md`.
 ## 12. Conformance
 
 Conforming implementations MUST pass minimum checks in `docs/CONFORMANCE.md` and schema validation for the canonical envelope.
+
+### 12.1 Adoption Tiers
+
+LAFS defines three adoption tiers to enable gradual conformance. Each tier builds on the previous tier's requirements. Implementations MUST declare which tier they target and MUST pass all checks required by that tier.
+
+#### 12.1.1 Core Tier
+
+The Core tier represents **minimum viable LAFS adoption**. It verifies that responses use the canonical envelope shape and satisfy basic structural invariants.
+
+Required conformance checks:
+
+| Check | Description |
+|---|---|
+| `envelope_schema_valid` | Response validates against `schemas/v1/envelope.schema.json` |
+| `envelope_invariants` | `success`/`result`/`error` mutual exclusivity holds (Section 6.1) |
+
+Use cases: quick adoption, internal APIs, prototyping, evaluating LAFS fit.
+
+#### 12.1.2 Standard Tier
+
+The Standard tier is **recommended for production** use. It adds semantic checks for error codes, metadata flags, and format defaults on top of all Core tier requirements.
+
+Required conformance checks — all Core checks, plus:
+
+| Check | Description |
+|---|---|
+| `error_code_registered` | All error codes come from the registered error registry (Section 7) |
+| `meta_mvi_present` | `_meta.mvi` flag is present and valid (Section 9.1) |
+| `meta_strict_present` | `_meta.strict` flag is present and boolean (Section 10) |
+| `json_protocol_default` | JSON is the default output format when no explicit format is requested (Section 5.1) |
+
+Use cases: production APIs, public-facing services, third-party integrations.
+
+#### 12.1.3 Complete Tier
+
+The Complete tier represents **full LAFS compliance**. It adds configuration, flag-handling, and advanced feature checks on top of all Standard tier requirements.
+
+Required conformance checks — all Standard checks, plus:
+
+| Check | Description |
+|---|---|
+| `config_override_respected` | Project/user config-based format overrides are correctly applied (Section 5.2) |
+| `flag_conflict_rejected` | Conflicting format flags (e.g., `--human --json`) are properly rejected with `E_FORMAT_CONFLICT` (Section 5.1) |
+| `context_validation` | Context preservation invariants hold for multi-step operations (Section 8) |
+| `pagination_validation` | Pagination metadata validates when present (Section 9.3) |
+
+Use cases: official LAFS-conformant implementations, reference implementations, certification.
+
+> **Note:** `context_validation` and `pagination_validation` are reserved check names. Implementations SHOULD treat these as automatically passing until the corresponding conformance runners are available.
 
 ---
 
