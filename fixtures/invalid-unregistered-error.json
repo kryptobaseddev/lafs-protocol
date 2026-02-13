@@ -5,25 +5,28 @@
     "schemaVersion": "1.0.0",
     "timestamp": "2026-02-11T00:00:00Z",
     "operation": "example.list",
-    "requestId": "req_01",
+    "requestId": "req_unregistered_01",
     "transport": "cli",
     "strict": true,
     "mvi": "minimal",
     "contextVersion": 0
   },
-  "success": true,
-  "result": {
-    "items": [
-      { "id": "a1", "title": "Item A" }
-    ]
+  "success": false,
+  "result": null,
+  "error": {
+    "code": "E_FAKE_UNREGISTERED",
+    "message": "This error code is not in the registry",
+    "category": "INTERNAL",
+    "retryable": false,
+    "retryAfterMs": null,
+    "details": {}
   },
-  "error": null,
   "page": {
-    "mode": "offset",
-    "limit": 50,
+    "mode": "none",
+    "limit": 1,
     "offset": 0,
     "nextCursor": null,
     "hasMore": false,
-    "total": 1
+    "total": null
   }
 }

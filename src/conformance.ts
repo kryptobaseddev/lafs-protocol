@@ -30,18 +30,28 @@ export function runEnvelopeConformance(envelope: unknown): ConformanceReport {
   const typed = envelope as {
     success: boolean;
     result: unknown;
-    error: null | { code: string };
-    _meta: { mvi: boolean; strict: boolean };
+    error?: null | { code: string };
+    page?: unknown;
+    _meta: { mvi: string; strict: boolean };
   };
 
-  const invariant = typed.success ? typed.error === null : typed.result === null;
+  // envelope_invariants: success=true allows error to be null OR omitted;
+  // success=false requires error to be a non-null object and result===null.
+  const invariant = typed.success
+    ? typed.error == null  // null or undefined (omitted) both valid for success
+    : typed.result === null && typed.error != null;
   pushCheck(
     checks,
     "envelope_invariants",
     invariant,
-    invariant ? undefined : "success/result/error invariant violated",
+    invariant
+      ? undefined
+      : typed.success
+        ? "success=true but error is present and non-null"
+        : "success=false requires result===null and error to be a non-null object",
   );
 
+  // error_code_registered: only checked when error is present
   if (typed.error) {
     const registered = isRegisteredErrorCode(typed.error.code);
     pushCheck(
@@ -51,10 +61,21 @@ export function runEnvelopeConformance(envelope: unknown): ConformanceReport {
       registered ? undefined : `unregistered code: ${typed.error.code}`,
     );
   } else {
-    pushCheck(checks, "error_code_registered", true);
+    pushCheck(
+      checks,
+      "error_code_registered",
+      true,
+      "error field absent or null — skipped",
+    );
   }
 
-  pushCheck(checks, "meta_mvi_present", typeof typed._meta.mvi === "boolean");
+  const validMviLevels = ["minimal", "standard", "full", "custom"];
+  pushCheck(
+    checks,
+    "meta_mvi_present",
+    validMviLevels.includes(typed._meta.mvi),
+    validMviLevels.includes(typed._meta.mvi) ? undefined : `invalid mvi level: ${String(typed._meta.mvi)}`,
+  );
   pushCheck(checks, "meta_strict_present", typeof typed._meta.strict === "boolean");
 
   return { ok: checks.every((check) => check.pass), checks };
@@ -66,12 +87,36 @@ export function runFlagConformance(flags: FlagInput): ConformanceReport {
   try {
     const resolved = resolveOutputFormat(flags);
     pushCheck(checks, "flag_conflict_rejected", !(flags.humanFlag && flags.jsonFlag));
-    pushCheck(checks, "json_default_when_unspecified", resolved.format === "json" || Boolean(flags.projectDefault || flags.userDefault));
+
+    // Protocol-default check: when nothing is specified (source === "default"),
+    // the protocol requires JSON as the default format.
+    const isProtocolDefault = resolved.source === "default";
+    pushCheck(
+      checks,
+      "json_protocol_default",
+      !isProtocolDefault || resolved.format === "json",
+      isProtocolDefault && resolved.format !== "json"
+        ? `protocol default should be json, got ${resolved.format}`
+        : undefined,
+    );
+
+    // Config-override check: when a project or user default is active,
+    // the resolved format must match the config-provided value.
+    const hasConfigOverride = resolved.source === "project" || resolved.source === "user";
+    const expectedOverride =
+      resolved.source === "project" ? flags.projectDefault : flags.userDefault;
+    pushCheck(
+      checks,
+      "config_override_respected",
+      !hasConfigOverride || resolved.format === expectedOverride,
+      hasConfigOverride && resolved.format !== expectedOverride
+        ? `config override expected ${String(expectedOverride)}, got ${resolved.format}`
+        : undefined,
+    );
   } catch (error) {
     if (error instanceof LAFSFlagError && error.code === "E_FORMAT_CONFLICT") {
       pushCheck(checks, "flag_conflict_rejected", true);
-      pushCheck(checks, "json_default_when_unspecified", true);
-      return { ok: true, checks };
+      return { ok: checks.every((check) => check.pass), checks };
     }
     pushCheck(checks, "flag_resolution", false, error instanceof Error ? error.message : String(error));
     return { ok: false, checks };

@@ -4,24 +4,27 @@
     "specVersion": "1.0.0",
     "schemaVersion": "1.0.0",
     "timestamp": "2026-02-11T00:00:00Z",
-    "operation": "example.show",
-    "requestId": "req_02",
+    "operation": "example.create",
+    "requestId": "req_invalid_02",
     "transport": "cli",
     "strict": true,
     "mvi": "minimal",
     "contextVersion": 0
   },
-  "success": true,
+  "success": false,
   "result": {
-    "id": "x"
+    "partialData": "this-should-not-be-here"
   },
   "error": {
-    "code": "E_VALIDATION_SCHEMA",
-    "message": "Should not exist with success=true",
-    "category": "VALIDATION",
+    "code": "E_NOT_FOUND_RESOURCE",
+    "message": "Referenced resource was not found",
+    "category": "NOT_FOUND",
     "retryable": false,
     "retryAfterMs": null,
-    "details": {}
+    "details": {
+      "resourceType": "item",
+      "resourceId": "missing-123"
+    }
   },
   "page": null
 }

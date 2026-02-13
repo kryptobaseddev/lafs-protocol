@@ -20,7 +20,7 @@ export interface LAFSMeta {
   requestId: string;
   transport: LAFSTransport;
   strict: boolean;
-  mvi: boolean;
+  mvi: 'minimal' | 'standard' | 'full' | 'custom';
   contextVersion: number;
 }
 

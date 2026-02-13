@@ -62,7 +62,9 @@
           "type": "boolean"
         },
         "mvi": {
-          "type": "boolean"
+          "type": "string",
+          "enum": ["minimal", "standard", "full", "custom"],
+          "description": "Disclosure level: minimal (MVI only), standard (common fields), full (all fields), custom (per _fields parameter)"
         },
         "contextVersion": {
           "type": "integer",

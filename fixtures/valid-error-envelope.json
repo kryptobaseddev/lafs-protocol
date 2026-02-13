@@ -4,24 +4,25 @@
     "specVersion": "1.0.0",
     "schemaVersion": "1.0.0",
     "timestamp": "2026-02-11T00:00:00Z",
-    "operation": "example.show",
-    "requestId": "req_02",
+    "operation": "example.create",
+    "requestId": "req_03",
     "transport": "cli",
     "strict": true,
     "mvi": "minimal",
     "contextVersion": 0
   },
-  "success": true,
-  "result": {
-    "id": "x"
-  },
+  "success": false,
+  "result": null,
   "error": {
     "code": "E_VALIDATION_SCHEMA",
-    "message": "Should not exist with success=true",
+    "message": "Input failed schema validation: 'title' is required",
     "category": "VALIDATION",
     "retryable": false,
     "retryAfterMs": null,
-    "details": {}
+    "details": {
+      "field": "title",
+      "rule": "required"
+    }
   },
   "page": null
 }
