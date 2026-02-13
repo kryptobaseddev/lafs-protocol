@@ -96,6 +96,40 @@ export function runEnvelopeConformance(envelope: unknown): ConformanceReport {
     );
   }
 
+  // pagination_mode_consistent: when page is present and is an object, verify
+  // that the fields present match the declared pagination mode.
+  if (typed.page && typeof typed.page === "object") {
+    const page = typed.page as Record<string, unknown>;
+    const mode = page["mode"] as string | undefined;
+    let consistent = true;
+    let detail: string | undefined;
+
+    if (mode === "cursor") {
+      if (page["offset"] !== undefined) {
+        consistent = false;
+        detail = "cursor mode should not include offset field";
+      }
+    } else if (mode === "offset") {
+      if (page["nextCursor"] !== undefined) {
+        consistent = false;
+        detail = "offset mode should not include nextCursor field";
+      }
+    } else if (mode === "none") {
+      const extraFields = Object.keys(page).filter((k) => k !== "mode");
+      if (extraFields.length > 0) {
+        consistent = false;
+        detail = `none mode should only have mode field, found: ${extraFields.join(", ")}`;
+      }
+    }
+
+    pushCheck(
+      checks,
+      "pagination_mode_consistent",
+      consistent,
+      consistent ? undefined : detail,
+    );
+  }
+
   // strict_mode_enforced: verify the schema enforces additional-property rules.
   // When strict=true, extra top-level properties must be rejected by validation.
   // When strict=false, extra top-level properties must be allowed.

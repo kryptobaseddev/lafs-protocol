@@ -21,7 +21,6 @@
     "mode": "offset",
     "limit": 50,
     "offset": 0,
-    "nextCursor": null,
     "hasMore": false,
     "total": 1
   }

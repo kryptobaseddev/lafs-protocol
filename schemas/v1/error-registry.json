@@ -100,6 +100,15 @@
       "httpStatus": 400,
       "grpcStatus": "INVALID_ARGUMENT",
       "cliExit": 2
+    },
+    {
+      "code": "E_MVI_BUDGET_EXCEEDED",
+      "category": "VALIDATION",
+      "description": "Response exceeds declared MVI budget (token, byte, or item limit)",
+      "retryable": false,
+      "httpStatus": 413,
+      "grpcStatus": "RESOURCE_EXHAUSTED",
+      "cliExit": 2
     }
   ]
 }

@@ -186,12 +186,27 @@ Rules:
 - Verbose fields SHOULD be omitted by default.
 - Systems SHOULD publish operation-level MVI budgets.
 
-### 9.2 Progressive disclosure
+### 9.2 Field selection (`_fields`)
 
-- Expanded detail retrieval MUST require explicit request.
-- Unknown expansion fields SHOULD fail validation.
+Clients MAY request a subset of response fields via the `_fields` request parameter.
 
-### 9.3 Pagination
+- `_fields` MUST be an array of strings identifying top-level result field names.
+- When `_fields` is present, the server MUST return only the requested fields plus any MVI-required fields for the declared disclosure level.
+- When `_fields` is absent, the server MUST return fields appropriate for the declared `_meta.mvi` disclosure level.
+- If a requested field does not exist on the resource, the server SHOULD omit it silently (no error). Servers MAY include a warning in `_meta.warnings` for unknown fields.
+- `_fields` MUST NOT affect envelope structural fields (`$schema`, `_meta`, `success`, `error`, `page`, `_extensions`); it applies only to the contents of `result`.
+
+### 9.3 Expansion mechanism (`_expand`)
+
+Clients MAY request expanded/nested data via the `_expand` request parameter.
+
+- `_expand` MUST be an array of strings identifying relationships or nested resources to include inline.
+- When `_expand` is present, the server MUST resolve and inline the requested expansions within `result`.
+- If a requested expansion field is not recognized, the server MUST return error code `E_DISCLOSURE_UNKNOWN_FIELD` with category `VALIDATION`.
+- Servers SHOULD document available expansion fields per operation.
+- Expansion depth MUST be limited to prevent unbounded recursion. Servers SHOULD enforce a maximum expansion depth and return `E_MVI_BUDGET_EXCEEDED` if exceeded.
+
+### 9.4 Pagination
 
 - List operations SHOULD return deterministic `page` metadata.
 - Pagination mode (offset or cursor) MUST be documented.

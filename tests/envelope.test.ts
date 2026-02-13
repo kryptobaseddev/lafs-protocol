@@ -96,6 +96,112 @@ describe("LAFS error envelope", () => {
   });
 });
 
+describe("LAFS pagination mode validation (T044/T045)", () => {
+  it("accepts valid cursor pagination fixture", () => {
+    const envelope = load("fixtures/valid-cursor-pagination.json");
+    const result = validateEnvelope(envelope);
+    expect(result.valid).toBe(true);
+
+    const report = runEnvelopeConformance(envelope);
+    expect(report.ok).toBe(true);
+  });
+
+  it("accepts valid offset pagination fixture", () => {
+    const envelope = load("fixtures/valid-offset-pagination.json");
+    const result = validateEnvelope(envelope);
+    expect(result.valid).toBe(true);
+
+    const report = runEnvelopeConformance(envelope);
+    expect(report.ok).toBe(true);
+  });
+
+  it("accepts valid none pagination fixture", () => {
+    const envelope = load("fixtures/valid-none-pagination.json");
+    const result = validateEnvelope(envelope);
+    expect(result.valid).toBe(true);
+
+    const report = runEnvelopeConformance(envelope);
+    expect(report.ok).toBe(true);
+  });
+
+  it("rejects cursor mode missing nextCursor (schema-level)", () => {
+    const envelope = load("fixtures/invalid-cursor-missing-fields.json");
+    const result = validateEnvelope(envelope);
+    expect(result.valid).toBe(false);
+    expect(result.errors.some((e) => e.includes("nextCursor"))).toBe(true);
+  });
+
+  it("rejects offset mode missing required fields", () => {
+    const envelope = {
+      $schema: "https://lafs.dev/schemas/v1/envelope.schema.json",
+      _meta: {
+        specVersion: "1.0.0",
+        schemaVersion: "1.0.0",
+        timestamp: "2026-02-13T00:00:00Z",
+        operation: "example.list",
+        requestId: "req_bad_offset",
+        transport: "http",
+        strict: true,
+        mvi: "standard",
+        contextVersion: 0,
+      },
+      success: true,
+      result: { items: [] },
+      page: {
+        mode: "offset",
+        hasMore: false,
+        // missing limit and offset
+      },
+    };
+    const result = validateEnvelope(envelope);
+    expect(result.valid).toBe(false);
+  });
+
+  it("conformance detects cursor mode with offset field (T046)", () => {
+    const envelope = load("fixtures/mixed-pagination-envelope.json");
+    const report = runEnvelopeConformance(envelope);
+    const check = report.checks.find((c) => c.name === "pagination_mode_consistent");
+    expect(check).toBeDefined();
+    expect(check!.pass).toBe(false);
+    expect(check!.detail).toContain("offset");
+  });
+
+  it("conformance passes for clean cursor pagination (T046)", () => {
+    const envelope = load("fixtures/valid-cursor-pagination.json");
+    const report = runEnvelopeConformance(envelope);
+    const check = report.checks.find((c) => c.name === "pagination_mode_consistent");
+    expect(check).toBeDefined();
+    expect(check!.pass).toBe(true);
+  });
+
+  it("allows cursor mode with optional total field", () => {
+    const envelope = {
+      $schema: "https://lafs.dev/schemas/v1/envelope.schema.json",
+      _meta: {
+        specVersion: "1.0.0",
+        schemaVersion: "1.0.0",
+        timestamp: "2026-02-13T00:00:00Z",
+        operation: "example.list",
+        requestId: "req_cursor_total",
+        transport: "http",
+        strict: true,
+        mvi: "standard",
+        contextVersion: 0,
+      },
+      success: true,
+      result: { items: [] },
+      page: {
+        mode: "cursor",
+        nextCursor: null,
+        hasMore: false,
+        total: 42,
+      },
+    };
+    const result = validateEnvelope(envelope);
+    expect(result.valid).toBe(true);
+  });
+});
+
 describe("LAFS strict mode conformance (T041)", () => {
   it("fails strict_mode_behavior when success=true has explicit error:null", () => {
     const envelope = {
@@ -118,7 +224,6 @@ describe("LAFS strict mode conformance (T041)", () => {
         mode: "offset" as const,
         limit: 50,
         offset: 0,
-        nextCursor: null,
         hasMore: false,
         total: 0,
       },
