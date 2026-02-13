@@ -1,0 +1,510 @@
+{
+  "$schema": "./schemas/todo.schema.json",
+  "version": "2.10.0",
+  "project": {
+    "name": "lafs-protocol",
+    "currentPhase": "setup",
+    "phases": {
+      "setup": {
+        "order": 1,
+        "name": "Setup & Foundation",
+        "description": "Initial project setup, dependencies, and configuration",
+        "status": "active",
+        "startedAt": "2026-02-12T01:56:01Z",
+        "completedAt": null
+      },
+      "core": {
+        "order": 2,
+        "name": "Core Development",
+        "description": "Build core functionality and features",
+        "status": "pending",
+        "startedAt": null,
+        "completedAt": null
+      },
+      "testing": {
+        "order": 3,
+        "name": "Testing & Validation",
+        "description": "Comprehensive testing, validation, and quality assurance",
+        "status": "pending",
+        "startedAt": null,
+        "completedAt": null
+      },
+      "polish": {
+        "order": 4,
+        "name": "Polish & Refinement",
+        "description": "UX improvements, optimization, and release preparation",
+        "status": "pending",
+        "startedAt": null,
+        "completedAt": null
+      },
+      "maintenance": {
+        "order": 5,
+        "name": "Maintenance",
+        "description": "Bug fixes, updates, and ongoing support",
+        "status": "pending",
+        "startedAt": null,
+        "completedAt": null
+      }
+    }
+  },
+  "lastUpdated": "2026-02-12T16:06:48Z",
+  "_meta": {
+    "schemaVersion": "2.10.0",
+    "checksum": "ce779dcdcaac2846",
+    "configVersion": "2.10.0",
+    "lastSessionId": null,
+    "activeSession": null,
+    "generation": 21,
+    "lastModified": "2026-02-12T01:59:14Z",
+    "multiSessionEnabled": true,
+    "activeSessionCount": 1
+  },
+  "focus": {
+    "currentTask": null,
+    "currentPhase": "setup",
+    "blockedUntil": null,
+    "sessionNote": null,
+    "nextAction": null
+  },
+  "tasks": [
+    {
+      "id": "T001",
+      "title": "LAFS Protocol Release",
+      "status": "done",
+      "priority": "high",
+      "type": "epic",
+      "parentId": null,
+      "createdAt": "2026-02-12T01:59:19Z",
+      "updatedAt": "2026-02-12T02:08:48Z",
+      "size": "medium",
+      "position": 1,
+      "positionVersion": 0,
+      "phase": "setup",
+      "completedAt": "2026-02-12T02:08:48Z",
+      "notes": [
+        "[COMPLETED 2026-02-12T02:08:48Z] Bootstrapped standalone LAFS protocol repo with schemas, tests, CI, and npm release pipeline."
+      ]
+    },
+    {
+      "id": "T002",
+      "title": "Define canonical LAFS schemas and registry",
+      "status": "done",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T001",
+      "createdAt": "2026-02-12T01:59:24Z",
+      "updatedAt": "2026-02-12T02:01:03Z",
+      "size": "medium",
+      "position": 1,
+      "positionVersion": 0,
+      "phase": "setup",
+      "completedAt": "2026-02-12T02:01:03Z",
+      "notes": [
+        "[COMPLETED 2026-02-12T02:01:03Z] Created canonical lafs.md plus v1 envelope schema and error registry."
+      ],
+      "verification": {
+        "passed": false,
+        "round": 0,
+        "gates": {
+          "implemented": true,
+          "testsPassed": null,
+          "qaPassed": null,
+          "cleanupDone": null,
+          "securityPassed": null,
+          "documented": null
+        },
+        "lastAgent": "coder",
+        "lastUpdated": "2026-02-12T02:01:04Z",
+        "failureLog": []
+      }
+    },
+    {
+      "id": "T003",
+      "title": "Implement TypeScript conformance toolkit",
+      "status": "done",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T001",
+      "createdAt": "2026-02-12T01:59:24Z",
+      "updatedAt": "2026-02-12T02:01:04Z",
+      "size": "medium",
+      "position": 2,
+      "positionVersion": 0,
+      "phase": "setup",
+      "completedAt": "2026-02-12T02:01:04Z",
+      "notes": [
+        "[COMPLETED 2026-02-12T02:01:04Z] Implemented TypeScript validator, conformance runner, fixtures, and tests."
+      ],
+      "verification": {
+        "passed": false,
+        "round": 0,
+        "gates": {
+          "implemented": true,
+          "testsPassed": null,
+          "qaPassed": null,
+          "cleanupDone": null,
+          "securityPassed": null,
+          "documented": null
+        },
+        "lastAgent": "coder",
+        "lastUpdated": "2026-02-12T02:01:05Z",
+        "failureLog": []
+      }
+    },
+    {
+      "id": "T004",
+      "title": "Add CI and npm publish provenance workflow",
+      "status": "done",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T001",
+      "createdAt": "2026-02-12T01:59:25Z",
+      "updatedAt": "2026-02-12T02:01:05Z",
+      "size": "medium",
+      "position": 3,
+      "positionVersion": 0,
+      "phase": "setup",
+      "completedAt": "2026-02-12T02:01:05Z",
+      "notes": [
+        "[COMPLETED 2026-02-12T02:01:05Z] Added GitHub CI and npm provenance release workflows."
+      ],
+      "verification": {
+        "passed": false,
+        "round": 0,
+        "gates": {
+          "implemented": true,
+          "testsPassed": null,
+          "qaPassed": null,
+          "cleanupDone": null,
+          "securityPassed": null,
+          "documented": null
+        },
+        "lastAgent": "coder",
+        "lastUpdated": "2026-02-12T02:01:06Z",
+        "failureLog": []
+      }
+    },
+    {
+      "id": "T005",
+      "title": "Wire CAAMP consumer integration",
+      "status": "done",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T001",
+      "createdAt": "2026-02-12T01:59:25Z",
+      "updatedAt": "2026-02-12T02:08:47Z",
+      "size": "medium",
+      "position": 4,
+      "positionVersion": 0,
+      "phase": "setup",
+      "completedAt": "2026-02-12T02:08:47Z",
+      "notes": [
+        "[COMPLETED 2026-02-12T02:08:47Z] Integrated CAAMP advanced LAFS helper with @cleocode/lafs-protocol package and validated typecheck."
+      ],
+      "verification": {
+        "passed": false,
+        "round": 0,
+        "gates": {
+          "implemented": true,
+          "testsPassed": null,
+          "qaPassed": null,
+          "cleanupDone": null,
+          "securityPassed": null,
+          "documented": null
+        },
+        "lastAgent": "coder",
+        "lastUpdated": "2026-02-12T02:08:47Z",
+        "failureLog": []
+      }
+    },
+    {
+      "id": "T006",
+      "title": "LAFS Protocol Hardening",
+      "status": "pending",
+      "priority": "high",
+      "type": "epic",
+      "parentId": null,
+      "createdAt": "2026-02-12T15:53:40Z",
+      "updatedAt": "2026-02-12T15:53:40Z",
+      "size": "medium",
+      "position": 2,
+      "positionVersion": 0,
+      "phase": "setup",
+      "description": "Harden test coverage, fixtures, and governance for the LAFS protocol repo. Ensure all 8 CONFORMANCE.md checks have explicit tests, missing fixtures are added, and document tracking policy is resolved.",
+      "labels": [
+        "conformance",
+        "governance",
+        "hardening"
+      ]
+    },
+    {
+      "id": "T007",
+      "title": "Harden conformance test coverage for all 8 CONFORMANCE.md checks",
+      "status": "pending",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T006",
+      "createdAt": "2026-02-12T15:53:47Z",
+      "updatedAt": "2026-02-12T15:54:18Z",
+      "size": "medium",
+      "position": 1,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "conformance",
+        "testing"
+      ],
+      "acceptance": [
+        "Tests cover --human flag resolution",
+        "Tests cover pagination metadata validation",
+        "Tests cover context-critical mutation failure",
+        "All 8 CONFORMANCE.md checks have explicit test cases"
+      ],
+      "depends": [
+        "T008"
+      ]
+    },
+    {
+      "id": "T008",
+      "title": "Add missing test fixtures: valid error envelope, pagination envelope, human flag",
+      "status": "pending",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T006",
+      "createdAt": "2026-02-12T15:53:49Z",
+      "updatedAt": "2026-02-12T15:54:14Z",
+      "size": "small",
+      "position": 2,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "fixtures",
+        "testing"
+      ],
+      "acceptance": [
+        "Valid error envelope fixture exists",
+        "Pagination envelope fixture exists",
+        "Human flag resolution fixture exists",
+        "All fixtures validate against envelope schema"
+      ]
+    },
+    {
+      "id": "T009",
+      "title": "Decide tracking policy for AGENTS.md and GEMINI.md",
+      "status": "pending",
+      "priority": "medium",
+      "type": "task",
+      "parentId": "T006",
+      "createdAt": "2026-02-12T15:53:51Z",
+      "updatedAt": "2026-02-12T15:53:51Z",
+      "size": "small",
+      "position": 3,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "governance"
+      ],
+      "acceptance": [
+        "Files are either git-tracked or added to .gitignore",
+        "Decision documented"
+      ]
+    },
+    {
+      "id": "T010",
+      "title": "RCSD: Adversarial Challenge of LAFS Protocol Vision and Specification",
+      "status": "active",
+      "priority": "critical",
+      "type": "epic",
+      "parentId": null,
+      "createdAt": "2026-02-12T15:56:40Z",
+      "updatedAt": "2026-02-12T15:56:59Z",
+      "size": "medium",
+      "position": 3,
+      "positionVersion": 0,
+      "phase": "setup",
+      "description": "Full RCSD pipeline adversarial review of LAFS protocol. Challenge the vision, spec, schemas, conformance model, MVI/progressive disclosure design. Find every gap, hole, and weakness. Trust nothing.",
+      "labels": [
+        "adversarial",
+        "consensus",
+        "rcsd",
+        "research"
+      ]
+    },
+    {
+      "id": "T011",
+      "title": "RESEARCH: Protocol gap analysis — find technical holes in spec, schema, and conformance",
+      "status": "done",
+      "priority": "critical",
+      "type": "task",
+      "parentId": "T010",
+      "createdAt": "2026-02-12T15:56:49Z",
+      "updatedAt": "2026-02-12T16:06:44Z",
+      "size": "large",
+      "position": 1,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "adversarial",
+        "rcsd",
+        "research"
+      ],
+      "completedAt": "2026-02-12T16:06:44Z",
+      "notes": [
+        "[COMPLETED 2026-02-12T16:06:44Z] Adversarial protocol gap analysis complete. 15 findings across spec-schema drift, conformance gaps, and missing enforcement. Output: claudedocs/agent-outputs/T011-protocol-gap-analysis.md"
+      ],
+      "verification": {
+        "passed": false,
+        "round": 0,
+        "gates": {
+          "implemented": true,
+          "testsPassed": null,
+          "qaPassed": null,
+          "cleanupDone": null,
+          "securityPassed": null,
+          "documented": null
+        },
+        "lastAgent": "coder",
+        "lastUpdated": "2026-02-12T16:06:45Z",
+        "failureLog": []
+      }
+    },
+    {
+      "id": "T012",
+      "title": "RESEARCH: Vision and mission challenge — is LAFS actually the right canonical model?",
+      "status": "done",
+      "priority": "critical",
+      "type": "task",
+      "parentId": "T010",
+      "createdAt": "2026-02-12T15:56:50Z",
+      "updatedAt": "2026-02-12T16:06:46Z",
+      "size": "medium",
+      "position": 2,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "adversarial",
+        "rcsd",
+        "research"
+      ],
+      "completedAt": "2026-02-12T16:06:46Z",
+      "notes": [
+        "[COMPLETED 2026-02-12T16:06:46Z] Vision and mission challenge complete. 8 challenges analyzed with competitive positioning matrix. Output: claudedocs/agent-outputs/T012-vision-challenge.md"
+      ],
+      "verification": {
+        "passed": false,
+        "round": 0,
+        "gates": {
+          "implemented": true,
+          "testsPassed": null,
+          "qaPassed": null,
+          "cleanupDone": null,
+          "securityPassed": null,
+          "documented": null
+        },
+        "lastAgent": "coder",
+        "lastUpdated": "2026-02-12T16:06:46Z",
+        "failureLog": []
+      }
+    },
+    {
+      "id": "T013",
+      "title": "RESEARCH: MVI and progressive disclosure audit — are these truly first-class protocol citizens?",
+      "status": "done",
+      "priority": "critical",
+      "type": "task",
+      "parentId": "T010",
+      "createdAt": "2026-02-12T15:56:50Z",
+      "updatedAt": "2026-02-12T16:06:47Z",
+      "size": "medium",
+      "position": 3,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "adversarial",
+        "rcsd",
+        "research"
+      ],
+      "completedAt": "2026-02-12T16:06:47Z",
+      "notes": [
+        "[COMPLETED 2026-02-12T16:06:47Z] MVI and progressive disclosure audit complete. 10 findings - MVI is aspirational not implemented. Output: claudedocs/agent-outputs/T013-mvi-progressive-disclosure-audit.md"
+      ],
+      "verification": {
+        "passed": false,
+        "round": 0,
+        "gates": {
+          "implemented": true,
+          "testsPassed": null,
+          "qaPassed": null,
+          "cleanupDone": null,
+          "securityPassed": null,
+          "documented": null
+        },
+        "lastAgent": "coder",
+        "lastUpdated": "2026-02-12T16:06:47Z",
+        "failureLog": []
+      }
+    },
+    {
+      "id": "T014",
+      "title": "RESEARCH: Competitive landscape — what exists, where does LAFS fit, what's missing?",
+      "status": "done",
+      "priority": "critical",
+      "type": "task",
+      "parentId": "T010",
+      "createdAt": "2026-02-12T15:56:51Z",
+      "updatedAt": "2026-02-12T16:06:48Z",
+      "size": "medium",
+      "position": 4,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "rcsd",
+        "research"
+      ],
+      "completedAt": "2026-02-12T16:06:48Z",
+      "notes": [
+        "[COMPLETED 2026-02-12T16:06:48Z] Competitive landscape analysis complete. Mapped MCP, A2A, OpenAI, LangChain and 6+ others. Output: claudedocs/agent-outputs/T014-competitive-landscape.md"
+      ],
+      "verification": {
+        "passed": false,
+        "round": 0,
+        "gates": {
+          "implemented": true,
+          "testsPassed": null,
+          "qaPassed": null,
+          "cleanupDone": null,
+          "securityPassed": null,
+          "documented": null
+        },
+        "lastAgent": "coder",
+        "lastUpdated": "2026-02-12T16:06:48Z",
+        "failureLog": []
+      }
+    },
+    {
+      "id": "T015",
+      "title": "CONSENSUS: Synthesize all research findings into actionable gap report",
+      "status": "pending",
+      "priority": "critical",
+      "type": "task",
+      "parentId": "T010",
+      "createdAt": "2026-02-12T15:56:51Z",
+      "updatedAt": "2026-02-12T15:56:51Z",
+      "size": "large",
+      "position": 5,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "consensus",
+        "rcsd"
+      ],
+      "depends": [
+        "T011",
+        "T012",
+        "T013",
+        "T014"
+      ]
+    }
+  ],
+  "labels": {}
+}
