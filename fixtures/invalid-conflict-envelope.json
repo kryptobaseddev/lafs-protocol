@@ -8,7 +8,7 @@
     "requestId": "req_02",
     "transport": "cli",
     "strict": true,
-    "mvi": true,
+    "mvi": "minimal",
     "contextVersion": 0
   },
   "success": true,

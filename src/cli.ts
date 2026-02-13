@@ -1,5 +1,20 @@
 #!/usr/bin/env node
 
+/**
+ * LAFS Conformance CLI — diagnostic/human-readable tool.
+ *
+ * This CLI is a **diagnostic utility** that validates envelopes and flags
+ * against the LAFS schema and conformance checks. It is NOT itself a
+ * LAFS-conformant envelope producer. Its output is for human consumption
+ * and CI pipelines, not for machine-to-machine chaining.
+ *
+ * Exemption: The CLI is exempt from LAFS envelope conformance requirements.
+ * Its output format is not a LAFS envelope and MUST NOT be validated as one.
+ *
+ * @task T042
+ * @epic T034
+ */
+
 import { readFile } from "node:fs/promises";
 import { runEnvelopeConformance, runFlagConformance } from "./conformance.js";
 
