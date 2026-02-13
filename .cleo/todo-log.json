@@ -4,9 +4,9 @@
   "project": "lafs-protocol",
   "_meta": {
     "schemaVersion": "2.4.0",
-    "totalEntries": 105,
+    "totalEntries": 106,
     "firstEntry": "2026-02-12T01:56:01Z",
-    "lastEntry": "2026-02-13T05:03:09Z",
+    "lastEntry": "2026-02-13T05:15:48Z",
     "entriesPruned": 0
   },
   "entries": [
@@ -4770,6 +4770,26 @@
       "after": {
         "status": "done",
         "completedAt": "2026-02-13T05:03:09Z"
+      },
+      "details": {
+        "field": "status",
+        "operation": "complete"
+      }
+    },
+    {
+      "id": "log_5534500b3191",
+      "timestamp": "2026-02-13T05:15:48Z",
+      "sessionId": null,
+      "action": "status_changed",
+      "actor": "system",
+      "taskId": "T058",
+      "before": {
+        "status": "pending",
+        "completedAt": null
+      },
+      "after": {
+        "status": "done",
+        "completedAt": "2026-02-13T05:15:47Z"
       },
       "details": {
         "field": "status",

@@ -47,14 +47,14 @@
       }
     }
   },
-  "lastUpdated": "2026-02-13T05:01:13Z",
+  "lastUpdated": "2026-02-13T05:15:47Z",
   "_meta": {
     "schemaVersion": "2.10.0",
-    "checksum": "3f8eb0b2498dc777",
+    "checksum": "fa13eb8fafda1c32",
     "configVersion": "2.10.0",
     "lastSessionId": null,
     "activeSession": null,
-    "generation": 138,
+    "generation": 144,
     "lastModified": "2026-02-12T01:59:14Z",
     "multiSessionEnabled": true,
     "activeSessionCount": 1
@@ -1503,12 +1503,12 @@
     {
       "id": "T043",
       "title": "Phase 2B: Pagination & MVI Schema",
-      "status": "active",
+      "status": "done",
       "priority": "critical",
       "type": "epic",
       "parentId": null,
       "createdAt": "2026-02-12T17:42:19Z",
-      "updatedAt": "2026-02-13T01:34:12Z",
+      "updatedAt": "2026-02-13T05:03:09Z",
       "size": "medium",
       "position": 7,
       "positionVersion": 0,
@@ -1523,6 +1523,10 @@
       ],
       "depends": [
         "T034"
+      ],
+      "completedAt": "2026-02-13T05:03:09Z",
+      "notes": [
+        "[COMPLETED 2026-02-13T05:03:09Z] Phase 2B complete. All 9 child tasks done: T044 (conditional pagination validation), T045 (pagination fixtures), T046 (conformance check 7), T047 (_fields mechanism), T048 (_expand mechanism), T049 (mvi enum — already done in Phase 0), T050 (context ledger schema), T051 (context ledger + page union types), T052 (migration guide). 31/31 tests pass, tsc clean."
       ]
     },
     {
@@ -1821,12 +1825,12 @@
     {
       "id": "T051",
       "title": "Add context ledger TypeScript types",
-      "status": "pending",
+      "status": "done",
       "priority": "high",
       "type": "task",
       "parentId": "T043",
       "createdAt": "2026-02-12T17:42:39Z",
-      "updatedAt": "2026-02-12T17:42:39Z",
+      "updatedAt": "2026-02-13T05:01:54Z",
       "size": "small",
       "position": 8,
       "positionVersion": 0,
@@ -1837,17 +1841,36 @@
       ],
       "acceptance": [
         "ContextLedger interface in src/types.ts matching context ledger schema"
-      ]
+      ],
+      "completedAt": "2026-02-13T05:01:54Z",
+      "notes": [
+        "[COMPLETED 2026-02-13T05:01:54Z] Added ContextLedger and ContextLedgerEntry interfaces to src/types.ts matching context-ledger.schema.json. Also replaced monolithic LAFSPage with discriminated union: LAFSPageCursor (mode:cursor, nextCursor, hasMore), LAFSPageOffset (mode:offset, limit, offset, hasMore), LAFSPageNone (mode:none). tsc clean, 31/31 tests pass."
+      ],
+      "verification": {
+        "passed": false,
+        "round": 0,
+        "gates": {
+          "implemented": true,
+          "testsPassed": null,
+          "qaPassed": null,
+          "cleanupDone": null,
+          "securityPassed": null,
+          "documented": null
+        },
+        "lastAgent": "coder",
+        "lastUpdated": "2026-02-13T05:01:54Z",
+        "failureLog": []
+      }
     },
     {
       "id": "T052",
       "title": "Write v0.4.0-to-v0.5.0 migration guide",
-      "status": "pending",
+      "status": "done",
       "priority": "high",
       "type": "task",
       "parentId": "T043",
       "createdAt": "2026-02-12T17:42:39Z",
-      "updatedAt": "2026-02-12T17:42:39Z",
+      "updatedAt": "2026-02-13T05:02:37Z",
       "size": "small",
       "position": 9,
       "positionVersion": 0,
@@ -1857,7 +1880,26 @@
       ],
       "acceptance": [
         "Migration guide covering MVI pagination and context schema changes"
-      ]
+      ],
+      "completedAt": "2026-02-13T05:02:37Z",
+      "notes": [
+        "[COMPLETED 2026-02-13T05:02:37Z] Created migrations/v0.4.0-to-v0.5.0.md documenting 2 breaking changes (conditional pagination fields, discriminated union LAFSPage), 4 new features (context ledger schema, _fields, _expand, E_MVI_BUDGET_EXCEEDED), conformance changes (pagination_mode_consistent), and migration checklist."
+      ],
+      "verification": {
+        "passed": false,
+        "round": 0,
+        "gates": {
+          "implemented": true,
+          "testsPassed": null,
+          "qaPassed": null,
+          "cleanupDone": null,
+          "securityPassed": null,
+          "documented": null
+        },
+        "lastAgent": "coder",
+        "lastUpdated": "2026-02-13T05:02:37Z",
+        "failureLog": []
+      }
     },
     {
       "id": "T053",
@@ -1974,12 +2016,12 @@
     {
       "id": "T058",
       "title": "Register MVI error codes",
-      "status": "pending",
+      "status": "done",
       "priority": "high",
       "type": "task",
       "parentId": "T053",
       "createdAt": "2026-02-12T17:43:02Z",
-      "updatedAt": "2026-02-12T17:43:02Z",
+      "updatedAt": "2026-02-13T05:15:47Z",
       "size": "small",
       "position": 5,
       "positionVersion": 0,
@@ -1990,6 +2032,10 @@
       ],
       "acceptance": [
         "E_MVI_BUDGET_EXCEEDED and E_DISCLOSURE_UNKNOWN_FIELD in error-registry.json with transport mappings"
+      ],
+      "completedAt": "2026-02-13T05:15:47Z",
+      "notes": [
+        "[COMPLETED 2026-02-13T05:15:47Z] Both error codes already registered: E_DISCLOSURE_UNKNOWN_FIELD was in error-registry.json since initial creation, E_MVI_BUDGET_EXCEEDED was added in Phase 2B (T048). Both have full transport mappings (httpStatus, grpcStatus, cliExit). No additional work needed."
       ]
     },
     {
