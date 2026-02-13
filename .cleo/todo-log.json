@@ -4,9 +4,9 @@
   "project": "lafs-protocol",
   "_meta": {
     "schemaVersion": "2.4.0",
-    "totalEntries": 52,
+    "totalEntries": 76,
     "firstEntry": "2026-02-12T01:56:01Z",
-    "lastEntry": "2026-02-13T01:20:14Z",
+    "lastEntry": "2026-02-13T01:26:15Z",
     "entriesPruned": 0
   },
   "entries": [
@@ -3092,6 +3092,816 @@
         "files": null,
         "acceptance": [
           "lafs.md has Security Considerations covering injection tampering information disclosure replay"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "details": {
+        "operation": "update"
+      }
+    },
+    {
+      "id": "log_2e63f04959ab",
+      "timestamp": "2026-02-13T01:22:38Z",
+      "sessionId": null,
+      "action": "status_changed",
+      "actor": "system",
+      "taskId": "T021",
+      "before": {
+        "status": "active",
+        "completedAt": null
+      },
+      "after": {
+        "status": "done",
+        "completedAt": "2026-02-13T01:22:37Z"
+      },
+      "details": {
+        "field": "status",
+        "operation": "complete"
+      }
+    },
+    {
+      "id": "log_629aa68c4c53",
+      "timestamp": "2026-02-13T01:22:39Z",
+      "sessionId": null,
+      "action": "status_changed",
+      "actor": "system",
+      "taskId": "T024",
+      "before": {
+        "status": "active",
+        "completedAt": null
+      },
+      "after": {
+        "status": "done",
+        "completedAt": "2026-02-13T01:22:39Z"
+      },
+      "details": {
+        "field": "status",
+        "operation": "complete"
+      }
+    },
+    {
+      "id": "log_88206c38b298",
+      "timestamp": "2026-02-13T01:22:41Z",
+      "sessionId": null,
+      "action": "status_changed",
+      "actor": "system",
+      "taskId": "T025",
+      "before": {
+        "status": "active",
+        "completedAt": null
+      },
+      "after": {
+        "status": "done",
+        "completedAt": "2026-02-13T01:22:41Z"
+      },
+      "details": {
+        "field": "status",
+        "operation": "complete"
+      }
+    },
+    {
+      "id": "log_d218fd383054",
+      "timestamp": "2026-02-13T01:22:42Z",
+      "sessionId": null,
+      "action": "status_changed",
+      "actor": "system",
+      "taskId": "T026",
+      "before": {
+        "status": "active",
+        "completedAt": null
+      },
+      "after": {
+        "status": "done",
+        "completedAt": "2026-02-13T01:22:42Z"
+      },
+      "details": {
+        "field": "status",
+        "operation": "complete"
+      }
+    },
+    {
+      "id": "log_891d51a8155e",
+      "timestamp": "2026-02-13T01:22:49Z",
+      "sessionId": null,
+      "action": "status_changed",
+      "actor": "system",
+      "taskId": "T016",
+      "before": {
+        "status": "active",
+        "completedAt": null
+      },
+      "after": {
+        "status": "done",
+        "completedAt": "2026-02-13T01:22:49Z"
+      },
+      "details": {
+        "field": "status",
+        "operation": "complete"
+      }
+    },
+    {
+      "id": "log_35e9207c3d72",
+      "timestamp": "2026-02-13T01:23:13Z",
+      "sessionId": null,
+      "action": "task_updated",
+      "actor": "system",
+      "taskId": "T027",
+      "before": {
+        "title": "Phase 1: Strategic Positioning & Vision Alignment",
+        "status": "pending",
+        "priority": "critical",
+        "description": "Reposition LAFS as response contract complement to MCP/A2A. Rewrite vision. Define adoption tiers. Non-breaking documentation changes. Target: v0.3.0",
+        "phase": "setup",
+        "labels": [
+          "positioning",
+          "v0.3.0",
+          "vision"
+        ],
+        "files": null,
+        "acceptance": null,
+        "depends": [
+          "T016"
+        ],
+        "blockedBy": null
+      },
+      "after": {
+        "title": "Phase 1: Strategic Positioning & Vision Alignment",
+        "status": "active",
+        "priority": "critical",
+        "description": "Reposition LAFS as response contract complement to MCP/A2A. Rewrite vision. Define adoption tiers. Non-breaking documentation changes. Target: v0.3.0",
+        "phase": "setup",
+        "labels": [
+          "positioning",
+          "v0.3.0",
+          "vision"
+        ],
+        "files": null,
+        "acceptance": null,
+        "depends": [
+          "T016"
+        ],
+        "blockedBy": null
+      },
+      "details": {
+        "operation": "update"
+      }
+    },
+    {
+      "id": "log_658c39316c24",
+      "timestamp": "2026-02-13T01:23:13Z",
+      "sessionId": null,
+      "action": "task_updated",
+      "actor": "system",
+      "taskId": "T028",
+      "before": {
+        "title": "Create POSITIONING.md",
+        "status": "pending",
+        "priority": "critical",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "documentation",
+          "positioning"
+        ],
+        "files": null,
+        "acceptance": [
+          "docs/POSITIONING.md maps LAFS to MCP and A2A layers",
+          "Includes complementary positioning diagram"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "after": {
+        "title": "Create POSITIONING.md",
+        "status": "active",
+        "priority": "critical",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "documentation",
+          "positioning"
+        ],
+        "files": null,
+        "acceptance": [
+          "docs/POSITIONING.md maps LAFS to MCP and A2A layers",
+          "Includes complementary positioning diagram"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "details": {
+        "operation": "update"
+      }
+    },
+    {
+      "id": "log_e78b5bdde6a3",
+      "timestamp": "2026-02-13T01:23:14Z",
+      "sessionId": null,
+      "action": "task_updated",
+      "actor": "system",
+      "taskId": "T029",
+      "before": {
+        "title": "Rewrite VISION.md",
+        "status": "pending",
+        "priority": "critical",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "documentation",
+          "vision"
+        ],
+        "files": null,
+        "acceptance": [
+          "docs/VISION.md articulates complementary positioning",
+          "Removes canonical from external-facing language",
+          "Defines primary persona"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "after": {
+        "title": "Rewrite VISION.md",
+        "status": "active",
+        "priority": "critical",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "documentation",
+          "vision"
+        ],
+        "files": null,
+        "acceptance": [
+          "docs/VISION.md articulates complementary positioning",
+          "Removes canonical from external-facing language",
+          "Defines primary persona"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "details": {
+        "operation": "update"
+      }
+    },
+    {
+      "id": "log_4e2203665d29",
+      "timestamp": "2026-02-13T01:23:15Z",
+      "sessionId": null,
+      "action": "task_updated",
+      "actor": "system",
+      "taskId": "T030",
+      "before": {
+        "title": "Revise lafs.md Section 1 scope",
+        "status": "pending",
+        "priority": "critical",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "positioning",
+          "spec"
+        ],
+        "files": null,
+        "acceptance": [
+          "Section 1 reframes as response contract specification",
+          "References MCP and A2A explicitly"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "after": {
+        "title": "Revise lafs.md Section 1 scope",
+        "status": "active",
+        "priority": "critical",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "positioning",
+          "spec"
+        ],
+        "files": null,
+        "acceptance": [
+          "Section 1 reframes as response contract specification",
+          "References MCP and A2A explicitly"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "details": {
+        "operation": "update"
+      }
+    },
+    {
+      "id": "log_bef61554ca8d",
+      "timestamp": "2026-02-13T01:23:15Z",
+      "sessionId": null,
+      "action": "task_updated",
+      "actor": "system",
+      "taskId": "T031",
+      "before": {
+        "title": "Define adoption tiers in spec",
+        "status": "pending",
+        "priority": "high",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "documentation",
+          "spec"
+        ],
+        "files": null,
+        "acceptance": [
+          "lafs.md defines Core/Standard/Complete tiers with conformance check sets per tier",
+          "CONFORMANCE.md updated"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "after": {
+        "title": "Define adoption tiers in spec",
+        "status": "active",
+        "priority": "high",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "documentation",
+          "spec"
+        ],
+        "files": null,
+        "acceptance": [
+          "lafs.md defines Core/Standard/Complete tiers with conformance check sets per tier",
+          "CONFORMANCE.md updated"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "details": {
+        "operation": "update"
+      }
+    },
+    {
+      "id": "log_b17deb0c8ba4",
+      "timestamp": "2026-02-13T01:23:16Z",
+      "sessionId": null,
+      "action": "task_updated",
+      "actor": "system",
+      "taskId": "T032",
+      "before": {
+        "title": "Create CONTRIBUTING.md",
+        "status": "pending",
+        "priority": "medium",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "governance"
+        ],
+        "files": null,
+        "acceptance": [
+          "CONTRIBUTING.md exists with contributor guidelines",
+          "RFC process outline",
+          "Code of conduct reference"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "after": {
+        "title": "Create CONTRIBUTING.md",
+        "status": "active",
+        "priority": "medium",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "governance"
+        ],
+        "files": null,
+        "acceptance": [
+          "CONTRIBUTING.md exists with contributor guidelines",
+          "RFC process outline",
+          "Code of conduct reference"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "details": {
+        "operation": "update"
+      }
+    },
+    {
+      "id": "log_06c364f09f03",
+      "timestamp": "2026-02-13T01:23:16Z",
+      "sessionId": null,
+      "action": "task_updated",
+      "actor": "system",
+      "taskId": "T033",
+      "before": {
+        "title": "Align result type across spec schema types",
+        "status": "pending",
+        "priority": "medium",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "schema",
+          "spec"
+        ],
+        "files": null,
+        "acceptance": [
+          "result type consistent across lafs.md and envelope.schema.json and src/types.ts",
+          "Decision documented"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "after": {
+        "title": "Align result type across spec schema types",
+        "status": "active",
+        "priority": "medium",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "schema",
+          "spec"
+        ],
+        "files": null,
+        "acceptance": [
+          "result type consistent across lafs.md and envelope.schema.json and src/types.ts",
+          "Decision documented"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "details": {
+        "operation": "update"
+      }
+    },
+    {
+      "id": "log_cb0143cda8d8",
+      "timestamp": "2026-02-13T01:25:35Z",
+      "sessionId": null,
+      "action": "status_changed",
+      "actor": "system",
+      "taskId": "T028",
+      "before": {
+        "status": "active",
+        "completedAt": null
+      },
+      "after": {
+        "status": "done",
+        "completedAt": "2026-02-13T01:25:35Z"
+      },
+      "details": {
+        "field": "status",
+        "operation": "complete"
+      }
+    },
+    {
+      "id": "log_98c32ddc286b",
+      "timestamp": "2026-02-13T01:25:37Z",
+      "sessionId": null,
+      "action": "status_changed",
+      "actor": "system",
+      "taskId": "T029",
+      "before": {
+        "status": "active",
+        "completedAt": null
+      },
+      "after": {
+        "status": "done",
+        "completedAt": "2026-02-13T01:25:36Z"
+      },
+      "details": {
+        "field": "status",
+        "operation": "complete"
+      }
+    },
+    {
+      "id": "log_e66499998cf4",
+      "timestamp": "2026-02-13T01:25:38Z",
+      "sessionId": null,
+      "action": "status_changed",
+      "actor": "system",
+      "taskId": "T030",
+      "before": {
+        "status": "active",
+        "completedAt": null
+      },
+      "after": {
+        "status": "done",
+        "completedAt": "2026-02-13T01:25:37Z"
+      },
+      "details": {
+        "field": "status",
+        "operation": "complete"
+      }
+    },
+    {
+      "id": "log_1ebc075effb3",
+      "timestamp": "2026-02-13T01:25:40Z",
+      "sessionId": null,
+      "action": "status_changed",
+      "actor": "system",
+      "taskId": "T031",
+      "before": {
+        "status": "active",
+        "completedAt": null
+      },
+      "after": {
+        "status": "done",
+        "completedAt": "2026-02-13T01:25:39Z"
+      },
+      "details": {
+        "field": "status",
+        "operation": "complete"
+      }
+    },
+    {
+      "id": "log_539c4d28700a",
+      "timestamp": "2026-02-13T01:25:41Z",
+      "sessionId": null,
+      "action": "status_changed",
+      "actor": "system",
+      "taskId": "T032",
+      "before": {
+        "status": "active",
+        "completedAt": null
+      },
+      "after": {
+        "status": "done",
+        "completedAt": "2026-02-13T01:25:41Z"
+      },
+      "details": {
+        "field": "status",
+        "operation": "complete"
+      }
+    },
+    {
+      "id": "log_a5fb45fd9bac",
+      "timestamp": "2026-02-13T01:25:43Z",
+      "sessionId": null,
+      "action": "status_changed",
+      "actor": "system",
+      "taskId": "T033",
+      "before": {
+        "status": "active",
+        "completedAt": null
+      },
+      "after": {
+        "status": "done",
+        "completedAt": "2026-02-13T01:25:42Z"
+      },
+      "details": {
+        "field": "status",
+        "operation": "complete"
+      }
+    },
+    {
+      "id": "log_0761adc673ed",
+      "timestamp": "2026-02-13T01:25:48Z",
+      "sessionId": null,
+      "action": "status_changed",
+      "actor": "system",
+      "taskId": "T027",
+      "before": {
+        "status": "active",
+        "completedAt": null
+      },
+      "after": {
+        "status": "done",
+        "completedAt": "2026-02-13T01:25:48Z"
+      },
+      "details": {
+        "field": "status",
+        "operation": "complete"
+      }
+    },
+    {
+      "id": "log_bde9a842ba00",
+      "timestamp": "2026-02-13T01:26:12Z",
+      "sessionId": null,
+      "action": "task_updated",
+      "actor": "system",
+      "taskId": "T034",
+      "before": {
+        "title": "Phase 2A: Envelope Rationalization",
+        "status": "pending",
+        "priority": "critical",
+        "description": "Make page/error optional when null. Add extension mechanism. Implement strict/lenient mode. Fix CLI conformance. BREAKING changes requiring migration guide. Target: v0.4.0",
+        "phase": "setup",
+        "labels": [
+          "breaking",
+          "schema",
+          "v0.4.0"
+        ],
+        "files": null,
+        "acceptance": null,
+        "depends": [
+          "T027"
+        ],
+        "blockedBy": null
+      },
+      "after": {
+        "title": "Phase 2A: Envelope Rationalization",
+        "status": "active",
+        "priority": "critical",
+        "description": "Make page/error optional when null. Add extension mechanism. Implement strict/lenient mode. Fix CLI conformance. BREAKING changes requiring migration guide. Target: v0.4.0",
+        "phase": "setup",
+        "labels": [
+          "breaking",
+          "schema",
+          "v0.4.0"
+        ],
+        "files": null,
+        "acceptance": null,
+        "depends": [
+          "T027"
+        ],
+        "blockedBy": null
+      },
+      "details": {
+        "operation": "update"
+      }
+    },
+    {
+      "id": "log_886c15a0ee4e",
+      "timestamp": "2026-02-13T01:26:13Z",
+      "sessionId": null,
+      "action": "task_updated",
+      "actor": "system",
+      "taskId": "T035",
+      "before": {
+        "title": "Make page field optional when null",
+        "status": "pending",
+        "priority": "critical",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "breaking",
+          "schema"
+        ],
+        "files": null,
+        "acceptance": [
+          "page removed from required array",
+          "TypeScript types updated",
+          "Tests pass with and without page field"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "after": {
+        "title": "Make page field optional when null",
+        "status": "active",
+        "priority": "critical",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "breaking",
+          "schema"
+        ],
+        "files": null,
+        "acceptance": [
+          "page removed from required array",
+          "TypeScript types updated",
+          "Tests pass with and without page field"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "details": {
+        "operation": "update"
+      }
+    },
+    {
+      "id": "log_92b650cc0d43",
+      "timestamp": "2026-02-13T01:26:13Z",
+      "sessionId": null,
+      "action": "task_updated",
+      "actor": "system",
+      "taskId": "T036",
+      "before": {
+        "title": "Make error field optional when null",
+        "status": "pending",
+        "priority": "critical",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "breaking",
+          "schema"
+        ],
+        "files": null,
+        "acceptance": [
+          "error removed from required when success=true",
+          "TypeScript types updated",
+          "Tests pass"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "after": {
+        "title": "Make error field optional when null",
+        "status": "active",
+        "priority": "critical",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "breaking",
+          "schema"
+        ],
+        "files": null,
+        "acceptance": [
+          "error removed from required when success=true",
+          "TypeScript types updated",
+          "Tests pass"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "details": {
+        "operation": "update"
+      }
+    },
+    {
+      "id": "log_76e59201fb6a",
+      "timestamp": "2026-02-13T01:26:14Z",
+      "sessionId": null,
+      "action": "task_updated",
+      "actor": "system",
+      "taskId": "T037",
+      "before": {
+        "title": "Add extension mechanism (_extensions field)",
+        "status": "pending",
+        "priority": "high",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "schema",
+          "spec"
+        ],
+        "files": null,
+        "acceptance": [
+          "_extensions object field in schema",
+          "Allowed in strict mode",
+          "Vendor-prefix naming x-* documented"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "after": {
+        "title": "Add extension mechanism (_extensions field)",
+        "status": "active",
+        "priority": "high",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "schema",
+          "spec"
+        ],
+        "files": null,
+        "acceptance": [
+          "_extensions object field in schema",
+          "Allowed in strict mode",
+          "Vendor-prefix naming x-* documented"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "details": {
+        "operation": "update"
+      }
+    },
+    {
+      "id": "log_3d8d00626223",
+      "timestamp": "2026-02-13T01:26:15Z",
+      "sessionId": null,
+      "action": "task_updated",
+      "actor": "system",
+      "taskId": "T039",
+      "before": {
+        "title": "Add _meta.warnings optional array",
+        "status": "pending",
+        "priority": "medium",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "schema"
+        ],
+        "files": null,
+        "acceptance": [
+          "_meta.warnings array in schema for deprecation warnings",
+          "TypeScript type updated"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "after": {
+        "title": "Add _meta.warnings optional array",
+        "status": "active",
+        "priority": "medium",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "schema"
+        ],
+        "files": null,
+        "acceptance": [
+          "_meta.warnings array in schema for deprecation warnings",
+          "TypeScript type updated"
         ],
         "depends": null,
         "blockedBy": null

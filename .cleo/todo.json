@@ -47,14 +47,14 @@
       }
     }
   },
-  "lastUpdated": "2026-02-13T01:22:37Z",
+  "lastUpdated": "2026-02-13T01:28:25Z",
   "_meta": {
     "schemaVersion": "2.10.0",
-    "checksum": "410a52fa8c172fd4",
+    "checksum": "08f24cdfcd8e7951",
     "configVersion": "2.10.0",
     "lastSessionId": null,
     "activeSession": null,
-    "generation": 64,
+    "generation": 98,
     "lastModified": "2026-02-12T01:59:14Z",
     "multiSessionEnabled": true,
     "activeSessionCount": 1
@@ -439,12 +439,12 @@
     {
       "id": "T016",
       "title": "Phase 0: Protocol Cleanup & Governance Foundations",
-      "status": "active",
+      "status": "done",
       "priority": "critical",
       "type": "epic",
       "parentId": null,
       "createdAt": "2026-02-12T17:41:02Z",
-      "updatedAt": "2026-02-13T01:16:17Z",
+      "updatedAt": "2026-02-13T01:22:49Z",
       "size": "medium",
       "position": 4,
       "positionVersion": 0,
@@ -454,6 +454,10 @@
         "cleanup",
         "governance",
         "v0.2.0"
+      ],
+      "completedAt": "2026-02-13T01:22:49Z",
+      "notes": [
+        "[COMPLETED 2026-02-13T01:22:49Z] Phase 0 complete. All 10 child tasks done: T017 (git tracking), T018-T020 (fixtures), T021 (test cases), T022 (conformance bugfix), T023 (schema standardization), T024 (naming docs), T025 (non-goals), T026 (security). 10/10 tests pass, tsc clean, spec has 13 sections."
       ]
     },
     {
@@ -646,7 +650,22 @@
       "completedAt": "2026-02-13T01:22:37Z",
       "notes": [
         "[COMPLETED 2026-02-13T01:22:37Z] Added 5 new test cases to tests/envelope.test.ts: isRegisteredErrorCode true/false, valid error envelope fixture, unregistered error detection, error-with-result invariant violation. All 10 tests pass, tsc clean."
-      ]
+      ],
+      "verification": {
+        "passed": false,
+        "round": 0,
+        "gates": {
+          "implemented": true,
+          "testsPassed": null,
+          "qaPassed": null,
+          "cleanupDone": null,
+          "securityPassed": null,
+          "documented": null
+        },
+        "lastAgent": "coder",
+        "lastUpdated": "2026-02-13T01:22:38Z",
+        "failureLog": []
+      }
     },
     {
       "id": "T022",
@@ -733,12 +752,12 @@
     {
       "id": "T024",
       "title": "Document error code naming convention",
-      "status": "active",
+      "status": "done",
       "priority": "low",
       "type": "task",
       "parentId": "T016",
       "createdAt": "2026-02-12T17:41:22Z",
-      "updatedAt": "2026-02-13T01:20:12Z",
+      "updatedAt": "2026-02-13T01:22:39Z",
       "size": "small",
       "position": 8,
       "positionVersion": 0,
@@ -749,17 +768,36 @@
       ],
       "acceptance": [
         "lafs.md Section 6 documents naming convention or regex relaxed"
-      ]
+      ],
+      "completedAt": "2026-02-13T01:22:39Z",
+      "notes": [
+        "[COMPLETED 2026-02-13T01:22:39Z] Added Section 7.1 error code naming convention to lafs.md documenting regex pattern ^E_[A-Z0-9]+_[A-Z0-9_]+$, naming structure E_DOMAIN_SPECIFIC, examples table, registered categories. No regex relaxation needed."
+      ],
+      "verification": {
+        "passed": false,
+        "round": 0,
+        "gates": {
+          "implemented": true,
+          "testsPassed": null,
+          "qaPassed": null,
+          "cleanupDone": null,
+          "securityPassed": null,
+          "documented": null
+        },
+        "lastAgent": "coder",
+        "lastUpdated": "2026-02-13T01:22:39Z",
+        "failureLog": []
+      }
     },
     {
       "id": "T025",
       "title": "Add Non-Goals section to spec",
-      "status": "active",
+      "status": "done",
       "priority": "high",
       "type": "task",
       "parentId": "T016",
       "createdAt": "2026-02-12T17:41:23Z",
-      "updatedAt": "2026-02-13T01:20:13Z",
+      "updatedAt": "2026-02-13T01:22:41Z",
       "size": "small",
       "position": 9,
       "positionVersion": 0,
@@ -770,17 +808,36 @@
       ],
       "acceptance": [
         "lafs.md has Non-Goals section listing streaming async auth multi-modality with rationale"
-      ]
+      ],
+      "completedAt": "2026-02-13T01:22:41Z",
+      "notes": [
+        "[COMPLETED 2026-02-13T01:22:41Z] Added Section 2 Non-Goals to lafs.md covering 6 explicit non-goals: streaming, async, auth, multi-modal, transport binding, service discovery. Each with rationale and RFC 2119 language. All subsequent sections renumbered."
+      ],
+      "verification": {
+        "passed": false,
+        "round": 0,
+        "gates": {
+          "implemented": true,
+          "testsPassed": null,
+          "qaPassed": null,
+          "cleanupDone": null,
+          "securityPassed": null,
+          "documented": null
+        },
+        "lastAgent": "coder",
+        "lastUpdated": "2026-02-13T01:22:41Z",
+        "failureLog": []
+      }
     },
     {
       "id": "T026",
       "title": "Add Security Considerations section to spec",
-      "status": "active",
+      "status": "done",
       "priority": "high",
       "type": "task",
       "parentId": "T016",
       "createdAt": "2026-02-12T17:41:23Z",
-      "updatedAt": "2026-02-13T01:20:13Z",
+      "updatedAt": "2026-02-13T01:22:42Z",
       "size": "small",
       "position": 10,
       "positionVersion": 0,
@@ -792,17 +849,36 @@
       ],
       "acceptance": [
         "lafs.md has Security Considerations covering injection tampering information disclosure replay"
-      ]
+      ],
+      "completedAt": "2026-02-13T01:22:42Z",
+      "notes": [
+        "[COMPLETED 2026-02-13T01:22:42Z] Added Section 13 Security Considerations to lafs.md with 5 subsections: injection (13.1), tampering (13.2), information disclosure (13.3), replay attacks (13.4), denial of service (13.5). All use RFC 2119 language."
+      ],
+      "verification": {
+        "passed": false,
+        "round": 0,
+        "gates": {
+          "implemented": true,
+          "testsPassed": null,
+          "qaPassed": null,
+          "cleanupDone": null,
+          "securityPassed": null,
+          "documented": null
+        },
+        "lastAgent": "coder",
+        "lastUpdated": "2026-02-13T01:22:42Z",
+        "failureLog": []
+      }
     },
     {
       "id": "T027",
       "title": "Phase 1: Strategic Positioning & Vision Alignment",
-      "status": "pending",
+      "status": "done",
       "priority": "critical",
       "type": "epic",
       "parentId": null,
       "createdAt": "2026-02-12T17:41:31Z",
-      "updatedAt": "2026-02-12T17:44:29Z",
+      "updatedAt": "2026-02-13T01:25:48Z",
       "size": "medium",
       "position": 5,
       "positionVersion": 0,
@@ -815,17 +891,21 @@
       ],
       "depends": [
         "T016"
+      ],
+      "completedAt": "2026-02-13T01:25:48Z",
+      "notes": [
+        "[COMPLETED 2026-02-13T01:25:48Z] Phase 1 complete. All 6 tasks done: T028 (POSITIONING.md), T029 (VISION.md rewrite), T030 (Section 1 scope revision), T031 (adoption tiers), T032 (CONTRIBUTING.md), T033 (result type alignment verified). 10/10 tests pass."
       ]
     },
     {
       "id": "T028",
       "title": "Create POSITIONING.md",
-      "status": "pending",
+      "status": "done",
       "priority": "critical",
       "type": "task",
       "parentId": "T027",
       "createdAt": "2026-02-12T17:41:43Z",
-      "updatedAt": "2026-02-12T17:41:43Z",
+      "updatedAt": "2026-02-13T01:25:35Z",
       "size": "small",
       "position": 1,
       "positionVersion": 0,
@@ -837,17 +917,36 @@
       "acceptance": [
         "docs/POSITIONING.md maps LAFS to MCP and A2A layers",
         "Includes complementary positioning diagram"
-      ]
+      ],
+      "completedAt": "2026-02-13T01:25:35Z",
+      "notes": [
+        "[COMPLETED 2026-02-13T01:25:35Z] Created docs/POSITIONING.md (109 lines) with protocol stack ASCII diagram, complementary MCP/A2A use cases, What LAFS Is/Isn't, adoption spectrum."
+      ],
+      "verification": {
+        "passed": false,
+        "round": 0,
+        "gates": {
+          "implemented": true,
+          "testsPassed": null,
+          "qaPassed": null,
+          "cleanupDone": null,
+          "securityPassed": null,
+          "documented": null
+        },
+        "lastAgent": "coder",
+        "lastUpdated": "2026-02-13T01:25:35Z",
+        "failureLog": []
+      }
     },
     {
       "id": "T029",
       "title": "Rewrite VISION.md",
-      "status": "pending",
+      "status": "done",
       "priority": "critical",
       "type": "task",
       "parentId": "T027",
       "createdAt": "2026-02-12T17:41:44Z",
-      "updatedAt": "2026-02-12T17:41:44Z",
+      "updatedAt": "2026-02-13T01:25:36Z",
       "size": "small",
       "position": 2,
       "positionVersion": 0,
@@ -860,17 +959,36 @@
         "docs/VISION.md articulates complementary positioning",
         "Removes canonical from external-facing language",
         "Defines primary persona"
-      ]
+      ],
+      "completedAt": "2026-02-13T01:25:36Z",
+      "notes": [
+        "[COMPLETED 2026-02-13T01:25:36Z] Rewrote docs/VISION.md with complementary positioning, primary persona definition, design principles. Removed all 'canonical' occurrences, replaced with 'standard'."
+      ],
+      "verification": {
+        "passed": false,
+        "round": 0,
+        "gates": {
+          "implemented": true,
+          "testsPassed": null,
+          "qaPassed": null,
+          "cleanupDone": null,
+          "securityPassed": null,
+          "documented": null
+        },
+        "lastAgent": "coder",
+        "lastUpdated": "2026-02-13T01:25:36Z",
+        "failureLog": []
+      }
     },
     {
       "id": "T030",
       "title": "Revise lafs.md Section 1 scope",
-      "status": "pending",
+      "status": "done",
       "priority": "critical",
       "type": "task",
       "parentId": "T027",
       "createdAt": "2026-02-12T17:41:44Z",
-      "updatedAt": "2026-02-12T17:41:44Z",
+      "updatedAt": "2026-02-13T01:25:37Z",
       "size": "small",
       "position": 3,
       "positionVersion": 0,
@@ -882,17 +1000,36 @@
       "acceptance": [
         "Section 1 reframes as response contract specification",
         "References MCP and A2A explicitly"
-      ]
+      ],
+      "completedAt": "2026-02-13T01:25:37Z",
+      "notes": [
+        "[COMPLETED 2026-02-13T01:25:37Z] Rewrote Section 1 Scope to frame LAFS as 'response envelope contract specification'. Explicitly references MCP and A2A as complementary protocols. Transport-agnostic framing maintained."
+      ],
+      "verification": {
+        "passed": false,
+        "round": 0,
+        "gates": {
+          "implemented": true,
+          "testsPassed": null,
+          "qaPassed": null,
+          "cleanupDone": null,
+          "securityPassed": null,
+          "documented": null
+        },
+        "lastAgent": "coder",
+        "lastUpdated": "2026-02-13T01:25:38Z",
+        "failureLog": []
+      }
     },
     {
       "id": "T031",
       "title": "Define adoption tiers in spec",
-      "status": "pending",
+      "status": "done",
       "priority": "high",
       "type": "task",
       "parentId": "T027",
       "createdAt": "2026-02-12T17:41:45Z",
-      "updatedAt": "2026-02-12T17:41:45Z",
+      "updatedAt": "2026-02-13T01:25:39Z",
       "size": "medium",
       "position": 4,
       "positionVersion": 0,
@@ -904,17 +1041,36 @@
       "acceptance": [
         "lafs.md defines Core/Standard/Complete tiers with conformance check sets per tier",
         "CONFORMANCE.md updated"
-      ]
+      ],
+      "completedAt": "2026-02-13T01:25:39Z",
+      "notes": [
+        "[COMPLETED 2026-02-13T01:25:39Z] Added Section 12.1 Adoption Tiers to lafs.md defining Core/Standard/Complete tiers with specific conformance check sets. Updated docs/CONFORMANCE.md with tier table and per-tier runner commands."
+      ],
+      "verification": {
+        "passed": false,
+        "round": 0,
+        "gates": {
+          "implemented": true,
+          "testsPassed": null,
+          "qaPassed": null,
+          "cleanupDone": null,
+          "securityPassed": null,
+          "documented": null
+        },
+        "lastAgent": "coder",
+        "lastUpdated": "2026-02-13T01:25:39Z",
+        "failureLog": []
+      }
     },
     {
       "id": "T032",
       "title": "Create CONTRIBUTING.md",
-      "status": "pending",
+      "status": "done",
       "priority": "medium",
       "type": "task",
       "parentId": "T027",
       "createdAt": "2026-02-12T17:41:45Z",
-      "updatedAt": "2026-02-12T17:41:45Z",
+      "updatedAt": "2026-02-13T01:25:41Z",
       "size": "small",
       "position": 5,
       "positionVersion": 0,
@@ -926,17 +1082,36 @@
         "CONTRIBUTING.md exists with contributor guidelines",
         "RFC process outline",
         "Code of conduct reference"
-      ]
+      ],
+      "completedAt": "2026-02-13T01:25:41Z",
+      "notes": [
+        "[COMPLETED 2026-02-13T01:25:41Z] Created CONTRIBUTING.md at project root with contributor guidelines, RFC process outline for spec changes, conformance check contribution guide, Contributor Covenant reference, MIT license reference."
+      ],
+      "verification": {
+        "passed": false,
+        "round": 0,
+        "gates": {
+          "implemented": true,
+          "testsPassed": null,
+          "qaPassed": null,
+          "cleanupDone": null,
+          "securityPassed": null,
+          "documented": null
+        },
+        "lastAgent": "coder",
+        "lastUpdated": "2026-02-13T01:25:41Z",
+        "failureLog": []
+      }
     },
     {
       "id": "T033",
       "title": "Align result type across spec schema types",
-      "status": "pending",
+      "status": "done",
       "priority": "medium",
       "type": "task",
       "parentId": "T027",
       "createdAt": "2026-02-12T17:41:46Z",
-      "updatedAt": "2026-02-12T17:41:46Z",
+      "updatedAt": "2026-02-13T01:25:42Z",
       "size": "small",
       "position": 6,
       "positionVersion": 0,
@@ -948,17 +1123,36 @@
       "acceptance": [
         "result type consistent across lafs.md and envelope.schema.json and src/types.ts",
         "Decision documented"
-      ]
+      ],
+      "completedAt": "2026-02-13T01:25:42Z",
+      "notes": [
+        "[COMPLETED 2026-02-13T01:25:42Z] Verified result type is already consistent: schema allows object|array|null, TS uses Record<string,unknown>|Record<string,unknown>[]|null, spec delegates to schema. No changes needed."
+      ],
+      "verification": {
+        "passed": false,
+        "round": 0,
+        "gates": {
+          "implemented": true,
+          "testsPassed": null,
+          "qaPassed": null,
+          "cleanupDone": null,
+          "securityPassed": null,
+          "documented": null
+        },
+        "lastAgent": "coder",
+        "lastUpdated": "2026-02-13T01:25:42Z",
+        "failureLog": []
+      }
     },
     {
       "id": "T034",
       "title": "Phase 2A: Envelope Rationalization",
-      "status": "pending",
+      "status": "active",
       "priority": "critical",
       "type": "epic",
       "parentId": null,
       "createdAt": "2026-02-12T17:41:53Z",
-      "updatedAt": "2026-02-12T17:44:30Z",
+      "updatedAt": "2026-02-13T01:26:12Z",
       "size": "medium",
       "position": 6,
       "positionVersion": 0,
@@ -976,12 +1170,12 @@
     {
       "id": "T035",
       "title": "Make page field optional when null",
-      "status": "pending",
+      "status": "done",
       "priority": "critical",
       "type": "task",
       "parentId": "T034",
       "createdAt": "2026-02-12T17:42:07Z",
-      "updatedAt": "2026-02-12T17:42:07Z",
+      "updatedAt": "2026-02-13T01:28:25Z",
       "size": "small",
       "position": 1,
       "positionVersion": 0,
@@ -994,17 +1188,21 @@
         "page removed from required array",
         "TypeScript types updated",
         "Tests pass with and without page field"
+      ],
+      "completedAt": "2026-02-13T01:28:25Z",
+      "notes": [
+        "[COMPLETED 2026-02-13T01:28:25Z] Removed page from required array. TypeScript page made optional. 3 new tests added. 13/13 pass."
       ]
     },
     {
       "id": "T036",
       "title": "Make error field optional when null",
-      "status": "pending",
+      "status": "active",
       "priority": "critical",
       "type": "task",
       "parentId": "T034",
       "createdAt": "2026-02-12T17:42:08Z",
-      "updatedAt": "2026-02-12T17:42:08Z",
+      "updatedAt": "2026-02-13T01:26:13Z",
       "size": "small",
       "position": 2,
       "positionVersion": 0,
@@ -1022,12 +1220,12 @@
     {
       "id": "T037",
       "title": "Add extension mechanism (_extensions field)",
-      "status": "pending",
+      "status": "active",
       "priority": "high",
       "type": "task",
       "parentId": "T034",
       "createdAt": "2026-02-12T17:42:08Z",
-      "updatedAt": "2026-02-12T17:42:08Z",
+      "updatedAt": "2026-02-13T01:26:14Z",
       "size": "small",
       "position": 3,
       "positionVersion": 0,
@@ -1069,12 +1267,12 @@
     {
       "id": "T039",
       "title": "Add _meta.warnings optional array",
-      "status": "pending",
+      "status": "active",
       "priority": "medium",
       "type": "task",
       "parentId": "T034",
       "createdAt": "2026-02-12T17:42:09Z",
-      "updatedAt": "2026-02-12T17:42:09Z",
+      "updatedAt": "2026-02-13T01:26:14Z",
       "size": "small",
       "position": 5,
       "positionVersion": 0,
