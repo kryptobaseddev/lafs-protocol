@@ -47,14 +47,14 @@
       }
     }
   },
-  "lastUpdated": "2026-02-13T05:01:13Z",
+  "lastUpdated": "2026-02-13T05:00:39Z",
   "_meta": {
     "schemaVersion": "2.10.0",
-    "checksum": "3f8eb0b2498dc777",
+    "checksum": "5eddb71a796bc3be",
     "configVersion": "2.10.0",
     "lastSessionId": null,
     "activeSession": null,
-    "generation": 138,
+    "generation": 136,
     "lastModified": "2026-02-12T01:59:14Z",
     "multiSessionEnabled": true,
     "activeSessionCount": 1
@@ -1780,12 +1780,12 @@
     {
       "id": "T050",
       "title": "Define context ledger schema",
-      "status": "done",
+      "status": "active",
       "priority": "critical",
       "type": "task",
       "parentId": "T043",
       "createdAt": "2026-02-12T17:42:38Z",
-      "updatedAt": "2026-02-13T05:01:13Z",
+      "updatedAt": "2026-02-13T01:34:15Z",
       "size": "medium",
       "position": 7,
       "positionVersion": 0,
@@ -1797,26 +1797,7 @@
       "acceptance": [
         "schemas/v1/context-ledger.schema.json with all 7 required fields",
         "Validates against Draft-07"
-      ],
-      "completedAt": "2026-02-13T05:01:13Z",
-      "notes": [
-        "[COMPLETED 2026-02-13T05:01:13Z] Created schemas/v1/context-ledger.schema.json with all 7 required fields (ledgerId, version, createdAt, updatedAt, entries, checksum, maxEntries). Draft-07 compliant. Entries are append-only array with entryId/timestamp/operation/contextDelta/requestId. additionalProperties:false. Validates correctly."
-      ],
-      "verification": {
-        "passed": false,
-        "round": 0,
-        "gates": {
-          "implemented": true,
-          "testsPassed": null,
-          "qaPassed": null,
-          "cleanupDone": null,
-          "securityPassed": null,
-          "documented": null
-        },
-        "lastAgent": "coder",
-        "lastUpdated": "2026-02-13T05:01:13Z",
-        "failureLog": []
-      }
+      ]
     },
     {
       "id": "T051",

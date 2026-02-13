@@ -141,14 +141,7 @@
     "page": {
       "type": ["object", "null"],
       "additionalProperties": false,
-      "required": [
-        "mode",
-        "limit",
-        "offset",
-        "nextCursor",
-        "hasMore",
-        "total"
-      ],
+      "required": ["mode"],
       "properties": {
         "mode": {
           "type": "string",
@@ -174,7 +167,56 @@
           "type": ["integer", "null"],
           "minimum": 0
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "type": "object",
+            "properties": { "mode": { "const": "cursor" } },
+            "required": ["mode"]
+          },
+          "then": {
+            "required": ["mode", "nextCursor", "hasMore"],
+            "properties": {
+              "mode": true,
+              "nextCursor": true,
+              "hasMore": true,
+              "limit": true,
+              "total": true
+            }
+          }
+        },
+        {
+          "if": {
+            "type": "object",
+            "properties": { "mode": { "const": "offset" } },
+            "required": ["mode"]
+          },
+          "then": {
+            "required": ["mode", "limit", "offset", "hasMore"],
+            "properties": {
+              "mode": true,
+              "limit": true,
+              "offset": true,
+              "hasMore": true,
+              "total": true
+            }
+          }
+        },
+        {
+          "if": {
+            "type": "object",
+            "properties": { "mode": { "const": "none" } },
+            "required": ["mode"]
+          },
+          "then": {
+            "required": ["mode"],
+            "properties": {
+              "mode": true
+            }
+          }
+        }
+      ]
     },
     "_extensions": {
       "type": "object",

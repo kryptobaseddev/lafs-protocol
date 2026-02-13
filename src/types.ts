@@ -42,13 +42,44 @@ export interface LAFSError {
   details: Record<string, unknown>;
 }
 
-export interface LAFSPage {
-  mode: "offset" | "cursor" | "none";
-  limit: number;
-  offset: number;
+export interface LAFSPageCursor {
+  mode: "cursor";
   nextCursor: string | null;
   hasMore: boolean;
-  total: number | null;
+  limit?: number;
+  total?: number | null;
+}
+
+export interface LAFSPageOffset {
+  mode: "offset";
+  limit: number;
+  offset: number;
+  hasMore: boolean;
+  total?: number | null;
+}
+
+export interface LAFSPageNone {
+  mode: "none";
+}
+
+export type LAFSPage = LAFSPageCursor | LAFSPageOffset | LAFSPageNone;
+
+export interface ContextLedgerEntry {
+  entryId: string;
+  timestamp: string;
+  operation: string;
+  contextDelta: Record<string, unknown>;
+  requestId?: string;
+}
+
+export interface ContextLedger {
+  ledgerId: string;
+  version: number;
+  createdAt: string;
+  updatedAt: string;
+  entries: ContextLedgerEntry[];
+  checksum: string;
+  maxEntries: number;
 }
 
 export interface LAFSEnvelope {

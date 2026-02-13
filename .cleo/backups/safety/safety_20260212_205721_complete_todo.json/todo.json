@@ -47,14 +47,14 @@
       }
     }
   },
-  "lastUpdated": "2026-02-13T05:01:13Z",
+  "lastUpdated": "2026-02-13T04:56:07Z",
   "_meta": {
     "schemaVersion": "2.10.0",
-    "checksum": "3f8eb0b2498dc777",
+    "checksum": "3837327e3bfd11da",
     "configVersion": "2.10.0",
     "lastSessionId": null,
     "activeSession": null,
-    "generation": 138,
+    "generation": 128,
     "lastModified": "2026-02-12T01:59:14Z",
     "multiSessionEnabled": true,
     "activeSessionCount": 1
@@ -1570,12 +1570,12 @@
     {
       "id": "T045",
       "title": "Add pagination test fixtures",
-      "status": "done",
+      "status": "pending",
       "priority": "high",
       "type": "task",
       "parentId": "T043",
       "createdAt": "2026-02-12T17:42:36Z",
-      "updatedAt": "2026-02-13T04:57:21Z",
+      "updatedAt": "2026-02-12T17:42:36Z",
       "size": "small",
       "position": 2,
       "positionVersion": 0,
@@ -1586,36 +1586,17 @@
       ],
       "acceptance": [
         "valid-cursor-pagination.json and valid-offset-pagination.json and invalid-mixed-pagination.json present and validated"
-      ],
-      "completedAt": "2026-02-13T04:57:21Z",
-      "notes": [
-        "[COMPLETED 2026-02-13T04:57:21Z] Added 4 pagination fixtures: valid-cursor-pagination.json, valid-offset-pagination.json, valid-none-pagination.json, invalid-cursor-missing-fields.json. Also added mixed-pagination-envelope.json for conformance-level testing. 6 new test cases covering all modes, missing required fields, and optional fields. 29/29 tests pass."
-      ],
-      "verification": {
-        "passed": false,
-        "round": 0,
-        "gates": {
-          "implemented": true,
-          "testsPassed": null,
-          "qaPassed": null,
-          "cleanupDone": null,
-          "securityPassed": null,
-          "documented": null
-        },
-        "lastAgent": "coder",
-        "lastUpdated": "2026-02-13T04:57:21Z",
-        "failureLog": []
-      }
+      ]
     },
     {
       "id": "T046",
       "title": "Implement conformance check 7 (pagination validation)",
-      "status": "done",
+      "status": "pending",
       "priority": "high",
       "type": "task",
       "parentId": "T043",
       "createdAt": "2026-02-12T17:42:37Z",
-      "updatedAt": "2026-02-13T04:59:37Z",
+      "updatedAt": "2026-02-12T17:42:37Z",
       "size": "small",
       "position": 3,
       "positionVersion": 0,
@@ -1627,36 +1608,17 @@
       "acceptance": [
         "Pagination mode consistency check in runEnvelopeConformance",
         "Tests cover cursor offset none and mixed modes"
-      ],
-      "completedAt": "2026-02-13T04:59:37Z",
-      "notes": [
-        "[COMPLETED 2026-02-13T04:59:37Z] Added pagination_mode_consistent conformance check to runEnvelopeConformance. Validates cursor mode has no offset, offset mode has no nextCursor, none mode has only mode field. Updated existing offset-mode fixtures to remove vestigial nextCursor:null. 2 new test cases for conformance detection. 31/31 tests pass."
-      ],
-      "verification": {
-        "passed": false,
-        "round": 0,
-        "gates": {
-          "implemented": true,
-          "testsPassed": null,
-          "qaPassed": null,
-          "cleanupDone": null,
-          "securityPassed": null,
-          "documented": null
-        },
-        "lastAgent": "coder",
-        "lastUpdated": "2026-02-13T04:59:37Z",
-        "failureLog": []
-      }
+      ]
     },
     {
       "id": "T047",
       "title": "Define MVI field selection mechanism",
-      "status": "done",
+      "status": "active",
       "priority": "critical",
       "type": "task",
       "parentId": "T043",
       "createdAt": "2026-02-12T17:42:37Z",
-      "updatedAt": "2026-02-13T05:00:37Z",
+      "updatedAt": "2026-02-13T01:34:13Z",
       "size": "medium",
       "position": 4,
       "positionVersion": 0,
@@ -1670,36 +1632,17 @@
         "_fields request parameter specified in lafs.md",
         "Behavior for missing fields defined",
         "Conformance check added"
-      ],
-      "completedAt": "2026-02-13T05:00:37Z",
-      "notes": [
-        "[COMPLETED 2026-02-13T05:00:37Z] Added Section 9.2 '_fields' to lafs.md defining field selection mechanism. _fields is an array of strings for result field subsetting. Behavior for missing fields: silently omit with optional warning. Does not affect structural envelope fields. MVI-required fields always included regardless of _fields."
-      ],
-      "verification": {
-        "passed": false,
-        "round": 0,
-        "gates": {
-          "implemented": true,
-          "testsPassed": null,
-          "qaPassed": null,
-          "cleanupDone": null,
-          "securityPassed": null,
-          "documented": null
-        },
-        "lastAgent": "coder",
-        "lastUpdated": "2026-02-13T05:00:37Z",
-        "failureLog": []
-      }
+      ]
     },
     {
       "id": "T048",
       "title": "Define expansion mechanism",
-      "status": "done",
+      "status": "active",
       "priority": "critical",
       "type": "task",
       "parentId": "T043",
       "createdAt": "2026-02-12T17:42:37Z",
-      "updatedAt": "2026-02-13T05:00:39Z",
+      "updatedAt": "2026-02-13T01:34:13Z",
       "size": "medium",
       "position": 5,
       "positionVersion": 0,
@@ -1713,26 +1656,7 @@
         "_expand request parameter specified",
         "E_DISCLOSURE_UNKNOWN_FIELD registered",
         "Conformance check added"
-      ],
-      "completedAt": "2026-02-13T05:00:39Z",
-      "notes": [
-        "[COMPLETED 2026-02-13T05:00:39Z] Added Section 9.3 '_expand' to lafs.md defining expansion mechanism. _expand is an array of strings for relationship/nested resource inlining. Unknown fields return E_DISCLOSURE_UNKNOWN_FIELD (already registered). Depth limiting required, E_MVI_BUDGET_EXCEEDED registered for budget overflow (httpStatus 413, grpcStatus RESOURCE_EXHAUSTED)."
-      ],
-      "verification": {
-        "passed": false,
-        "round": 0,
-        "gates": {
-          "implemented": true,
-          "testsPassed": null,
-          "qaPassed": null,
-          "cleanupDone": null,
-          "securityPassed": null,
-          "documented": null
-        },
-        "lastAgent": "coder",
-        "lastUpdated": "2026-02-13T05:00:39Z",
-        "failureLog": []
-      }
+      ]
     },
     {
       "id": "T049",
@@ -1780,12 +1704,12 @@
     {
       "id": "T050",
       "title": "Define context ledger schema",
-      "status": "done",
+      "status": "active",
       "priority": "critical",
       "type": "task",
       "parentId": "T043",
       "createdAt": "2026-02-12T17:42:38Z",
-      "updatedAt": "2026-02-13T05:01:13Z",
+      "updatedAt": "2026-02-13T01:34:15Z",
       "size": "medium",
       "position": 7,
       "positionVersion": 0,
@@ -1797,26 +1721,7 @@
       "acceptance": [
         "schemas/v1/context-ledger.schema.json with all 7 required fields",
         "Validates against Draft-07"
-      ],
-      "completedAt": "2026-02-13T05:01:13Z",
-      "notes": [
-        "[COMPLETED 2026-02-13T05:01:13Z] Created schemas/v1/context-ledger.schema.json with all 7 required fields (ledgerId, version, createdAt, updatedAt, entries, checksum, maxEntries). Draft-07 compliant. Entries are append-only array with entryId/timestamp/operation/contextDelta/requestId. additionalProperties:false. Validates correctly."
-      ],
-      "verification": {
-        "passed": false,
-        "round": 0,
-        "gates": {
-          "implemented": true,
-          "testsPassed": null,
-          "qaPassed": null,
-          "cleanupDone": null,
-          "securityPassed": null,
-          "documented": null
-        },
-        "lastAgent": "coder",
-        "lastUpdated": "2026-02-13T05:01:13Z",
-        "failureLog": []
-      }
+      ]
     },
     {
       "id": "T051",
