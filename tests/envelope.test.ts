@@ -19,6 +19,48 @@ describe("LAFS envelope", () => {
     expect(report.ok).toBe(false);
     expect(report.checks.some((check) => check.name === "envelope_schema_valid" && !check.pass)).toBe(true);
   });
+
+  it("accepts success envelope without page field (T035)", () => {
+    const envelope = load("fixtures/valid-success-no-page.json");
+    const result = validateEnvelope(envelope);
+    expect(result.valid).toBe(true);
+
+    const report = runEnvelopeConformance(envelope);
+    expect(report.ok).toBe(true);
+    expect(report.checks.every((check) => check.pass)).toBe(true);
+  });
+
+  it("accepts success envelope without error field (T036)", () => {
+    const envelope = load("fixtures/valid-success-no-error.json");
+    const result = validateEnvelope(envelope);
+    expect(result.valid).toBe(true);
+
+    const report = runEnvelopeConformance(envelope);
+    expect(report.ok).toBe(true);
+    expect(report.checks.every((check) => check.pass)).toBe(true);
+  });
+
+  it("still requires error field when success=false (T036)", () => {
+    const envelope = {
+      $schema: "https://lafs.dev/schemas/v1/envelope.schema.json",
+      _meta: {
+        specVersion: "1.0.0",
+        schemaVersion: "1.0.0",
+        timestamp: "2026-02-12T00:00:00Z",
+        operation: "example.fail",
+        requestId: "req_missing_error",
+        transport: "cli",
+        strict: true,
+        mvi: "minimal",
+        contextVersion: 0,
+      },
+      success: false,
+      result: null,
+      // error intentionally omitted — should fail validation
+    };
+    const result = validateEnvelope(envelope);
+    expect(result.valid).toBe(false);
+  });
 });
 
 describe("LAFS error envelope", () => {
@@ -51,5 +93,192 @@ describe("LAFS error envelope", () => {
     const envelope = load("fixtures/invalid-error-with-result.json");
     const report = runEnvelopeConformance(envelope);
     expect(report.ok).toBe(false);
+  });
+});
+
+describe("LAFS strict mode conformance (T041)", () => {
+  it("fails strict_mode_behavior when success=true has explicit error:null", () => {
+    const envelope = {
+      $schema: "https://lafs.dev/schemas/v1/envelope.schema.json",
+      _meta: {
+        specVersion: "1.0.0",
+        schemaVersion: "1.0.0",
+        timestamp: "2026-02-12T00:00:00Z",
+        operation: "example.list",
+        requestId: "req_strict_null_error",
+        transport: "cli",
+        strict: true,
+        mvi: "minimal",
+        contextVersion: 0,
+      },
+      success: true,
+      result: { items: [] },
+      error: null, // explicit null in strict mode — should fail strict check
+      page: {
+        mode: "offset" as const,
+        limit: 50,
+        offset: 0,
+        nextCursor: null,
+        hasMore: false,
+        total: 0,
+      },
+    };
+    const report = runEnvelopeConformance(envelope);
+    expect(report.ok).toBe(false);
+    const strictCheck = report.checks.find((c) => c.name === "strict_mode_behavior");
+    expect(strictCheck).toBeDefined();
+    expect(strictCheck!.pass).toBe(false);
+  });
+
+  it("fails strict_mode_behavior when page is explicit null", () => {
+    const envelope = {
+      $schema: "https://lafs.dev/schemas/v1/envelope.schema.json",
+      _meta: {
+        specVersion: "1.0.0",
+        schemaVersion: "1.0.0",
+        timestamp: "2026-02-12T00:00:00Z",
+        operation: "example.list",
+        requestId: "req_strict_null_page",
+        transport: "cli",
+        strict: true,
+        mvi: "minimal",
+        contextVersion: 0,
+      },
+      success: true,
+      result: { items: [] },
+      page: null, // explicit null in strict mode — should fail strict check
+    };
+    const report = runEnvelopeConformance(envelope);
+    expect(report.ok).toBe(false);
+    const strictCheck = report.checks.find((c) => c.name === "strict_mode_behavior");
+    expect(strictCheck).toBeDefined();
+    expect(strictCheck!.pass).toBe(false);
+  });
+
+  it("passes strict_mode_behavior when optional fields are omitted", () => {
+    const envelope = load("fixtures/valid-success-no-page.json");
+    const report = runEnvelopeConformance(envelope);
+    expect(report.ok).toBe(true);
+    const strictCheck = report.checks.find((c) => c.name === "strict_mode_behavior");
+    expect(strictCheck).toBeDefined();
+    expect(strictCheck!.pass).toBe(true);
+  });
+
+  it("skips strict_mode_behavior when strict=false", () => {
+    const envelope = {
+      $schema: "https://lafs.dev/schemas/v1/envelope.schema.json",
+      _meta: {
+        specVersion: "1.0.0",
+        schemaVersion: "1.0.0",
+        timestamp: "2026-02-12T00:00:00Z",
+        operation: "example.list",
+        requestId: "req_nonstrict",
+        transport: "cli",
+        strict: false,
+        mvi: "minimal",
+        contextVersion: 0,
+      },
+      success: true,
+      result: { items: [] },
+      error: null, // explicit null but strict=false — no strict check emitted
+      page: null,
+    };
+    const report = runEnvelopeConformance(envelope);
+    const strictCheck = report.checks.find((c) => c.name === "strict_mode_behavior");
+    expect(strictCheck).toBeUndefined();
+    expect(report.ok).toBe(true);
+  });
+});
+
+describe("LAFS strict/lenient additional-properties enforcement (T038)", () => {
+  const baseMeta = {
+    specVersion: "1.0.0",
+    schemaVersion: "1.0.0",
+    timestamp: "2026-02-12T00:00:00Z",
+    operation: "example.list",
+    transport: "cli",
+    mvi: "minimal",
+    contextVersion: 0,
+  };
+
+  it("strict:true rejects unknown top-level properties", () => {
+    const envelope = {
+      $schema: "https://lafs.dev/schemas/v1/envelope.schema.json",
+      _meta: { ...baseMeta, strict: true, requestId: "req_strict_reject" },
+      success: true,
+      result: { items: [] },
+      customField: "should be rejected",
+    };
+    const result = validateEnvelope(envelope);
+    expect(result.valid).toBe(false);
+    expect(result.errors.some((e) => e.includes("additional"))).toBe(true);
+  });
+
+  it("strict:false allows unknown top-level properties", () => {
+    const envelope = {
+      $schema: "https://lafs.dev/schemas/v1/envelope.schema.json",
+      _meta: { ...baseMeta, strict: false, requestId: "req_lenient_allow" },
+      success: true,
+      result: { items: [] },
+      error: null,
+      page: null,
+      customField: "should be allowed",
+    };
+    const result = validateEnvelope(envelope);
+    expect(result.valid).toBe(true);
+  });
+
+  it("_extensions is allowed in strict mode", () => {
+    const envelope = {
+      $schema: "https://lafs.dev/schemas/v1/envelope.schema.json",
+      _meta: { ...baseMeta, strict: true, requestId: "req_strict_ext" },
+      success: true,
+      result: { items: [] },
+      _extensions: { "x-trace-id": "abc123" },
+    };
+    const result = validateEnvelope(envelope);
+    expect(result.valid).toBe(true);
+  });
+
+  it("_extensions is allowed in lenient mode", () => {
+    const envelope = {
+      $schema: "https://lafs.dev/schemas/v1/envelope.schema.json",
+      _meta: { ...baseMeta, strict: false, requestId: "req_lenient_ext" },
+      success: true,
+      result: { items: [] },
+      error: null,
+      page: null,
+      _extensions: { "x-vendor-data": { nested: true } },
+    };
+    const result = validateEnvelope(envelope);
+    expect(result.valid).toBe(true);
+  });
+
+  it("conformance strict_mode_enforced passes for strict:true envelope", () => {
+    const envelope = {
+      $schema: "https://lafs.dev/schemas/v1/envelope.schema.json",
+      _meta: { ...baseMeta, strict: true, requestId: "req_conf_strict" },
+      success: true,
+      result: { items: [] },
+    };
+    const report = runEnvelopeConformance(envelope);
+    const check = report.checks.find((c) => c.name === "strict_mode_enforced");
+    expect(check).toBeDefined();
+    expect(check!.pass).toBe(true);
+  });
+
+  it("conformance strict_mode_enforced passes for strict:false envelope", () => {
+    const envelope = {
+      $schema: "https://lafs.dev/schemas/v1/envelope.schema.json",
+      _meta: { ...baseMeta, strict: false, requestId: "req_conf_lenient" },
+      success: true,
+      result: { items: [] },
+      error: null,
+      page: null,
+    };
+    const report = runEnvelopeConformance(envelope);
+    const check = report.checks.find((c) => c.name === "strict_mode_enforced");
+    expect(check).toBeDefined();
+    expect(check!.pass).toBe(true);
   });
 });

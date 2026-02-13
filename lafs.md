@@ -94,9 +94,18 @@ All responses MUST conform to `schemas/v1/envelope.schema.json`.
 ### 6.1 Envelope invariants
 
 - Exactly one of `result` or `error` MUST be non-null.
-- `success=true` implies `error=null`.
-- `success=false` implies `result=null`.
+- `success=true` implies `error=null` or error omitted.
+- `success=false` implies `result=null` and `error` MUST be present.
+- The `page` and `error` fields are optional when their value would be null. In strict mode, producers SHOULD omit these fields rather than set them to null.
 - Unknown fields SHOULD be rejected when strict mode is enabled.
+
+### 6.2 Extensions
+
+The envelope supports an optional `_extensions` object for vendor-specific metadata. Because `_extensions` is a declared property in the schema, it is permitted regardless of strict mode.
+
+- Keys SHOULD use the `x-` prefix convention (e.g., `x-myvendor-trace-id`).
+- Consumers MUST NOT rely on extension fields for protocol-required behavior.
+- Producers MAY omit `_extensions` entirely; the field is always optional.
 
 ---
 

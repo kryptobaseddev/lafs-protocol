@@ -12,6 +12,14 @@ export type LAFSErrorCategory =
   | "CONTRACT"
   | "MIGRATION";
 
+export interface Warning {
+  code: string;
+  message: string;
+  deprecated?: string;
+  replacement?: string;
+  removeBy?: string;
+}
+
 export interface LAFSMeta {
   specVersion: string;
   schemaVersion: string;
@@ -22,6 +30,7 @@ export interface LAFSMeta {
   strict: boolean;
   mvi: 'minimal' | 'standard' | 'full' | 'custom';
   contextVersion: number;
+  warnings?: Warning[];
 }
 
 export interface LAFSError {
@@ -47,8 +56,9 @@ export interface LAFSEnvelope {
   _meta: LAFSMeta;
   success: boolean;
   result: Record<string, unknown> | Record<string, unknown>[] | null;
-  error: LAFSError | null;
-  page: LAFSPage | null;
+  error?: LAFSError | null;
+  page?: LAFSPage | null;
+  _extensions?: Record<string, unknown>;
 }
 
 export interface FlagInput {

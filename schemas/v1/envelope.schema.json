@@ -3,14 +3,11 @@
   "$id": "https://lafs.dev/schemas/v1/envelope.schema.json",
   "title": "LAFS Envelope v1",
   "type": "object",
-  "additionalProperties": false,
   "required": [
     "$schema",
     "_meta",
     "success",
-    "result",
-    "error",
-    "page"
+    "result"
   ],
   "properties": {
     "$schema": {
@@ -69,6 +66,21 @@
         "contextVersion": {
           "type": "integer",
           "minimum": 0
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "code": { "type": "string", "description": "Warning identifier (e.g., DEPRECATED_FIELD)" },
+              "message": { "type": "string", "description": "Human-readable warning" },
+              "deprecated": { "type": "string", "description": "The deprecated feature or field name" },
+              "replacement": { "type": "string", "description": "Suggested replacement, if any" },
+              "removeBy": { "type": "string", "description": "Version when the deprecated feature will be removed" }
+            },
+            "required": ["code", "message"]
+          },
+          "description": "Non-fatal advisory warnings (deprecations, migration hints)"
         }
       }
     },
@@ -163,6 +175,11 @@
           "minimum": 0
         }
       }
+    },
+    "_extensions": {
+      "type": "object",
+      "description": "Vendor extensions. Keys SHOULD use x- prefix (e.g., x-myvendor-trace-id).",
+      "additionalProperties": true
     }
   },
   "allOf": [
@@ -185,10 +202,38 @@
         }
       },
       "then": {
+        "required": ["error"],
         "properties": {
           "result": { "type": "null" },
           "error": { "type": "object" }
         }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "_meta": {
+            "type": "object",
+            "properties": {
+              "strict": { "const": true }
+            }
+          }
+        }
+      },
+      "then": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": true,
+          "_meta": true,
+          "success": true,
+          "result": true,
+          "error": true,
+          "page": true,
+          "_extensions": true
+        }
+      },
+      "else": {
+        "additionalProperties": true
       }
     }
   ]

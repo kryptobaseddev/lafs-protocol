@@ -23,6 +23,5 @@
       "field": "title",
       "rule": "required"
     }
-  },
-  "page": null
+  }
 }

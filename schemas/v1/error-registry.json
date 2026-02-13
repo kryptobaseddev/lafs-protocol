@@ -91,6 +91,15 @@
       "httpStatus": 426,
       "grpcStatus": "FAILED_PRECONDITION",
       "cliExit": 10
+    },
+    {
+      "code": "E_DISCLOSURE_UNKNOWN_FIELD",
+      "category": "VALIDATION",
+      "description": "Unrecognized expansion field in _expand parameter",
+      "retryable": false,
+      "httpStatus": 400,
+      "grpcStatus": "INVALID_ARGUMENT",
+      "cliExit": 2
     }
   ]
 }

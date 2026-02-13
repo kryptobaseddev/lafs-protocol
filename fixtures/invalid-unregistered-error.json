@@ -20,13 +20,5 @@
     "retryable": false,
     "retryAfterMs": null,
     "details": {}
-  },
-  "page": {
-    "mode": "none",
-    "limit": 1,
-    "offset": 0,
-    "nextCursor": null,
-    "hasMore": false,
-    "total": null
   }
 }
