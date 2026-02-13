@@ -4,9 +4,9 @@
   "project": "lafs-protocol",
   "_meta": {
     "schemaVersion": "2.4.0",
-    "totalEntries": 95,
+    "totalEntries": 99,
     "firstEntry": "2026-02-12T01:56:01Z",
-    "lastEntry": "2026-02-13T01:34:15Z",
+    "lastEntry": "2026-02-13T04:59:37Z",
     "entriesPruned": 0
   },
   "entries": [
@@ -4574,6 +4574,86 @@
       },
       "details": {
         "operation": "update"
+      }
+    },
+    {
+      "id": "log_0812639c63fa",
+      "timestamp": "2026-02-13T04:55:08Z",
+      "sessionId": null,
+      "action": "status_changed",
+      "actor": "system",
+      "taskId": "T049",
+      "before": {
+        "status": "active",
+        "completedAt": null
+      },
+      "after": {
+        "status": "done",
+        "completedAt": "2026-02-13T04:55:08Z"
+      },
+      "details": {
+        "field": "status",
+        "operation": "complete"
+      }
+    },
+    {
+      "id": "log_9b0a0602dacb",
+      "timestamp": "2026-02-13T04:56:08Z",
+      "sessionId": null,
+      "action": "status_changed",
+      "actor": "system",
+      "taskId": "T044",
+      "before": {
+        "status": "active",
+        "completedAt": null
+      },
+      "after": {
+        "status": "done",
+        "completedAt": "2026-02-13T04:56:07Z"
+      },
+      "details": {
+        "field": "status",
+        "operation": "complete"
+      }
+    },
+    {
+      "id": "log_bd62c5c25ffc",
+      "timestamp": "2026-02-13T04:57:22Z",
+      "sessionId": null,
+      "action": "status_changed",
+      "actor": "system",
+      "taskId": "T045",
+      "before": {
+        "status": "pending",
+        "completedAt": null
+      },
+      "after": {
+        "status": "done",
+        "completedAt": "2026-02-13T04:57:21Z"
+      },
+      "details": {
+        "field": "status",
+        "operation": "complete"
+      }
+    },
+    {
+      "id": "log_766524111296",
+      "timestamp": "2026-02-13T04:59:37Z",
+      "sessionId": null,
+      "action": "status_changed",
+      "actor": "system",
+      "taskId": "T046",
+      "before": {
+        "status": "pending",
+        "completedAt": null
+      },
+      "after": {
+        "status": "done",
+        "completedAt": "2026-02-13T04:59:37Z"
+      },
+      "details": {
+        "field": "status",
+        "operation": "complete"
       }
     }
   ]
