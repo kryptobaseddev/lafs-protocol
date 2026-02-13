@@ -4,9 +4,9 @@
   "project": "lafs-protocol",
   "_meta": {
     "schemaVersion": "2.4.0",
-    "totalEntries": 90,
+    "totalEntries": 101,
     "firstEntry": "2026-02-12T01:56:01Z",
-    "lastEntry": "2026-02-13T01:34:12Z",
+    "lastEntry": "2026-02-13T05:00:39Z",
     "entriesPruned": 0
   },
   "entries": [
@@ -4325,6 +4325,375 @@
       },
       "details": {
         "operation": "update"
+      }
+    },
+    {
+      "id": "log_98db5b903c11",
+      "timestamp": "2026-02-13T01:34:12Z",
+      "sessionId": null,
+      "action": "task_updated",
+      "actor": "system",
+      "taskId": "T044",
+      "before": {
+        "title": "Add conditional pagination mode validation",
+        "status": "pending",
+        "priority": "critical",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "breaking",
+          "schema"
+        ],
+        "files": null,
+        "acceptance": [
+          "if/then/else blocks for cursor/offset/none modes",
+          "Irrelevant fields optional per mode",
+          "Mixed modes rejected"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "after": {
+        "title": "Add conditional pagination mode validation",
+        "status": "active",
+        "priority": "critical",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "breaking",
+          "schema"
+        ],
+        "files": null,
+        "acceptance": [
+          "if/then/else blocks for cursor/offset/none modes",
+          "Irrelevant fields optional per mode",
+          "Mixed modes rejected"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "details": {
+        "operation": "update"
+      }
+    },
+    {
+      "id": "log_03e6319b68d1",
+      "timestamp": "2026-02-13T01:34:13Z",
+      "sessionId": null,
+      "action": "task_updated",
+      "actor": "system",
+      "taskId": "T047",
+      "before": {
+        "title": "Define MVI field selection mechanism",
+        "status": "pending",
+        "priority": "critical",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "mvi",
+          "schema",
+          "spec"
+        ],
+        "files": null,
+        "acceptance": [
+          "_fields request parameter specified in lafs.md",
+          "Behavior for missing fields defined",
+          "Conformance check added"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "after": {
+        "title": "Define MVI field selection mechanism",
+        "status": "active",
+        "priority": "critical",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "mvi",
+          "schema",
+          "spec"
+        ],
+        "files": null,
+        "acceptance": [
+          "_fields request parameter specified in lafs.md",
+          "Behavior for missing fields defined",
+          "Conformance check added"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "details": {
+        "operation": "update"
+      }
+    },
+    {
+      "id": "log_85afa2c0d91b",
+      "timestamp": "2026-02-13T01:34:14Z",
+      "sessionId": null,
+      "action": "task_updated",
+      "actor": "system",
+      "taskId": "T048",
+      "before": {
+        "title": "Define expansion mechanism",
+        "status": "pending",
+        "priority": "critical",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "mvi",
+          "schema",
+          "spec"
+        ],
+        "files": null,
+        "acceptance": [
+          "_expand request parameter specified",
+          "E_DISCLOSURE_UNKNOWN_FIELD registered",
+          "Conformance check added"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "after": {
+        "title": "Define expansion mechanism",
+        "status": "active",
+        "priority": "critical",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "mvi",
+          "schema",
+          "spec"
+        ],
+        "files": null,
+        "acceptance": [
+          "_expand request parameter specified",
+          "E_DISCLOSURE_UNKNOWN_FIELD registered",
+          "Conformance check added"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "details": {
+        "operation": "update"
+      }
+    },
+    {
+      "id": "log_02c5594621b7",
+      "timestamp": "2026-02-13T01:34:14Z",
+      "sessionId": null,
+      "action": "task_updated",
+      "actor": "system",
+      "taskId": "T049",
+      "before": {
+        "title": "Replace mvi boolean with disclosure level enum",
+        "status": "pending",
+        "priority": "high",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "breaking",
+          "mvi",
+          "schema"
+        ],
+        "files": null,
+        "acceptance": [
+          "_meta.mvi changed to enum minimal|standard|full|custom",
+          "TypeScript type updated",
+          "Conformance check updated"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "after": {
+        "title": "Replace mvi boolean with disclosure level enum",
+        "status": "active",
+        "priority": "high",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "breaking",
+          "mvi",
+          "schema"
+        ],
+        "files": null,
+        "acceptance": [
+          "_meta.mvi changed to enum minimal|standard|full|custom",
+          "TypeScript type updated",
+          "Conformance check updated"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "details": {
+        "operation": "update"
+      }
+    },
+    {
+      "id": "log_e3404e209a82",
+      "timestamp": "2026-02-13T01:34:15Z",
+      "sessionId": null,
+      "action": "task_updated",
+      "actor": "system",
+      "taskId": "T050",
+      "before": {
+        "title": "Define context ledger schema",
+        "status": "pending",
+        "priority": "critical",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "context",
+          "schema"
+        ],
+        "files": null,
+        "acceptance": [
+          "schemas/v1/context-ledger.schema.json with all 7 required fields",
+          "Validates against Draft-07"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "after": {
+        "title": "Define context ledger schema",
+        "status": "active",
+        "priority": "critical",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "context",
+          "schema"
+        ],
+        "files": null,
+        "acceptance": [
+          "schemas/v1/context-ledger.schema.json with all 7 required fields",
+          "Validates against Draft-07"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "details": {
+        "operation": "update"
+      }
+    },
+    {
+      "id": "log_0812639c63fa",
+      "timestamp": "2026-02-13T04:55:08Z",
+      "sessionId": null,
+      "action": "status_changed",
+      "actor": "system",
+      "taskId": "T049",
+      "before": {
+        "status": "active",
+        "completedAt": null
+      },
+      "after": {
+        "status": "done",
+        "completedAt": "2026-02-13T04:55:08Z"
+      },
+      "details": {
+        "field": "status",
+        "operation": "complete"
+      }
+    },
+    {
+      "id": "log_9b0a0602dacb",
+      "timestamp": "2026-02-13T04:56:08Z",
+      "sessionId": null,
+      "action": "status_changed",
+      "actor": "system",
+      "taskId": "T044",
+      "before": {
+        "status": "active",
+        "completedAt": null
+      },
+      "after": {
+        "status": "done",
+        "completedAt": "2026-02-13T04:56:07Z"
+      },
+      "details": {
+        "field": "status",
+        "operation": "complete"
+      }
+    },
+    {
+      "id": "log_bd62c5c25ffc",
+      "timestamp": "2026-02-13T04:57:22Z",
+      "sessionId": null,
+      "action": "status_changed",
+      "actor": "system",
+      "taskId": "T045",
+      "before": {
+        "status": "pending",
+        "completedAt": null
+      },
+      "after": {
+        "status": "done",
+        "completedAt": "2026-02-13T04:57:21Z"
+      },
+      "details": {
+        "field": "status",
+        "operation": "complete"
+      }
+    },
+    {
+      "id": "log_766524111296",
+      "timestamp": "2026-02-13T04:59:37Z",
+      "sessionId": null,
+      "action": "status_changed",
+      "actor": "system",
+      "taskId": "T046",
+      "before": {
+        "status": "pending",
+        "completedAt": null
+      },
+      "after": {
+        "status": "done",
+        "completedAt": "2026-02-13T04:59:37Z"
+      },
+      "details": {
+        "field": "status",
+        "operation": "complete"
+      }
+    },
+    {
+      "id": "log_b0d65b3f2581",
+      "timestamp": "2026-02-13T05:00:37Z",
+      "sessionId": null,
+      "action": "status_changed",
+      "actor": "system",
+      "taskId": "T047",
+      "before": {
+        "status": "active",
+        "completedAt": null
+      },
+      "after": {
+        "status": "done",
+        "completedAt": "2026-02-13T05:00:37Z"
+      },
+      "details": {
+        "field": "status",
+        "operation": "complete"
+      }
+    },
+    {
+      "id": "log_d6409f44d7bc",
+      "timestamp": "2026-02-13T05:00:39Z",
+      "sessionId": null,
+      "action": "status_changed",
+      "actor": "system",
+      "taskId": "T048",
+      "before": {
+        "status": "active",
+        "completedAt": null
+      },
+      "after": {
+        "status": "done",
+        "completedAt": "2026-02-13T05:00:39Z"
+      },
+      "details": {
+        "field": "status",
+        "operation": "complete"
       }
     }
   ]
