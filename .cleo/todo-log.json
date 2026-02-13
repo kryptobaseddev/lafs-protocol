@@ -4,9 +4,9 @@
   "project": "lafs-protocol",
   "_meta": {
     "schemaVersion": "2.4.0",
-    "totalEntries": 87,
+    "totalEntries": 95,
     "firstEntry": "2026-02-12T01:56:01Z",
-    "lastEntry": "2026-02-13T01:31:43Z",
+    "lastEntry": "2026-02-13T01:34:15Z",
     "entriesPruned": 0
   },
   "entries": [
@@ -4228,6 +4228,346 @@
         "files": null,
         "acceptance": [
           "Migration guide with before/after examples for all breaking changes"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "details": {
+        "operation": "update"
+      }
+    },
+    {
+      "id": "log_1b8d53349832",
+      "timestamp": "2026-02-13T01:33:45Z",
+      "sessionId": null,
+      "action": "status_changed",
+      "actor": "system",
+      "taskId": "T040",
+      "before": {
+        "status": "active",
+        "completedAt": null
+      },
+      "after": {
+        "status": "done",
+        "completedAt": "2026-02-13T01:33:44Z"
+      },
+      "details": {
+        "field": "status",
+        "operation": "complete"
+      }
+    },
+    {
+      "id": "log_d3e1253a476a",
+      "timestamp": "2026-02-13T01:33:46Z",
+      "sessionId": null,
+      "action": "status_changed",
+      "actor": "system",
+      "taskId": "T034",
+      "before": {
+        "status": "active",
+        "completedAt": null
+      },
+      "after": {
+        "status": "done",
+        "completedAt": "2026-02-13T01:33:45Z"
+      },
+      "details": {
+        "field": "status",
+        "operation": "complete"
+      }
+    },
+    {
+      "id": "log_e63111a175ac",
+      "timestamp": "2026-02-13T01:34:12Z",
+      "sessionId": null,
+      "action": "task_updated",
+      "actor": "system",
+      "taskId": "T043",
+      "before": {
+        "title": "Phase 2B: Pagination & MVI Schema",
+        "status": "pending",
+        "priority": "critical",
+        "description": "Conditional pagination validation. MVI field selection and expansion mechanisms. Context ledger schema. BREAKING changes. Target: v0.5.0",
+        "phase": "setup",
+        "labels": [
+          "breaking",
+          "mvi",
+          "pagination",
+          "schema",
+          "v0.5.0"
+        ],
+        "files": null,
+        "acceptance": null,
+        "depends": [
+          "T034"
+        ],
+        "blockedBy": null
+      },
+      "after": {
+        "title": "Phase 2B: Pagination & MVI Schema",
+        "status": "active",
+        "priority": "critical",
+        "description": "Conditional pagination validation. MVI field selection and expansion mechanisms. Context ledger schema. BREAKING changes. Target: v0.5.0",
+        "phase": "setup",
+        "labels": [
+          "breaking",
+          "mvi",
+          "pagination",
+          "schema",
+          "v0.5.0"
+        ],
+        "files": null,
+        "acceptance": null,
+        "depends": [
+          "T034"
+        ],
+        "blockedBy": null
+      },
+      "details": {
+        "operation": "update"
+      }
+    },
+    {
+      "id": "log_98db5b903c11",
+      "timestamp": "2026-02-13T01:34:12Z",
+      "sessionId": null,
+      "action": "task_updated",
+      "actor": "system",
+      "taskId": "T044",
+      "before": {
+        "title": "Add conditional pagination mode validation",
+        "status": "pending",
+        "priority": "critical",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "breaking",
+          "schema"
+        ],
+        "files": null,
+        "acceptance": [
+          "if/then/else blocks for cursor/offset/none modes",
+          "Irrelevant fields optional per mode",
+          "Mixed modes rejected"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "after": {
+        "title": "Add conditional pagination mode validation",
+        "status": "active",
+        "priority": "critical",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "breaking",
+          "schema"
+        ],
+        "files": null,
+        "acceptance": [
+          "if/then/else blocks for cursor/offset/none modes",
+          "Irrelevant fields optional per mode",
+          "Mixed modes rejected"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "details": {
+        "operation": "update"
+      }
+    },
+    {
+      "id": "log_03e6319b68d1",
+      "timestamp": "2026-02-13T01:34:13Z",
+      "sessionId": null,
+      "action": "task_updated",
+      "actor": "system",
+      "taskId": "T047",
+      "before": {
+        "title": "Define MVI field selection mechanism",
+        "status": "pending",
+        "priority": "critical",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "mvi",
+          "schema",
+          "spec"
+        ],
+        "files": null,
+        "acceptance": [
+          "_fields request parameter specified in lafs.md",
+          "Behavior for missing fields defined",
+          "Conformance check added"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "after": {
+        "title": "Define MVI field selection mechanism",
+        "status": "active",
+        "priority": "critical",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "mvi",
+          "schema",
+          "spec"
+        ],
+        "files": null,
+        "acceptance": [
+          "_fields request parameter specified in lafs.md",
+          "Behavior for missing fields defined",
+          "Conformance check added"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "details": {
+        "operation": "update"
+      }
+    },
+    {
+      "id": "log_85afa2c0d91b",
+      "timestamp": "2026-02-13T01:34:14Z",
+      "sessionId": null,
+      "action": "task_updated",
+      "actor": "system",
+      "taskId": "T048",
+      "before": {
+        "title": "Define expansion mechanism",
+        "status": "pending",
+        "priority": "critical",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "mvi",
+          "schema",
+          "spec"
+        ],
+        "files": null,
+        "acceptance": [
+          "_expand request parameter specified",
+          "E_DISCLOSURE_UNKNOWN_FIELD registered",
+          "Conformance check added"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "after": {
+        "title": "Define expansion mechanism",
+        "status": "active",
+        "priority": "critical",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "mvi",
+          "schema",
+          "spec"
+        ],
+        "files": null,
+        "acceptance": [
+          "_expand request parameter specified",
+          "E_DISCLOSURE_UNKNOWN_FIELD registered",
+          "Conformance check added"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "details": {
+        "operation": "update"
+      }
+    },
+    {
+      "id": "log_02c5594621b7",
+      "timestamp": "2026-02-13T01:34:14Z",
+      "sessionId": null,
+      "action": "task_updated",
+      "actor": "system",
+      "taskId": "T049",
+      "before": {
+        "title": "Replace mvi boolean with disclosure level enum",
+        "status": "pending",
+        "priority": "high",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "breaking",
+          "mvi",
+          "schema"
+        ],
+        "files": null,
+        "acceptance": [
+          "_meta.mvi changed to enum minimal|standard|full|custom",
+          "TypeScript type updated",
+          "Conformance check updated"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "after": {
+        "title": "Replace mvi boolean with disclosure level enum",
+        "status": "active",
+        "priority": "high",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "breaking",
+          "mvi",
+          "schema"
+        ],
+        "files": null,
+        "acceptance": [
+          "_meta.mvi changed to enum minimal|standard|full|custom",
+          "TypeScript type updated",
+          "Conformance check updated"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "details": {
+        "operation": "update"
+      }
+    },
+    {
+      "id": "log_e3404e209a82",
+      "timestamp": "2026-02-13T01:34:15Z",
+      "sessionId": null,
+      "action": "task_updated",
+      "actor": "system",
+      "taskId": "T050",
+      "before": {
+        "title": "Define context ledger schema",
+        "status": "pending",
+        "priority": "critical",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "context",
+          "schema"
+        ],
+        "files": null,
+        "acceptance": [
+          "schemas/v1/context-ledger.schema.json with all 7 required fields",
+          "Validates against Draft-07"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "after": {
+        "title": "Define context ledger schema",
+        "status": "active",
+        "priority": "critical",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "context",
+          "schema"
+        ],
+        "files": null,
+        "acceptance": [
+          "schemas/v1/context-ledger.schema.json with all 7 required fields",
+          "Validates against Draft-07"
         ],
         "depends": null,
         "blockedBy": null
