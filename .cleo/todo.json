@@ -47,14 +47,14 @@
       }
     }
   },
-  "lastUpdated": "2026-02-12T17:40:51Z",
+  "lastUpdated": "2026-02-13T01:16:17Z",
   "_meta": {
     "schemaVersion": "2.10.0",
-    "checksum": "e110139851b50bb2",
+    "checksum": "a5f966b2890e865f",
     "configVersion": "2.10.0",
     "lastSessionId": null,
     "activeSession": null,
-    "generation": 25,
+    "generation": 41,
     "lastModified": "2026-02-12T01:59:14Z",
     "multiSessionEnabled": true,
     "activeSessionCount": 1
@@ -216,103 +216,6 @@
         "lastUpdated": "2026-02-12T02:08:47Z",
         "failureLog": []
       }
-    },
-    {
-      "id": "T006",
-      "title": "LAFS Protocol Hardening",
-      "status": "pending",
-      "priority": "high",
-      "type": "epic",
-      "parentId": null,
-      "createdAt": "2026-02-12T15:53:40Z",
-      "updatedAt": "2026-02-12T15:53:40Z",
-      "size": "medium",
-      "position": 2,
-      "positionVersion": 0,
-      "phase": "setup",
-      "description": "Harden test coverage, fixtures, and governance for the LAFS protocol repo. Ensure all 8 CONFORMANCE.md checks have explicit tests, missing fixtures are added, and document tracking policy is resolved.",
-      "labels": [
-        "conformance",
-        "governance",
-        "hardening"
-      ]
-    },
-    {
-      "id": "T007",
-      "title": "Harden conformance test coverage for all 8 CONFORMANCE.md checks",
-      "status": "cancelled",
-      "priority": "high",
-      "type": "task",
-      "parentId": "T006",
-      "createdAt": "2026-02-12T15:53:47Z",
-      "updatedAt": "2026-02-12T17:40:51Z",
-      "size": "medium",
-      "position": 1,
-      "positionVersion": 0,
-      "phase": "setup",
-      "labels": [
-        "conformance",
-        "testing"
-      ],
-      "acceptance": [
-        "Tests cover --human flag resolution",
-        "Tests cover pagination metadata validation",
-        "Tests cover context-critical mutation failure",
-        "All 8 CONFORMANCE.md checks have explicit test cases"
-      ],
-      "depends": [
-        "T008"
-      ],
-      "cancelledAt": "2026-02-12T17:40:51Z",
-      "cancelReason": "Superseded by unified v1.0.0 roadmap — conformance coverage merged into Phase 0 and Phase 3A epics",
-      "notes": [
-        "[CANCELLED 2026-02-12T17:40:51Z] Superseded by unified v1.0.0 roadmap — conformance coverage merged into Phase 0 and Phase 3A epics"
-      ]
-    },
-    {
-      "id": "T008",
-      "title": "Add missing test fixtures: valid error envelope, pagination envelope, human flag",
-      "status": "pending",
-      "priority": "high",
-      "type": "task",
-      "parentId": "T006",
-      "createdAt": "2026-02-12T15:53:49Z",
-      "updatedAt": "2026-02-12T15:54:14Z",
-      "size": "small",
-      "position": 2,
-      "positionVersion": 0,
-      "phase": "setup",
-      "labels": [
-        "fixtures",
-        "testing"
-      ],
-      "acceptance": [
-        "Valid error envelope fixture exists",
-        "Pagination envelope fixture exists",
-        "Human flag resolution fixture exists",
-        "All fixtures validate against envelope schema"
-      ]
-    },
-    {
-      "id": "T009",
-      "title": "Decide tracking policy for AGENTS.md and GEMINI.md",
-      "status": "pending",
-      "priority": "medium",
-      "type": "task",
-      "parentId": "T006",
-      "createdAt": "2026-02-12T15:53:51Z",
-      "updatedAt": "2026-02-12T15:53:51Z",
-      "size": "small",
-      "position": 3,
-      "positionVersion": 0,
-      "phase": "setup",
-      "labels": [
-        "governance"
-      ],
-      "acceptance": [
-        "Files are either git-tracked or added to .gitignore",
-        "Decision documented"
-      ]
     },
     {
       "id": "T010",
@@ -532,6 +435,1582 @@
         "lastUpdated": "2026-02-12T16:11:36Z",
         "failureLog": []
       }
+    },
+    {
+      "id": "T016",
+      "title": "Phase 0: Protocol Cleanup & Governance Foundations",
+      "status": "active",
+      "priority": "critical",
+      "type": "epic",
+      "parentId": null,
+      "createdAt": "2026-02-12T17:41:02Z",
+      "updatedAt": "2026-02-13T01:16:17Z",
+      "size": "medium",
+      "position": 4,
+      "positionVersion": 0,
+      "phase": "setup",
+      "description": "Quick wins, fixture additions, conformance fixes, governance decisions. Every commit production-ready. Target: v0.2.0",
+      "labels": [
+        "cleanup",
+        "governance",
+        "v0.2.0"
+      ]
+    },
+    {
+      "id": "T017",
+      "title": "Track AGENTS.md and GEMINI.md in git",
+      "status": "pending",
+      "priority": "low",
+      "type": "task",
+      "parentId": "T016",
+      "createdAt": "2026-02-12T17:41:19Z",
+      "updatedAt": "2026-02-12T17:41:19Z",
+      "size": "small",
+      "position": 1,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "governance"
+      ],
+      "acceptance": [
+        "Files are git-tracked",
+        "Decision documented in commit message"
+      ]
+    },
+    {
+      "id": "T018",
+      "title": "Add valid error envelope fixture",
+      "status": "pending",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T016",
+      "createdAt": "2026-02-12T17:41:20Z",
+      "updatedAt": "2026-02-12T17:41:20Z",
+      "size": "small",
+      "position": 2,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "fixtures",
+        "testing"
+      ],
+      "acceptance": [
+        "fixtures/valid-error-envelope.json exists",
+        "Validates against envelope schema",
+        "Uses registered error code"
+      ]
+    },
+    {
+      "id": "T019",
+      "title": "Add invalid unregistered error fixture",
+      "status": "pending",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T016",
+      "createdAt": "2026-02-12T17:41:20Z",
+      "updatedAt": "2026-02-12T17:41:20Z",
+      "size": "small",
+      "position": 3,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "fixtures",
+        "testing"
+      ],
+      "acceptance": [
+        "fixtures/invalid-unregistered-error.json exists",
+        "Conformance runner rejects it"
+      ]
+    },
+    {
+      "id": "T020",
+      "title": "Add invalid error-with-result fixture",
+      "status": "pending",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T016",
+      "createdAt": "2026-02-12T17:41:21Z",
+      "updatedAt": "2026-02-12T17:41:21Z",
+      "size": "small",
+      "position": 4,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "fixtures",
+        "testing"
+      ],
+      "acceptance": [
+        "fixtures/invalid-error-with-result.json exists",
+        "success=false but result non-null",
+        "Schema rejects"
+      ]
+    },
+    {
+      "id": "T021",
+      "title": "Add error envelope test cases",
+      "status": "pending",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T016",
+      "createdAt": "2026-02-12T17:41:21Z",
+      "updatedAt": "2026-02-12T17:41:21Z",
+      "size": "small",
+      "position": 5,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "conformance",
+        "testing"
+      ],
+      "acceptance": [
+        "isRegisteredErrorCode tested against real error",
+        "Unregistered code rejected",
+        "All tests pass"
+      ]
+    },
+    {
+      "id": "T022",
+      "title": "Fix conformance runner flag logic error",
+      "status": "pending",
+      "priority": "critical",
+      "type": "task",
+      "parentId": "T016",
+      "createdAt": "2026-02-12T17:41:21Z",
+      "updatedAt": "2026-02-12T17:41:21Z",
+      "size": "small",
+      "position": 6,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "bugfix",
+        "conformance"
+      ],
+      "acceptance": [
+        "json_default_when_unspecified split into protocol-default and config-override checks",
+        "Catch block fixed",
+        "Tests pass"
+      ]
+    },
+    {
+      "id": "T023",
+      "title": "Standardize JSON Schema draft across all files",
+      "status": "pending",
+      "priority": "low",
+      "type": "task",
+      "parentId": "T016",
+      "createdAt": "2026-02-12T17:41:22Z",
+      "updatedAt": "2026-02-12T17:41:22Z",
+      "size": "small",
+      "position": 7,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "cleanup",
+        "schema"
+      ],
+      "acceptance": [
+        "error-registry.json uses Draft-07 matching envelope.schema.json"
+      ]
+    },
+    {
+      "id": "T024",
+      "title": "Document error code naming convention",
+      "status": "pending",
+      "priority": "low",
+      "type": "task",
+      "parentId": "T016",
+      "createdAt": "2026-02-12T17:41:22Z",
+      "updatedAt": "2026-02-12T17:41:22Z",
+      "size": "small",
+      "position": 8,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "documentation",
+        "spec"
+      ],
+      "acceptance": [
+        "lafs.md Section 6 documents naming convention or regex relaxed"
+      ]
+    },
+    {
+      "id": "T025",
+      "title": "Add Non-Goals section to spec",
+      "status": "pending",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T016",
+      "createdAt": "2026-02-12T17:41:23Z",
+      "updatedAt": "2026-02-12T17:41:23Z",
+      "size": "small",
+      "position": 9,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "documentation",
+        "spec"
+      ],
+      "acceptance": [
+        "lafs.md has Non-Goals section listing streaming async auth multi-modality with rationale"
+      ]
+    },
+    {
+      "id": "T026",
+      "title": "Add Security Considerations section to spec",
+      "status": "pending",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T016",
+      "createdAt": "2026-02-12T17:41:23Z",
+      "updatedAt": "2026-02-12T17:41:23Z",
+      "size": "small",
+      "position": 10,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "documentation",
+        "security",
+        "spec"
+      ],
+      "acceptance": [
+        "lafs.md has Security Considerations covering injection tampering information disclosure replay"
+      ]
+    },
+    {
+      "id": "T027",
+      "title": "Phase 1: Strategic Positioning & Vision Alignment",
+      "status": "pending",
+      "priority": "critical",
+      "type": "epic",
+      "parentId": null,
+      "createdAt": "2026-02-12T17:41:31Z",
+      "updatedAt": "2026-02-12T17:44:29Z",
+      "size": "medium",
+      "position": 5,
+      "positionVersion": 0,
+      "phase": "setup",
+      "description": "Reposition LAFS as response contract complement to MCP/A2A. Rewrite vision. Define adoption tiers. Non-breaking documentation changes. Target: v0.3.0",
+      "labels": [
+        "positioning",
+        "v0.3.0",
+        "vision"
+      ],
+      "depends": [
+        "T016"
+      ]
+    },
+    {
+      "id": "T028",
+      "title": "Create POSITIONING.md",
+      "status": "pending",
+      "priority": "critical",
+      "type": "task",
+      "parentId": "T027",
+      "createdAt": "2026-02-12T17:41:43Z",
+      "updatedAt": "2026-02-12T17:41:43Z",
+      "size": "small",
+      "position": 1,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "documentation",
+        "positioning"
+      ],
+      "acceptance": [
+        "docs/POSITIONING.md maps LAFS to MCP and A2A layers",
+        "Includes complementary positioning diagram"
+      ]
+    },
+    {
+      "id": "T029",
+      "title": "Rewrite VISION.md",
+      "status": "pending",
+      "priority": "critical",
+      "type": "task",
+      "parentId": "T027",
+      "createdAt": "2026-02-12T17:41:44Z",
+      "updatedAt": "2026-02-12T17:41:44Z",
+      "size": "small",
+      "position": 2,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "documentation",
+        "vision"
+      ],
+      "acceptance": [
+        "docs/VISION.md articulates complementary positioning",
+        "Removes canonical from external-facing language",
+        "Defines primary persona"
+      ]
+    },
+    {
+      "id": "T030",
+      "title": "Revise lafs.md Section 1 scope",
+      "status": "pending",
+      "priority": "critical",
+      "type": "task",
+      "parentId": "T027",
+      "createdAt": "2026-02-12T17:41:44Z",
+      "updatedAt": "2026-02-12T17:41:44Z",
+      "size": "small",
+      "position": 3,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "positioning",
+        "spec"
+      ],
+      "acceptance": [
+        "Section 1 reframes as response contract specification",
+        "References MCP and A2A explicitly"
+      ]
+    },
+    {
+      "id": "T031",
+      "title": "Define adoption tiers in spec",
+      "status": "pending",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T027",
+      "createdAt": "2026-02-12T17:41:45Z",
+      "updatedAt": "2026-02-12T17:41:45Z",
+      "size": "medium",
+      "position": 4,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "documentation",
+        "spec"
+      ],
+      "acceptance": [
+        "lafs.md defines Core/Standard/Complete tiers with conformance check sets per tier",
+        "CONFORMANCE.md updated"
+      ]
+    },
+    {
+      "id": "T032",
+      "title": "Create CONTRIBUTING.md",
+      "status": "pending",
+      "priority": "medium",
+      "type": "task",
+      "parentId": "T027",
+      "createdAt": "2026-02-12T17:41:45Z",
+      "updatedAt": "2026-02-12T17:41:45Z",
+      "size": "small",
+      "position": 5,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "governance"
+      ],
+      "acceptance": [
+        "CONTRIBUTING.md exists with contributor guidelines",
+        "RFC process outline",
+        "Code of conduct reference"
+      ]
+    },
+    {
+      "id": "T033",
+      "title": "Align result type across spec schema types",
+      "status": "pending",
+      "priority": "medium",
+      "type": "task",
+      "parentId": "T027",
+      "createdAt": "2026-02-12T17:41:46Z",
+      "updatedAt": "2026-02-12T17:41:46Z",
+      "size": "small",
+      "position": 6,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "schema",
+        "spec"
+      ],
+      "acceptance": [
+        "result type consistent across lafs.md and envelope.schema.json and src/types.ts",
+        "Decision documented"
+      ]
+    },
+    {
+      "id": "T034",
+      "title": "Phase 2A: Envelope Rationalization",
+      "status": "pending",
+      "priority": "critical",
+      "type": "epic",
+      "parentId": null,
+      "createdAt": "2026-02-12T17:41:53Z",
+      "updatedAt": "2026-02-12T17:44:30Z",
+      "size": "medium",
+      "position": 6,
+      "positionVersion": 0,
+      "phase": "setup",
+      "description": "Make page/error optional when null. Add extension mechanism. Implement strict/lenient mode. Fix CLI conformance. BREAKING changes requiring migration guide. Target: v0.4.0",
+      "labels": [
+        "breaking",
+        "schema",
+        "v0.4.0"
+      ],
+      "depends": [
+        "T027"
+      ]
+    },
+    {
+      "id": "T035",
+      "title": "Make page field optional when null",
+      "status": "pending",
+      "priority": "critical",
+      "type": "task",
+      "parentId": "T034",
+      "createdAt": "2026-02-12T17:42:07Z",
+      "updatedAt": "2026-02-12T17:42:07Z",
+      "size": "small",
+      "position": 1,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "breaking",
+        "schema"
+      ],
+      "acceptance": [
+        "page removed from required array",
+        "TypeScript types updated",
+        "Tests pass with and without page field"
+      ]
+    },
+    {
+      "id": "T036",
+      "title": "Make error field optional when null",
+      "status": "pending",
+      "priority": "critical",
+      "type": "task",
+      "parentId": "T034",
+      "createdAt": "2026-02-12T17:42:08Z",
+      "updatedAt": "2026-02-12T17:42:08Z",
+      "size": "small",
+      "position": 2,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "breaking",
+        "schema"
+      ],
+      "acceptance": [
+        "error removed from required when success=true",
+        "TypeScript types updated",
+        "Tests pass"
+      ]
+    },
+    {
+      "id": "T037",
+      "title": "Add extension mechanism (_extensions field)",
+      "status": "pending",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T034",
+      "createdAt": "2026-02-12T17:42:08Z",
+      "updatedAt": "2026-02-12T17:42:08Z",
+      "size": "small",
+      "position": 3,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "schema",
+        "spec"
+      ],
+      "acceptance": [
+        "_extensions object field in schema",
+        "Allowed in strict mode",
+        "Vendor-prefix naming x-* documented"
+      ]
+    },
+    {
+      "id": "T038",
+      "title": "Implement strict/lenient mode",
+      "status": "pending",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T034",
+      "createdAt": "2026-02-12T17:42:09Z",
+      "updatedAt": "2026-02-12T17:42:09Z",
+      "size": "medium",
+      "position": 4,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "implementation",
+        "schema"
+      ],
+      "acceptance": [
+        "strict:false allows additionalProperties",
+        "strict:true rejects",
+        "Conditional schema via if/then",
+        "Conformance check validates behavior"
+      ]
+    },
+    {
+      "id": "T039",
+      "title": "Add _meta.warnings optional array",
+      "status": "pending",
+      "priority": "medium",
+      "type": "task",
+      "parentId": "T034",
+      "createdAt": "2026-02-12T17:42:09Z",
+      "updatedAt": "2026-02-12T17:42:09Z",
+      "size": "small",
+      "position": 5,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "schema"
+      ],
+      "acceptance": [
+        "_meta.warnings array in schema for deprecation warnings",
+        "TypeScript type updated"
+      ]
+    },
+    {
+      "id": "T040",
+      "title": "Write v0.3.0-to-v0.4.0 migration guide",
+      "status": "pending",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T034",
+      "createdAt": "2026-02-12T17:42:10Z",
+      "updatedAt": "2026-02-12T17:42:10Z",
+      "size": "small",
+      "position": 6,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "documentation"
+      ],
+      "acceptance": [
+        "Migration guide with before/after examples for all breaking changes"
+      ]
+    },
+    {
+      "id": "T041",
+      "title": "Update conformance checks for envelope changes",
+      "status": "pending",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T034",
+      "createdAt": "2026-02-12T17:42:10Z",
+      "updatedAt": "2026-02-12T17:42:10Z",
+      "size": "small",
+      "position": 7,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "conformance",
+        "testing"
+      ],
+      "acceptance": [
+        "Existing checks adapted for optional page/error",
+        "Strict mode behavioral check added",
+        "All tests pass"
+      ]
+    },
+    {
+      "id": "T042",
+      "title": "Fix CLI to emit conformant envelopes",
+      "status": "pending",
+      "priority": "medium",
+      "type": "task",
+      "parentId": "T034",
+      "createdAt": "2026-02-12T17:42:11Z",
+      "updatedAt": "2026-02-12T17:42:11Z",
+      "size": "small",
+      "position": 8,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "implementation"
+      ],
+      "acceptance": [
+        "CLI output validates against envelope schema or documented as diagnostic exempt"
+      ]
+    },
+    {
+      "id": "T043",
+      "title": "Phase 2B: Pagination & MVI Schema",
+      "status": "pending",
+      "priority": "critical",
+      "type": "epic",
+      "parentId": null,
+      "createdAt": "2026-02-12T17:42:19Z",
+      "updatedAt": "2026-02-12T17:44:31Z",
+      "size": "medium",
+      "position": 7,
+      "positionVersion": 0,
+      "phase": "setup",
+      "description": "Conditional pagination validation. MVI field selection and expansion mechanisms. Context ledger schema. BREAKING changes. Target: v0.5.0",
+      "labels": [
+        "breaking",
+        "mvi",
+        "pagination",
+        "schema",
+        "v0.5.0"
+      ],
+      "depends": [
+        "T034"
+      ]
+    },
+    {
+      "id": "T044",
+      "title": "Add conditional pagination mode validation",
+      "status": "pending",
+      "priority": "critical",
+      "type": "task",
+      "parentId": "T043",
+      "createdAt": "2026-02-12T17:42:36Z",
+      "updatedAt": "2026-02-12T17:42:36Z",
+      "size": "medium",
+      "position": 1,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "breaking",
+        "schema"
+      ],
+      "acceptance": [
+        "if/then/else blocks for cursor/offset/none modes",
+        "Irrelevant fields optional per mode",
+        "Mixed modes rejected"
+      ]
+    },
+    {
+      "id": "T045",
+      "title": "Add pagination test fixtures",
+      "status": "pending",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T043",
+      "createdAt": "2026-02-12T17:42:36Z",
+      "updatedAt": "2026-02-12T17:42:36Z",
+      "size": "small",
+      "position": 2,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "fixtures",
+        "testing"
+      ],
+      "acceptance": [
+        "valid-cursor-pagination.json and valid-offset-pagination.json and invalid-mixed-pagination.json present and validated"
+      ]
+    },
+    {
+      "id": "T046",
+      "title": "Implement conformance check 7 (pagination validation)",
+      "status": "pending",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T043",
+      "createdAt": "2026-02-12T17:42:37Z",
+      "updatedAt": "2026-02-12T17:42:37Z",
+      "size": "small",
+      "position": 3,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "conformance",
+        "implementation"
+      ],
+      "acceptance": [
+        "Pagination mode consistency check in runEnvelopeConformance",
+        "Tests cover cursor offset none and mixed modes"
+      ]
+    },
+    {
+      "id": "T047",
+      "title": "Define MVI field selection mechanism",
+      "status": "pending",
+      "priority": "critical",
+      "type": "task",
+      "parentId": "T043",
+      "createdAt": "2026-02-12T17:42:37Z",
+      "updatedAt": "2026-02-12T17:42:37Z",
+      "size": "medium",
+      "position": 4,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "mvi",
+        "schema",
+        "spec"
+      ],
+      "acceptance": [
+        "_fields request parameter specified in lafs.md",
+        "Behavior for missing fields defined",
+        "Conformance check added"
+      ]
+    },
+    {
+      "id": "T048",
+      "title": "Define expansion mechanism",
+      "status": "pending",
+      "priority": "critical",
+      "type": "task",
+      "parentId": "T043",
+      "createdAt": "2026-02-12T17:42:37Z",
+      "updatedAt": "2026-02-12T17:42:37Z",
+      "size": "medium",
+      "position": 5,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "mvi",
+        "schema",
+        "spec"
+      ],
+      "acceptance": [
+        "_expand request parameter specified",
+        "E_DISCLOSURE_UNKNOWN_FIELD registered",
+        "Conformance check added"
+      ]
+    },
+    {
+      "id": "T049",
+      "title": "Replace mvi boolean with disclosure level enum",
+      "status": "pending",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T043",
+      "createdAt": "2026-02-12T17:42:38Z",
+      "updatedAt": "2026-02-12T17:42:38Z",
+      "size": "small",
+      "position": 6,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "breaking",
+        "mvi",
+        "schema"
+      ],
+      "acceptance": [
+        "_meta.mvi changed to enum minimal|standard|full|custom",
+        "TypeScript type updated",
+        "Conformance check updated"
+      ]
+    },
+    {
+      "id": "T050",
+      "title": "Define context ledger schema",
+      "status": "pending",
+      "priority": "critical",
+      "type": "task",
+      "parentId": "T043",
+      "createdAt": "2026-02-12T17:42:38Z",
+      "updatedAt": "2026-02-12T17:42:38Z",
+      "size": "medium",
+      "position": 7,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "context",
+        "schema"
+      ],
+      "acceptance": [
+        "schemas/v1/context-ledger.schema.json with all 7 required fields",
+        "Validates against Draft-07"
+      ]
+    },
+    {
+      "id": "T051",
+      "title": "Add context ledger TypeScript types",
+      "status": "pending",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T043",
+      "createdAt": "2026-02-12T17:42:39Z",
+      "updatedAt": "2026-02-12T17:42:39Z",
+      "size": "small",
+      "position": 8,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "context",
+        "implementation"
+      ],
+      "acceptance": [
+        "ContextLedger interface in src/types.ts matching context ledger schema"
+      ]
+    },
+    {
+      "id": "T052",
+      "title": "Write v0.4.0-to-v0.5.0 migration guide",
+      "status": "pending",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T043",
+      "createdAt": "2026-02-12T17:42:39Z",
+      "updatedAt": "2026-02-12T17:42:39Z",
+      "size": "small",
+      "position": 9,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "documentation"
+      ],
+      "acceptance": [
+        "Migration guide covering MVI pagination and context schema changes"
+      ]
+    },
+    {
+      "id": "T053",
+      "title": "Phase 3A: Conformance Suite Completion",
+      "status": "pending",
+      "priority": "high",
+      "type": "epic",
+      "parentId": null,
+      "createdAt": "2026-02-12T17:42:47Z",
+      "updatedAt": "2026-02-12T17:44:31Z",
+      "size": "medium",
+      "position": 8,
+      "positionVersion": 0,
+      "phase": "setup",
+      "description": "Full conformance coverage: context validation, MVI checks, transport mapping. Target: v0.6.0",
+      "labels": [
+        "conformance",
+        "implementation",
+        "v0.6.0"
+      ],
+      "depends": [
+        "T043"
+      ]
+    },
+    {
+      "id": "T054",
+      "title": "Implement context preservation validation",
+      "status": "pending",
+      "priority": "critical",
+      "type": "task",
+      "parentId": "T053",
+      "createdAt": "2026-02-12T17:43:00Z",
+      "updatedAt": "2026-02-12T17:43:00Z",
+      "size": "medium",
+      "position": 1,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "context",
+        "implementation"
+      ],
+      "acceptance": [
+        "Monotonic version enforcement",
+        "Constraint removal detection",
+        "E_CONTEXT_MISSING and E_CONTEXT_STALE thrown correctly"
+      ]
+    },
+    {
+      "id": "T055",
+      "title": "Implement conformance check 8 (context mutation failure)",
+      "status": "pending",
+      "priority": "critical",
+      "type": "task",
+      "parentId": "T053",
+      "createdAt": "2026-02-12T17:43:00Z",
+      "updatedAt": "2026-02-12T17:43:00Z",
+      "size": "small",
+      "position": 2,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "conformance"
+      ],
+      "acceptance": [
+        "Context-critical mutations fail when required context absent",
+        "Test cases pass"
+      ]
+    },
+    {
+      "id": "T056",
+      "title": "Add context preservation test fixtures",
+      "status": "pending",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T053",
+      "createdAt": "2026-02-12T17:43:01Z",
+      "updatedAt": "2026-02-12T17:43:01Z",
+      "size": "small",
+      "position": 3,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "context",
+        "fixtures",
+        "testing"
+      ],
+      "acceptance": [
+        "Valid context ledger and stale context and missing context fixtures present and tested"
+      ]
+    },
+    {
+      "id": "T057",
+      "title": "Add MVI conformance checks",
+      "status": "pending",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T053",
+      "createdAt": "2026-02-12T17:43:01Z",
+      "updatedAt": "2026-02-12T17:43:01Z",
+      "size": "medium",
+      "position": 4,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "conformance",
+        "mvi"
+      ],
+      "acceptance": [
+        "Response validated against declared MVI profile",
+        "Unknown expansion fields rejected",
+        "Tests pass"
+      ]
+    },
+    {
+      "id": "T058",
+      "title": "Register MVI error codes",
+      "status": "pending",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T053",
+      "createdAt": "2026-02-12T17:43:02Z",
+      "updatedAt": "2026-02-12T17:43:02Z",
+      "size": "small",
+      "position": 5,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "mvi",
+        "schema"
+      ],
+      "acceptance": [
+        "E_MVI_BUDGET_EXCEEDED and E_DISCLOSURE_UNKNOWN_FIELD in error-registry.json with transport mappings"
+      ]
+    },
+    {
+      "id": "T059",
+      "title": "Add transport mapping helper function",
+      "status": "pending",
+      "priority": "medium",
+      "type": "task",
+      "parentId": "T053",
+      "createdAt": "2026-02-12T17:43:02Z",
+      "updatedAt": "2026-02-12T17:43:02Z",
+      "size": "small",
+      "position": 6,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "implementation"
+      ],
+      "acceptance": [
+        "getTransportMapping(code transport) in src/errorRegistry.ts",
+        "Returns correct HTTP/gRPC/CLI mapping"
+      ]
+    },
+    {
+      "id": "T060",
+      "title": "Add transport mapping conformance check",
+      "status": "pending",
+      "priority": "medium",
+      "type": "task",
+      "parentId": "T053",
+      "createdAt": "2026-02-12T17:43:03Z",
+      "updatedAt": "2026-02-12T17:43:03Z",
+      "size": "small",
+      "position": 7,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "conformance"
+      ],
+      "acceptance": [
+        "Conformance check validates transport-specific behavior against registry"
+      ]
+    },
+    {
+      "id": "T061",
+      "title": "Full conformance test suite validation",
+      "status": "pending",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T053",
+      "createdAt": "2026-02-12T17:43:03Z",
+      "updatedAt": "2026-02-12T17:43:03Z",
+      "size": "medium",
+      "position": 8,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "conformance",
+        "testing"
+      ],
+      "acceptance": [
+        "All conformance checks have explicit tests",
+        "All pass",
+        "Coverage report generated"
+      ]
+    },
+    {
+      "id": "T062",
+      "title": "Phase 3B: Deprecation & Migration Tooling",
+      "status": "pending",
+      "priority": "medium",
+      "type": "epic",
+      "parentId": null,
+      "createdAt": "2026-02-12T17:43:10Z",
+      "updatedAt": "2026-02-12T17:44:32Z",
+      "size": "medium",
+      "position": 9,
+      "positionVersion": 0,
+      "phase": "setup",
+      "description": "Fix migration manifest inconsistency. Implement deprecation registry and warning emission. Target: v0.7.0",
+      "labels": [
+        "deprecation",
+        "migration",
+        "v0.7.0"
+      ],
+      "depends": [
+        "T053"
+      ]
+    },
+    {
+      "id": "T063",
+      "title": "Fix migration manifest schema inconsistency",
+      "status": "pending",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T062",
+      "createdAt": "2026-02-12T17:43:19Z",
+      "updatedAt": "2026-02-12T17:43:19Z",
+      "size": "small",
+      "position": 1,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "bugfix",
+        "schema"
+      ],
+      "acceptance": [
+        "migrations/1.0.0-to-1.1.0.json consistent with current schema or migrations/ removed"
+      ]
+    },
+    {
+      "id": "T064",
+      "title": "Implement deprecation registry",
+      "status": "pending",
+      "priority": "medium",
+      "type": "task",
+      "parentId": "T062",
+      "createdAt": "2026-02-12T17:43:19Z",
+      "updatedAt": "2026-02-12T17:43:19Z",
+      "size": "medium",
+      "position": 2,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "implementation"
+      ],
+      "acceptance": [
+        "Data structure tracking deprecated fields with sunset dates",
+        "Parallel to error registry",
+        "Documented"
+      ]
+    },
+    {
+      "id": "T065",
+      "title": "Implement deprecation warning emission",
+      "status": "pending",
+      "priority": "medium",
+      "type": "task",
+      "parentId": "T062",
+      "createdAt": "2026-02-12T17:43:20Z",
+      "updatedAt": "2026-02-12T17:43:20Z",
+      "size": "small",
+      "position": 3,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "implementation"
+      ],
+      "acceptance": [
+        "Deprecated field usage populates _meta.warnings array",
+        "Tested"
+      ]
+    },
+    {
+      "id": "T066",
+      "title": "Add deprecation and migration tests",
+      "status": "pending",
+      "priority": "medium",
+      "type": "task",
+      "parentId": "T062",
+      "createdAt": "2026-02-12T17:43:20Z",
+      "updatedAt": "2026-02-12T17:43:20Z",
+      "size": "small",
+      "position": 4,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "testing"
+      ],
+      "acceptance": [
+        "Warning emission and sunset date tracking tests pass",
+        "Migration manifest parses correctly"
+      ]
+    },
+    {
+      "id": "T067",
+      "title": "Phase 3C: Token Budget & Context Projection",
+      "status": "pending",
+      "priority": "medium",
+      "type": "epic",
+      "parentId": null,
+      "createdAt": "2026-02-12T17:43:26Z",
+      "updatedAt": "2026-02-12T17:44:33Z",
+      "size": "medium",
+      "position": 10,
+      "positionVersion": 0,
+      "phase": "setup",
+      "description": "Token budget signaling, context ledger projection, pagination-MVI integration. Target: v0.8.0",
+      "labels": [
+        "context",
+        "mvi",
+        "v0.8.0"
+      ],
+      "depends": [
+        "T053"
+      ]
+    },
+    {
+      "id": "T068",
+      "title": "Define token budget signaling spec",
+      "status": "pending",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T067",
+      "createdAt": "2026-02-12T17:43:36Z",
+      "updatedAt": "2026-02-12T17:43:36Z",
+      "size": "medium",
+      "position": 1,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "mvi",
+        "spec"
+      ],
+      "acceptance": [
+        "_budget request parameters (maxTokens maxBytes maxItems) specified",
+        "Server behavior defined",
+        "E_MVI_BUDGET_EXCEEDED documented"
+      ]
+    },
+    {
+      "id": "T069",
+      "title": "Define context ledger projection modes",
+      "status": "pending",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T067",
+      "createdAt": "2026-02-12T17:43:36Z",
+      "updatedAt": "2026-02-12T17:43:36Z",
+      "size": "medium",
+      "position": 2,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "context",
+        "spec"
+      ],
+      "acceptance": [
+        "_contextScope full|delta|summary specified",
+        "MVI/context contradiction explicitly resolved"
+      ]
+    },
+    {
+      "id": "T070",
+      "title": "Define pagination-MVI integration",
+      "status": "pending",
+      "priority": "medium",
+      "type": "task",
+      "parentId": "T067",
+      "createdAt": "2026-02-12T17:43:37Z",
+      "updatedAt": "2026-02-12T17:43:37Z",
+      "size": "small",
+      "position": 3,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "mvi",
+        "pagination",
+        "spec"
+      ],
+      "acceptance": [
+        "page.limit interaction with field selection documented",
+        "Budget-aware pagination specified"
+      ]
+    },
+    {
+      "id": "T071",
+      "title": "Add lazy loading specification",
+      "status": "pending",
+      "priority": "low",
+      "type": "task",
+      "parentId": "T067",
+      "createdAt": "2026-02-12T17:43:37Z",
+      "updatedAt": "2026-02-12T17:43:37Z",
+      "size": "small",
+      "position": 4,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "spec"
+      ],
+      "acceptance": [
+        "Schema lazy loading and task isolation and progressive schema disclosure defined in spec"
+      ]
+    },
+    {
+      "id": "T072",
+      "title": "Phase 4: Ecosystem & Integration",
+      "status": "pending",
+      "priority": "high",
+      "type": "epic",
+      "parentId": null,
+      "createdAt": "2026-02-12T17:43:43Z",
+      "updatedAt": "2026-02-12T17:44:33Z",
+      "size": "medium",
+      "position": 11,
+      "positionVersion": 0,
+      "phase": "setup",
+      "description": "Discovery mechanism, Python library, MCP integration, adoption guides. Target: v0.9.0",
+      "labels": [
+        "ecosystem",
+        "integration",
+        "v0.9.0"
+      ],
+      "depends": [
+        "T053",
+        "T062",
+        "T067"
+      ]
+    },
+    {
+      "id": "T073",
+      "title": "Define lightweight discovery mechanism",
+      "status": "pending",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T072",
+      "createdAt": "2026-02-12T17:43:57Z",
+      "updatedAt": "2026-02-12T17:43:57Z",
+      "size": "small",
+      "position": 1,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "discovery",
+        "spec"
+      ],
+      "acceptance": [
+        "/.well-known/lafs.json endpoint schema defined",
+        "specVersion and conformanceTier fields documented"
+      ]
+    },
+    {
+      "id": "T074",
+      "title": "Build Python validation library",
+      "status": "pending",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T072",
+      "createdAt": "2026-02-12T17:43:57Z",
+      "updatedAt": "2026-02-12T17:43:57Z",
+      "size": "medium",
+      "position": 2,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "implementation",
+        "python"
+      ],
+      "acceptance": [
+        "pip install lafs-protocol works",
+        "Validates envelopes against schema",
+        "Checks error codes",
+        "README with usage"
+      ]
+    },
+    {
+      "id": "T075",
+      "title": "Build MCP integration proof-of-concept",
+      "status": "pending",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T072",
+      "createdAt": "2026-02-12T17:43:58Z",
+      "updatedAt": "2026-02-12T17:43:58Z",
+      "size": "medium",
+      "position": 3,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "integration",
+        "mcp"
+      ],
+      "acceptance": [
+        "MCP tool server returning LAFS-conformant envelopes",
+        "Demonstrates complementarity",
+        "Documented"
+      ]
+    },
+    {
+      "id": "T076",
+      "title": "Create adoption guide: LAFS for CLI Tools",
+      "status": "pending",
+      "priority": "medium",
+      "type": "task",
+      "parentId": "T072",
+      "createdAt": "2026-02-12T17:43:58Z",
+      "updatedAt": "2026-02-12T17:43:58Z",
+      "size": "small",
+      "position": 4,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "adoption",
+        "documentation"
+      ],
+      "acceptance": [
+        "docs/guides/lafs-for-cli.md with step-by-step examples"
+      ]
+    },
+    {
+      "id": "T077",
+      "title": "Create adoption guide: LAFS for REST APIs",
+      "status": "pending",
+      "priority": "medium",
+      "type": "task",
+      "parentId": "T072",
+      "createdAt": "2026-02-12T17:43:58Z",
+      "updatedAt": "2026-02-12T17:43:58Z",
+      "size": "small",
+      "position": 5,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "adoption",
+        "documentation"
+      ],
+      "acceptance": [
+        "docs/guides/lafs-for-rest.md with Express.js/FastAPI examples"
+      ]
+    },
+    {
+      "id": "T078",
+      "title": "Create adoption guide: LAFS for MCP Tool Servers",
+      "status": "pending",
+      "priority": "medium",
+      "type": "task",
+      "parentId": "T072",
+      "createdAt": "2026-02-12T17:43:59Z",
+      "updatedAt": "2026-02-12T17:43:59Z",
+      "size": "small",
+      "position": 6,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "adoption",
+        "documentation"
+      ],
+      "acceptance": [
+        "docs/guides/lafs-for-mcp.md showing how to wrap MCP tool results"
+      ]
+    },
+    {
+      "id": "T079",
+      "title": "Create language-independent conformance suite",
+      "status": "pending",
+      "priority": "medium",
+      "type": "task",
+      "parentId": "T072",
+      "createdAt": "2026-02-12T17:43:59Z",
+      "updatedAt": "2026-02-12T17:43:59Z",
+      "size": "medium",
+      "position": 7,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "conformance",
+        "testing"
+      ],
+      "acceptance": [
+        "JSON Schema plus fixtures only",
+        "Runnable without Node.js",
+        "Documented",
+        "Tested in CI with multiple validators"
+      ]
+    },
+    {
+      "id": "T080",
+      "title": "Phase 5: v1.0.0 Release",
+      "status": "pending",
+      "priority": "high",
+      "type": "epic",
+      "parentId": null,
+      "createdAt": "2026-02-12T17:44:06Z",
+      "updatedAt": "2026-02-12T17:44:34Z",
+      "size": "medium",
+      "position": 12,
+      "positionVersion": 0,
+      "phase": "setup",
+      "description": "Governance finalization, adoption tier conformance, full suite validation, release documentation. Target: v1.0.0",
+      "labels": [
+        "release",
+        "v1.0.0"
+      ],
+      "depends": [
+        "T072"
+      ]
+    },
+    {
+      "id": "T081",
+      "title": "Finalize governance model",
+      "status": "pending",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T080",
+      "createdAt": "2026-02-12T17:44:19Z",
+      "updatedAt": "2026-02-12T17:44:19Z",
+      "size": "small",
+      "position": 1,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "governance"
+      ],
+      "acceptance": [
+        "Org GitHub account created",
+        "RFC process documented",
+        "CONTRIBUTING.md finalized"
+      ]
+    },
+    {
+      "id": "T082",
+      "title": "Finalize adoption tier conformance",
+      "status": "pending",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T080",
+      "createdAt": "2026-02-12T17:44:19Z",
+      "updatedAt": "2026-02-12T17:44:19Z",
+      "size": "medium",
+      "position": 2,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "conformance"
+      ],
+      "acceptance": [
+        "Core/Standard/Complete tiers have machine-readable conformance profiles",
+        "All tiers validated"
+      ]
+    },
+    {
+      "id": "T083",
+      "title": "Full conformance suite validation for v1.0.0",
+      "status": "pending",
+      "priority": "critical",
+      "type": "task",
+      "parentId": "T080",
+      "createdAt": "2026-02-12T17:44:20Z",
+      "updatedAt": "2026-02-12T17:44:20Z",
+      "size": "medium",
+      "position": 3,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "conformance",
+        "testing"
+      ],
+      "acceptance": [
+        "All tiers pass",
+        "All checks implemented",
+        "All fixtures present",
+        "CI green"
+      ]
+    },
+    {
+      "id": "T084",
+      "title": "Write release documentation",
+      "status": "pending",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T080",
+      "createdAt": "2026-02-12T17:44:20Z",
+      "updatedAt": "2026-02-12T17:44:20Z",
+      "size": "small",
+      "position": 4,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "documentation",
+        "release"
+      ],
+      "acceptance": [
+        "CHANGELOG complete",
+        "Migration guide from 0.x",
+        "Release notes drafted"
+      ]
+    },
+    {
+      "id": "T085",
+      "title": "v1.0.0-rc release and stabilization",
+      "status": "pending",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T080",
+      "createdAt": "2026-02-12T17:44:21Z",
+      "updatedAt": "2026-02-12T17:44:21Z",
+      "size": "small",
+      "position": 5,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "release"
+      ],
+      "acceptance": [
+        "Release candidate published",
+        "2-week stabilization window",
+        "No blocking issues"
+      ]
+    },
+    {
+      "id": "T086",
+      "title": "v1.0.0 final release",
+      "status": "pending",
+      "priority": "critical",
+      "type": "task",
+      "parentId": "T080",
+      "createdAt": "2026-02-12T17:44:21Z",
+      "updatedAt": "2026-02-12T17:44:21Z",
+      "size": "small",
+      "position": 6,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "release"
+      ],
+      "acceptance": [
+        "Tagged",
+        "npm published",
+        "Python package published",
+        "Announcement drafted"
+      ]
     }
   ],
   "labels": {}

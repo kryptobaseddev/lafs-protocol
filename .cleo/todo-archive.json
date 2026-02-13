@@ -4,21 +4,199 @@
   "project": "lafs-protocol",
   "_meta": {
     "schemaVersion": "2.4.0",
-    "totalArchived": 0,
-    "lastArchived": null,
+    "totalArchived": 4,
+    "lastArchived": "2026-02-12T17:40:54Z",
     "oldestTask": null,
     "newestTask": null
   },
-  "archivedTasks": [],
+  "archivedTasks": [
+    {
+      "id": "T007",
+      "title": "Harden conformance test coverage for all 8 CONFORMANCE.md checks",
+      "status": "cancelled",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T006",
+      "createdAt": "2026-02-12T15:53:47Z",
+      "updatedAt": "2026-02-12T17:40:51Z",
+      "size": "medium",
+      "position": 1,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "conformance",
+        "testing"
+      ],
+      "acceptance": [
+        "Tests cover --human flag resolution",
+        "Tests cover pagination metadata validation",
+        "Tests cover context-critical mutation failure",
+        "All 8 CONFORMANCE.md checks have explicit test cases"
+      ],
+      "depends": [
+        "T008"
+      ],
+      "cancelledAt": "2026-02-12T17:40:51Z",
+      "notes": [
+        "[CANCELLED 2026-02-12T17:40:51Z] Superseded by unified v1.0.0 roadmap — conformance coverage merged into Phase 0 and Phase 3A epics"
+      ],
+      "completedAt": "2026-02-12T17:40:51Z",
+      "cancellationReason": "Superseded by unified v1.0.0 roadmap — conformance coverage merged into Phase 0 and Phase 3A epics",
+      "_archive": {
+        "archivedAt": "2026-02-12T17:40:51Z",
+        "reason": "cancelled",
+        "archiveSource": "delete-command",
+        "sessionId": "delete-command",
+        "cycleTimeDays": 0,
+        "cancellationDetails": {
+          "cancelledAt": "2026-02-12T17:40:51Z",
+          "cancellationReason": "Superseded by unified v1.0.0 roadmap — conformance coverage merged into Phase 0 and Phase 3A epics",
+          "cancelledBy": "delete-command",
+          "previousStatus": "pending"
+        }
+      }
+    },
+    {
+      "id": "T008",
+      "title": "Add missing test fixtures: valid error envelope, pagination envelope, human flag",
+      "status": "cancelled",
+      "priority": "high",
+      "type": "task",
+      "parentId": "T006",
+      "createdAt": "2026-02-12T15:53:49Z",
+      "updatedAt": "2026-02-12T17:40:52Z",
+      "size": "small",
+      "position": 2,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "fixtures",
+        "testing"
+      ],
+      "acceptance": [
+        "Valid error envelope fixture exists",
+        "Pagination envelope fixture exists",
+        "Human flag resolution fixture exists",
+        "All fixtures validate against envelope schema"
+      ],
+      "cancelledAt": "2026-02-12T17:40:52Z",
+      "notes": [
+        "[CANCELLED 2026-02-12T17:40:52Z] Superseded by unified v1.0.0 roadmap — fixture tasks merged into Phase 0 and Phase 2B epics"
+      ],
+      "completedAt": "2026-02-12T17:40:52Z",
+      "cancellationReason": "Superseded by unified v1.0.0 roadmap — fixture tasks merged into Phase 0 and Phase 2B epics",
+      "_archive": {
+        "archivedAt": "2026-02-12T17:40:52Z",
+        "reason": "cancelled",
+        "archiveSource": "delete-command",
+        "sessionId": "delete-command",
+        "cycleTimeDays": 0,
+        "cancellationDetails": {
+          "cancelledAt": "2026-02-12T17:40:52Z",
+          "cancellationReason": "Superseded by unified v1.0.0 roadmap — fixture tasks merged into Phase 0 and Phase 2B epics",
+          "cancelledBy": "delete-command",
+          "previousStatus": "pending"
+        }
+      }
+    },
+    {
+      "id": "T009",
+      "title": "Decide tracking policy for AGENTS.md and GEMINI.md",
+      "status": "cancelled",
+      "priority": "medium",
+      "type": "task",
+      "parentId": "T006",
+      "createdAt": "2026-02-12T15:53:51Z",
+      "updatedAt": "2026-02-12T17:40:53Z",
+      "size": "small",
+      "position": 3,
+      "positionVersion": 0,
+      "phase": "setup",
+      "labels": [
+        "governance"
+      ],
+      "acceptance": [
+        "Files are either git-tracked or added to .gitignore",
+        "Decision documented"
+      ],
+      "cancelledAt": "2026-02-12T17:40:53Z",
+      "notes": [
+        "[CANCELLED 2026-02-12T17:40:53Z] Superseded by unified v1.0.0 roadmap — governance decision absorbed into Phase 0 epic"
+      ],
+      "completedAt": "2026-02-12T17:40:53Z",
+      "cancellationReason": "Superseded by unified v1.0.0 roadmap — governance decision absorbed into Phase 0 epic",
+      "_archive": {
+        "archivedAt": "2026-02-12T17:40:53Z",
+        "reason": "cancelled",
+        "archiveSource": "delete-command",
+        "sessionId": "delete-command",
+        "cycleTimeDays": 0,
+        "cancellationDetails": {
+          "cancelledAt": "2026-02-12T17:40:53Z",
+          "cancellationReason": "Superseded by unified v1.0.0 roadmap — governance decision absorbed into Phase 0 epic",
+          "cancelledBy": "delete-command",
+          "previousStatus": "pending"
+        }
+      }
+    },
+    {
+      "id": "T006",
+      "title": "LAFS Protocol Hardening",
+      "status": "cancelled",
+      "priority": "high",
+      "type": "epic",
+      "parentId": null,
+      "createdAt": "2026-02-12T15:53:40Z",
+      "updatedAt": "2026-02-12T17:40:53Z",
+      "size": "medium",
+      "position": 2,
+      "positionVersion": 0,
+      "phase": "setup",
+      "description": "Harden test coverage, fixtures, and governance for the LAFS protocol repo. Ensure all 8 CONFORMANCE.md checks have explicit tests, missing fixtures are added, and document tracking policy is resolved.",
+      "labels": [
+        "conformance",
+        "governance",
+        "hardening"
+      ],
+      "cancelledAt": "2026-02-12T17:40:53Z",
+      "notes": [
+        "[CANCELLED 2026-02-12T17:40:53Z] Superseded by unified v1.0.0 roadmap — hardening work distributed across Phase 0-3 epics"
+      ],
+      "completedAt": "2026-02-12T17:40:53Z",
+      "cancellationReason": "Superseded by unified v1.0.0 roadmap — hardening work distributed across Phase 0-3 epics",
+      "_archive": {
+        "archivedAt": "2026-02-12T17:40:54Z",
+        "reason": "cancelled",
+        "archiveSource": "delete-command",
+        "sessionId": "delete-command",
+        "cycleTimeDays": 0,
+        "cancellationDetails": {
+          "cancelledAt": "2026-02-12T17:40:53Z",
+          "cancellationReason": "Superseded by unified v1.0.0 roadmap — hardening work distributed across Phase 0-3 epics",
+          "cancelledBy": "delete-command",
+          "previousStatus": "pending"
+        }
+      }
+    }
+  ],
   "statistics": {
-    "byPhase": {},
+    "byPhase": {
+      "setup": 4
+    },
     "byPriority": {
       "critical": 0,
-      "high": 0,
-      "medium": 0,
+      "high": 3,
+      "medium": 1,
       "low": 0
     },
-    "byLabel": {},
-    "averageCycleTime": null
+    "byLabel": {
+      "conformance": 2,
+      "testing": 2,
+      "fixtures": 1,
+      "governance": 2,
+      "hardening": 1
+    },
+    "averageCycleTime": null,
+    "cancelled": 4
   }
 }
