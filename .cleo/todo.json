@@ -47,14 +47,14 @@
       }
     }
   },
-  "lastUpdated": "2026-02-13T01:28:25Z",
+  "lastUpdated": "2026-02-13T01:33:44Z",
   "_meta": {
     "schemaVersion": "2.10.0",
-    "checksum": "08f24cdfcd8e7951",
+    "checksum": "e2dc51459343d898",
     "configVersion": "2.10.0",
     "lastSessionId": null,
     "activeSession": null,
-    "generation": 98,
+    "generation": 116,
     "lastModified": "2026-02-12T01:59:14Z",
     "multiSessionEnabled": true,
     "activeSessionCount": 1
@@ -1192,17 +1192,32 @@
       "completedAt": "2026-02-13T01:28:25Z",
       "notes": [
         "[COMPLETED 2026-02-13T01:28:25Z] Removed page from required array. TypeScript page made optional. 3 new tests added. 13/13 pass."
-      ]
+      ],
+      "verification": {
+        "passed": false,
+        "round": 0,
+        "gates": {
+          "implemented": true,
+          "testsPassed": null,
+          "qaPassed": null,
+          "cleanupDone": null,
+          "securityPassed": null,
+          "documented": null
+        },
+        "lastAgent": "coder",
+        "lastUpdated": "2026-02-13T01:28:25Z",
+        "failureLog": []
+      }
     },
     {
       "id": "T036",
       "title": "Make error field optional when null",
-      "status": "active",
+      "status": "done",
       "priority": "critical",
       "type": "task",
       "parentId": "T034",
       "createdAt": "2026-02-12T17:42:08Z",
-      "updatedAt": "2026-02-13T01:26:13Z",
+      "updatedAt": "2026-02-13T01:28:27Z",
       "size": "small",
       "position": 2,
       "positionVersion": 0,
@@ -1215,17 +1230,36 @@
         "error removed from required when success=true",
         "TypeScript types updated",
         "Tests pass"
-      ]
+      ],
+      "completedAt": "2026-02-13T01:28:27Z",
+      "notes": [
+        "[COMPLETED 2026-02-13T01:28:27Z] Error removed from required, added conditional required in success:false then block. TypeScript error made optional. Conformance uses loose equality for null/undefined. Tests pass."
+      ],
+      "verification": {
+        "passed": false,
+        "round": 0,
+        "gates": {
+          "implemented": true,
+          "testsPassed": null,
+          "qaPassed": null,
+          "cleanupDone": null,
+          "securityPassed": null,
+          "documented": null
+        },
+        "lastAgent": "coder",
+        "lastUpdated": "2026-02-13T01:28:27Z",
+        "failureLog": []
+      }
     },
     {
       "id": "T037",
       "title": "Add extension mechanism (_extensions field)",
-      "status": "active",
+      "status": "done",
       "priority": "high",
       "type": "task",
       "parentId": "T034",
       "createdAt": "2026-02-12T17:42:08Z",
-      "updatedAt": "2026-02-13T01:26:14Z",
+      "updatedAt": "2026-02-13T01:28:28Z",
       "size": "small",
       "position": 3,
       "positionVersion": 0,
@@ -1238,17 +1272,36 @@
         "_extensions object field in schema",
         "Allowed in strict mode",
         "Vendor-prefix naming x-* documented"
-      ]
+      ],
+      "completedAt": "2026-02-13T01:28:28Z",
+      "notes": [
+        "[COMPLETED 2026-02-13T01:28:28Z] Added _extensions object property to schema with additionalProperties:true. TypeScript type added. lafs.md Section 6.2 documents x- prefix convention. Allowed in strict mode."
+      ],
+      "verification": {
+        "passed": false,
+        "round": 0,
+        "gates": {
+          "implemented": true,
+          "testsPassed": null,
+          "qaPassed": null,
+          "cleanupDone": null,
+          "securityPassed": null,
+          "documented": null
+        },
+        "lastAgent": "coder",
+        "lastUpdated": "2026-02-13T01:28:29Z",
+        "failureLog": []
+      }
     },
     {
       "id": "T038",
       "title": "Implement strict/lenient mode",
-      "status": "pending",
+      "status": "done",
       "priority": "high",
       "type": "task",
       "parentId": "T034",
       "createdAt": "2026-02-12T17:42:09Z",
-      "updatedAt": "2026-02-12T17:42:09Z",
+      "updatedAt": "2026-02-13T01:31:35Z",
       "size": "medium",
       "position": 4,
       "positionVersion": 0,
@@ -1262,17 +1315,36 @@
         "strict:true rejects",
         "Conditional schema via if/then",
         "Conformance check validates behavior"
-      ]
+      ],
+      "completedAt": "2026-02-13T01:31:35Z",
+      "notes": [
+        "[COMPLETED 2026-02-13T01:31:35Z] Implemented strict/lenient mode via conditional allOf in schema. strict:true sets additionalProperties:false, strict:false allows extras. _extensions works in both. Added strict_mode_enforced conformance check. 7 new tests."
+      ],
+      "verification": {
+        "passed": false,
+        "round": 0,
+        "gates": {
+          "implemented": true,
+          "testsPassed": null,
+          "qaPassed": null,
+          "cleanupDone": null,
+          "securityPassed": null,
+          "documented": null
+        },
+        "lastAgent": "coder",
+        "lastUpdated": "2026-02-13T01:31:35Z",
+        "failureLog": []
+      }
     },
     {
       "id": "T039",
       "title": "Add _meta.warnings optional array",
-      "status": "active",
+      "status": "done",
       "priority": "medium",
       "type": "task",
       "parentId": "T034",
       "createdAt": "2026-02-12T17:42:09Z",
-      "updatedAt": "2026-02-13T01:26:14Z",
+      "updatedAt": "2026-02-13T01:28:30Z",
       "size": "small",
       "position": 5,
       "positionVersion": 0,
@@ -1283,17 +1355,36 @@
       "acceptance": [
         "_meta.warnings array in schema for deprecation warnings",
         "TypeScript type updated"
-      ]
+      ],
+      "completedAt": "2026-02-13T01:28:30Z",
+      "notes": [
+        "[COMPLETED 2026-02-13T01:28:30Z] Added _meta.warnings optional array to schema with code/message required, deprecated/replacement/removeBy optional. Warning interface added to types.ts. 10/10 tests pass."
+      ],
+      "verification": {
+        "passed": false,
+        "round": 0,
+        "gates": {
+          "implemented": true,
+          "testsPassed": null,
+          "qaPassed": null,
+          "cleanupDone": null,
+          "securityPassed": null,
+          "documented": null
+        },
+        "lastAgent": "coder",
+        "lastUpdated": "2026-02-13T01:28:30Z",
+        "failureLog": []
+      }
     },
     {
       "id": "T040",
       "title": "Write v0.3.0-to-v0.4.0 migration guide",
-      "status": "pending",
+      "status": "done",
       "priority": "high",
       "type": "task",
       "parentId": "T034",
       "createdAt": "2026-02-12T17:42:10Z",
-      "updatedAt": "2026-02-12T17:42:10Z",
+      "updatedAt": "2026-02-13T01:33:44Z",
       "size": "small",
       "position": 6,
       "positionVersion": 0,
@@ -1303,17 +1394,21 @@
       ],
       "acceptance": [
         "Migration guide with before/after examples for all breaking changes"
+      ],
+      "completedAt": "2026-02-13T01:33:44Z",
+      "notes": [
+        "[COMPLETED 2026-02-13T01:33:44Z] Created migrations/v0.3.0-to-v0.4.0.md (508 lines) documenting all 6 breaking changes with before/after JSON examples, backward compatibility notes, new features, conformance tier implications, migration checklist."
       ]
     },
     {
       "id": "T041",
       "title": "Update conformance checks for envelope changes",
-      "status": "pending",
+      "status": "done",
       "priority": "high",
       "type": "task",
       "parentId": "T034",
       "createdAt": "2026-02-12T17:42:10Z",
-      "updatedAt": "2026-02-12T17:42:10Z",
+      "updatedAt": "2026-02-13T01:31:37Z",
       "size": "small",
       "position": 7,
       "positionVersion": 0,
@@ -1326,17 +1421,36 @@
         "Existing checks adapted for optional page/error",
         "Strict mode behavioral check added",
         "All tests pass"
-      ]
+      ],
+      "completedAt": "2026-02-13T01:31:37Z",
+      "notes": [
+        "[COMPLETED 2026-02-13T01:31:37Z] Updated envelope_invariants for loose equality on optional fields. Added strict_mode_behavior check for proper field omission. Updated fixtures to omit null optionals. 4 new tests. 23/23 pass."
+      ],
+      "verification": {
+        "passed": false,
+        "round": 0,
+        "gates": {
+          "implemented": true,
+          "testsPassed": null,
+          "qaPassed": null,
+          "cleanupDone": null,
+          "securityPassed": null,
+          "documented": null
+        },
+        "lastAgent": "coder",
+        "lastUpdated": "2026-02-13T01:31:37Z",
+        "failureLog": []
+      }
     },
     {
       "id": "T042",
       "title": "Fix CLI to emit conformant envelopes",
-      "status": "pending",
+      "status": "done",
       "priority": "medium",
       "type": "task",
       "parentId": "T034",
       "createdAt": "2026-02-12T17:42:11Z",
-      "updatedAt": "2026-02-12T17:42:11Z",
+      "updatedAt": "2026-02-13T01:31:38Z",
       "size": "small",
       "position": 8,
       "positionVersion": 0,
@@ -1346,7 +1460,26 @@
       ],
       "acceptance": [
         "CLI output validates against envelope schema or documented as diagnostic exempt"
-      ]
+      ],
+      "completedAt": "2026-02-13T01:31:38Z",
+      "notes": [
+        "[COMPLETED 2026-02-13T01:31:38Z] CLI is a diagnostic tool, documented as exempt from envelope conformance. Added JSDoc with @task T042 @epic T034 provenance. CLI validates envelopes but does not emit them."
+      ],
+      "verification": {
+        "passed": false,
+        "round": 0,
+        "gates": {
+          "implemented": true,
+          "testsPassed": null,
+          "qaPassed": null,
+          "cleanupDone": null,
+          "securityPassed": null,
+          "documented": null
+        },
+        "lastAgent": "coder",
+        "lastUpdated": "2026-02-13T01:31:38Z",
+        "failureLog": []
+      }
     },
     {
       "id": "T043",

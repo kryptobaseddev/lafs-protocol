@@ -4,9 +4,9 @@
   "project": "lafs-protocol",
   "_meta": {
     "schemaVersion": "2.4.0",
-    "totalEntries": 76,
+    "totalEntries": 87,
     "firstEntry": "2026-02-12T01:56:01Z",
-    "lastEntry": "2026-02-13T01:26:15Z",
+    "lastEntry": "2026-02-13T01:31:43Z",
     "entriesPruned": 0
   },
   "entries": [
@@ -3902,6 +3902,332 @@
         "acceptance": [
           "_meta.warnings array in schema for deprecation warnings",
           "TypeScript type updated"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "details": {
+        "operation": "update"
+      }
+    },
+    {
+      "id": "log_b13cdb8134b5",
+      "timestamp": "2026-02-13T01:28:26Z",
+      "sessionId": null,
+      "action": "status_changed",
+      "actor": "system",
+      "taskId": "T035",
+      "before": {
+        "status": "active",
+        "completedAt": null
+      },
+      "after": {
+        "status": "done",
+        "completedAt": "2026-02-13T01:28:25Z"
+      },
+      "details": {
+        "field": "status",
+        "operation": "complete"
+      }
+    },
+    {
+      "id": "log_680becb62f37",
+      "timestamp": "2026-02-13T01:28:27Z",
+      "sessionId": null,
+      "action": "status_changed",
+      "actor": "system",
+      "taskId": "T036",
+      "before": {
+        "status": "active",
+        "completedAt": null
+      },
+      "after": {
+        "status": "done",
+        "completedAt": "2026-02-13T01:28:27Z"
+      },
+      "details": {
+        "field": "status",
+        "operation": "complete"
+      }
+    },
+    {
+      "id": "log_c93124adb87e",
+      "timestamp": "2026-02-13T01:28:29Z",
+      "sessionId": null,
+      "action": "status_changed",
+      "actor": "system",
+      "taskId": "T037",
+      "before": {
+        "status": "active",
+        "completedAt": null
+      },
+      "after": {
+        "status": "done",
+        "completedAt": "2026-02-13T01:28:28Z"
+      },
+      "details": {
+        "field": "status",
+        "operation": "complete"
+      }
+    },
+    {
+      "id": "log_1468799894a0",
+      "timestamp": "2026-02-13T01:28:30Z",
+      "sessionId": null,
+      "action": "status_changed",
+      "actor": "system",
+      "taskId": "T039",
+      "before": {
+        "status": "active",
+        "completedAt": null
+      },
+      "after": {
+        "status": "done",
+        "completedAt": "2026-02-13T01:28:30Z"
+      },
+      "details": {
+        "field": "status",
+        "operation": "complete"
+      }
+    },
+    {
+      "id": "log_a3cc343a0358",
+      "timestamp": "2026-02-13T01:28:35Z",
+      "sessionId": null,
+      "action": "task_updated",
+      "actor": "system",
+      "taskId": "T038",
+      "before": {
+        "title": "Implement strict/lenient mode",
+        "status": "pending",
+        "priority": "high",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "implementation",
+          "schema"
+        ],
+        "files": null,
+        "acceptance": [
+          "strict:false allows additionalProperties",
+          "strict:true rejects",
+          "Conditional schema via if/then",
+          "Conformance check validates behavior"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "after": {
+        "title": "Implement strict/lenient mode",
+        "status": "active",
+        "priority": "high",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "implementation",
+          "schema"
+        ],
+        "files": null,
+        "acceptance": [
+          "strict:false allows additionalProperties",
+          "strict:true rejects",
+          "Conditional schema via if/then",
+          "Conformance check validates behavior"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "details": {
+        "operation": "update"
+      }
+    },
+    {
+      "id": "log_a33d5f444c50",
+      "timestamp": "2026-02-13T01:28:35Z",
+      "sessionId": null,
+      "action": "task_updated",
+      "actor": "system",
+      "taskId": "T041",
+      "before": {
+        "title": "Update conformance checks for envelope changes",
+        "status": "pending",
+        "priority": "high",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "conformance",
+          "testing"
+        ],
+        "files": null,
+        "acceptance": [
+          "Existing checks adapted for optional page/error",
+          "Strict mode behavioral check added",
+          "All tests pass"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "after": {
+        "title": "Update conformance checks for envelope changes",
+        "status": "active",
+        "priority": "high",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "conformance",
+          "testing"
+        ],
+        "files": null,
+        "acceptance": [
+          "Existing checks adapted for optional page/error",
+          "Strict mode behavioral check added",
+          "All tests pass"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "details": {
+        "operation": "update"
+      }
+    },
+    {
+      "id": "log_b8f15c60c6c8",
+      "timestamp": "2026-02-13T01:28:36Z",
+      "sessionId": null,
+      "action": "task_updated",
+      "actor": "system",
+      "taskId": "T042",
+      "before": {
+        "title": "Fix CLI to emit conformant envelopes",
+        "status": "pending",
+        "priority": "medium",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "implementation"
+        ],
+        "files": null,
+        "acceptance": [
+          "CLI output validates against envelope schema or documented as diagnostic exempt"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "after": {
+        "title": "Fix CLI to emit conformant envelopes",
+        "status": "active",
+        "priority": "medium",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "implementation"
+        ],
+        "files": null,
+        "acceptance": [
+          "CLI output validates against envelope schema or documented as diagnostic exempt"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "details": {
+        "operation": "update"
+      }
+    },
+    {
+      "id": "log_485bd67cb994",
+      "timestamp": "2026-02-13T01:31:35Z",
+      "sessionId": null,
+      "action": "status_changed",
+      "actor": "system",
+      "taskId": "T038",
+      "before": {
+        "status": "active",
+        "completedAt": null
+      },
+      "after": {
+        "status": "done",
+        "completedAt": "2026-02-13T01:31:35Z"
+      },
+      "details": {
+        "field": "status",
+        "operation": "complete"
+      }
+    },
+    {
+      "id": "log_47be137761df",
+      "timestamp": "2026-02-13T01:31:37Z",
+      "sessionId": null,
+      "action": "status_changed",
+      "actor": "system",
+      "taskId": "T041",
+      "before": {
+        "status": "active",
+        "completedAt": null
+      },
+      "after": {
+        "status": "done",
+        "completedAt": "2026-02-13T01:31:37Z"
+      },
+      "details": {
+        "field": "status",
+        "operation": "complete"
+      }
+    },
+    {
+      "id": "log_504417fd44ae",
+      "timestamp": "2026-02-13T01:31:38Z",
+      "sessionId": null,
+      "action": "status_changed",
+      "actor": "system",
+      "taskId": "T042",
+      "before": {
+        "status": "active",
+        "completedAt": null
+      },
+      "after": {
+        "status": "done",
+        "completedAt": "2026-02-13T01:31:38Z"
+      },
+      "details": {
+        "field": "status",
+        "operation": "complete"
+      }
+    },
+    {
+      "id": "log_86716a5e3509",
+      "timestamp": "2026-02-13T01:31:43Z",
+      "sessionId": null,
+      "action": "task_updated",
+      "actor": "system",
+      "taskId": "T040",
+      "before": {
+        "title": "Write v0.3.0-to-v0.4.0 migration guide",
+        "status": "pending",
+        "priority": "high",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "documentation"
+        ],
+        "files": null,
+        "acceptance": [
+          "Migration guide with before/after examples for all breaking changes"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "after": {
+        "title": "Write v0.3.0-to-v0.4.0 migration guide",
+        "status": "active",
+        "priority": "high",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "documentation"
+        ],
+        "files": null,
+        "acceptance": [
+          "Migration guide with before/after examples for all breaking changes"
         ],
         "depends": null,
         "blockedBy": null
