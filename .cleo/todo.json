@@ -47,14 +47,14 @@
       }
     }
   },
-  "lastUpdated": "2026-02-13T01:16:17Z",
+  "lastUpdated": "2026-02-13T01:22:37Z",
   "_meta": {
     "schemaVersion": "2.10.0",
-    "checksum": "a5f966b2890e865f",
+    "checksum": "410a52fa8c172fd4",
     "configVersion": "2.10.0",
     "lastSessionId": null,
     "activeSession": null,
-    "generation": 41,
+    "generation": 64,
     "lastModified": "2026-02-12T01:59:14Z",
     "multiSessionEnabled": true,
     "activeSessionCount": 1
@@ -459,12 +459,12 @@
     {
       "id": "T017",
       "title": "Track AGENTS.md and GEMINI.md in git",
-      "status": "pending",
+      "status": "done",
       "priority": "low",
       "type": "task",
       "parentId": "T016",
       "createdAt": "2026-02-12T17:41:19Z",
-      "updatedAt": "2026-02-12T17:41:19Z",
+      "updatedAt": "2026-02-13T01:19:48Z",
       "size": "small",
       "position": 1,
       "positionVersion": 0,
@@ -475,17 +475,36 @@
       "acceptance": [
         "Files are git-tracked",
         "Decision documented in commit message"
-      ]
+      ],
+      "completedAt": "2026-02-13T01:19:48Z",
+      "notes": [
+        "[COMPLETED 2026-02-13T01:19:48Z] AGENTS.md and GEMINI.md staged for git tracking. Neither was in .gitignore — they were simply untracked. Both now in git index, verified with git ls-files."
+      ],
+      "verification": {
+        "passed": false,
+        "round": 0,
+        "gates": {
+          "implemented": true,
+          "testsPassed": null,
+          "qaPassed": null,
+          "cleanupDone": null,
+          "securityPassed": null,
+          "documented": null
+        },
+        "lastAgent": "coder",
+        "lastUpdated": "2026-02-13T01:19:49Z",
+        "failureLog": []
+      }
     },
     {
       "id": "T018",
       "title": "Add valid error envelope fixture",
-      "status": "pending",
+      "status": "done",
       "priority": "high",
       "type": "task",
       "parentId": "T016",
       "createdAt": "2026-02-12T17:41:20Z",
-      "updatedAt": "2026-02-12T17:41:20Z",
+      "updatedAt": "2026-02-13T01:19:50Z",
       "size": "small",
       "position": 2,
       "positionVersion": 0,
@@ -498,17 +517,36 @@
         "fixtures/valid-error-envelope.json exists",
         "Validates against envelope schema",
         "Uses registered error code"
-      ]
+      ],
+      "completedAt": "2026-02-13T01:19:50Z",
+      "notes": [
+        "[COMPLETED 2026-02-13T01:19:50Z] Created fixtures/valid-error-envelope.json using registered code E_VALIDATION_SCHEMA. All 5 conformance checks pass: schema valid, invariants, error code registered, MVI present, strict present."
+      ],
+      "verification": {
+        "passed": false,
+        "round": 0,
+        "gates": {
+          "implemented": true,
+          "testsPassed": null,
+          "qaPassed": null,
+          "cleanupDone": null,
+          "securityPassed": null,
+          "documented": null
+        },
+        "lastAgent": "coder",
+        "lastUpdated": "2026-02-13T01:19:51Z",
+        "failureLog": []
+      }
     },
     {
       "id": "T019",
       "title": "Add invalid unregistered error fixture",
-      "status": "pending",
+      "status": "done",
       "priority": "high",
       "type": "task",
       "parentId": "T016",
       "createdAt": "2026-02-12T17:41:20Z",
-      "updatedAt": "2026-02-12T17:41:20Z",
+      "updatedAt": "2026-02-13T01:19:52Z",
       "size": "small",
       "position": 3,
       "positionVersion": 0,
@@ -520,17 +558,36 @@
       "acceptance": [
         "fixtures/invalid-unregistered-error.json exists",
         "Conformance runner rejects it"
-      ]
+      ],
+      "completedAt": "2026-02-13T01:19:52Z",
+      "notes": [
+        "[COMPLETED 2026-02-13T01:19:52Z] Created fixtures/invalid-unregistered-error.json using fake code E_FAKE_UNREGISTERED. Conformance runner correctly rejects with error_code_registered=fail. 4/5 checks pass, 1 correctly fails."
+      ],
+      "verification": {
+        "passed": false,
+        "round": 0,
+        "gates": {
+          "implemented": true,
+          "testsPassed": null,
+          "qaPassed": null,
+          "cleanupDone": null,
+          "securityPassed": null,
+          "documented": null
+        },
+        "lastAgent": "coder",
+        "lastUpdated": "2026-02-13T01:19:53Z",
+        "failureLog": []
+      }
     },
     {
       "id": "T020",
       "title": "Add invalid error-with-result fixture",
-      "status": "pending",
+      "status": "done",
       "priority": "high",
       "type": "task",
       "parentId": "T016",
       "createdAt": "2026-02-12T17:41:21Z",
-      "updatedAt": "2026-02-12T17:41:21Z",
+      "updatedAt": "2026-02-13T01:19:54Z",
       "size": "small",
       "position": 4,
       "positionVersion": 0,
@@ -543,17 +600,36 @@
         "fixtures/invalid-error-with-result.json exists",
         "success=false but result non-null",
         "Schema rejects"
-      ]
+      ],
+      "completedAt": "2026-02-13T01:19:54Z",
+      "notes": [
+        "[COMPLETED 2026-02-13T01:19:54Z] Created fixtures/invalid-error-with-result.json with success=false and non-null result. Schema correctly rejects — violates allOf conditional requiring result=null when success=false."
+      ],
+      "verification": {
+        "passed": false,
+        "round": 0,
+        "gates": {
+          "implemented": true,
+          "testsPassed": null,
+          "qaPassed": null,
+          "cleanupDone": null,
+          "securityPassed": null,
+          "documented": null
+        },
+        "lastAgent": "coder",
+        "lastUpdated": "2026-02-13T01:19:54Z",
+        "failureLog": []
+      }
     },
     {
       "id": "T021",
       "title": "Add error envelope test cases",
-      "status": "pending",
+      "status": "done",
       "priority": "high",
       "type": "task",
       "parentId": "T016",
       "createdAt": "2026-02-12T17:41:21Z",
-      "updatedAt": "2026-02-12T17:41:21Z",
+      "updatedAt": "2026-02-13T01:22:37Z",
       "size": "small",
       "position": 5,
       "positionVersion": 0,
@@ -566,17 +642,21 @@
         "isRegisteredErrorCode tested against real error",
         "Unregistered code rejected",
         "All tests pass"
+      ],
+      "completedAt": "2026-02-13T01:22:37Z",
+      "notes": [
+        "[COMPLETED 2026-02-13T01:22:37Z] Added 5 new test cases to tests/envelope.test.ts: isRegisteredErrorCode true/false, valid error envelope fixture, unregistered error detection, error-with-result invariant violation. All 10 tests pass, tsc clean."
       ]
     },
     {
       "id": "T022",
       "title": "Fix conformance runner flag logic error",
-      "status": "pending",
+      "status": "done",
       "priority": "critical",
       "type": "task",
       "parentId": "T016",
       "createdAt": "2026-02-12T17:41:21Z",
-      "updatedAt": "2026-02-12T17:41:21Z",
+      "updatedAt": "2026-02-13T01:19:57Z",
       "size": "small",
       "position": 6,
       "positionVersion": 0,
@@ -589,17 +669,36 @@
         "json_default_when_unspecified split into protocol-default and config-override checks",
         "Catch block fixed",
         "Tests pass"
-      ]
+      ],
+      "completedAt": "2026-02-13T01:19:57Z",
+      "notes": [
+        "[COMPLETED 2026-02-13T01:19:57Z] Split json_default_when_unspecified into json_protocol_default (source=default -> json) and config_override_respected (project/user -> matches config). Fixed catch block: removed bogus true assertion, changed ok from hardcoded true to checks.every(). All 5 tests pass, tsc clean."
+      ],
+      "verification": {
+        "passed": false,
+        "round": 0,
+        "gates": {
+          "implemented": true,
+          "testsPassed": null,
+          "qaPassed": null,
+          "cleanupDone": null,
+          "securityPassed": null,
+          "documented": null
+        },
+        "lastAgent": "coder",
+        "lastUpdated": "2026-02-13T01:19:57Z",
+        "failureLog": []
+      }
     },
     {
       "id": "T023",
       "title": "Standardize JSON Schema draft across all files",
-      "status": "pending",
+      "status": "done",
       "priority": "low",
       "type": "task",
       "parentId": "T016",
       "createdAt": "2026-02-12T17:41:22Z",
-      "updatedAt": "2026-02-12T17:41:22Z",
+      "updatedAt": "2026-02-13T01:19:59Z",
       "size": "small",
       "position": 7,
       "positionVersion": 0,
@@ -610,17 +709,36 @@
       ],
       "acceptance": [
         "error-registry.json uses Draft-07 matching envelope.schema.json"
-      ]
+      ],
+      "completedAt": "2026-02-13T01:19:59Z",
+      "notes": [
+        "[COMPLETED 2026-02-13T01:19:59Z] Standardized error-registry.json from Draft 2020-12 to Draft-07 matching envelope.schema.json. Both files now use http://json-schema.org/draft-07/schema#."
+      ],
+      "verification": {
+        "passed": false,
+        "round": 0,
+        "gates": {
+          "implemented": true,
+          "testsPassed": null,
+          "qaPassed": null,
+          "cleanupDone": null,
+          "securityPassed": null,
+          "documented": null
+        },
+        "lastAgent": "coder",
+        "lastUpdated": "2026-02-13T01:19:59Z",
+        "failureLog": []
+      }
     },
     {
       "id": "T024",
       "title": "Document error code naming convention",
-      "status": "pending",
+      "status": "active",
       "priority": "low",
       "type": "task",
       "parentId": "T016",
       "createdAt": "2026-02-12T17:41:22Z",
-      "updatedAt": "2026-02-12T17:41:22Z",
+      "updatedAt": "2026-02-13T01:20:12Z",
       "size": "small",
       "position": 8,
       "positionVersion": 0,
@@ -636,12 +754,12 @@
     {
       "id": "T025",
       "title": "Add Non-Goals section to spec",
-      "status": "pending",
+      "status": "active",
       "priority": "high",
       "type": "task",
       "parentId": "T016",
       "createdAt": "2026-02-12T17:41:23Z",
-      "updatedAt": "2026-02-12T17:41:23Z",
+      "updatedAt": "2026-02-13T01:20:13Z",
       "size": "small",
       "position": 9,
       "positionVersion": 0,
@@ -657,12 +775,12 @@
     {
       "id": "T026",
       "title": "Add Security Considerations section to spec",
-      "status": "pending",
+      "status": "active",
       "priority": "high",
       "type": "task",
       "parentId": "T016",
       "createdAt": "2026-02-12T17:41:23Z",
-      "updatedAt": "2026-02-12T17:41:23Z",
+      "updatedAt": "2026-02-13T01:20:13Z",
       "size": "small",
       "position": 10,
       "positionVersion": 0,

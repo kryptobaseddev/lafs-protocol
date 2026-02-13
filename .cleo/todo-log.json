@@ -4,9 +4,9 @@
   "project": "lafs-protocol",
   "_meta": {
     "schemaVersion": "2.4.0",
-    "totalEntries": 35,
+    "totalEntries": 52,
     "firstEntry": "2026-02-12T01:56:01Z",
-    "lastEntry": "2026-02-12T17:44:34Z",
+    "lastEntry": "2026-02-13T01:20:14Z",
     "entriesPruned": 0
   },
   "entries": [
@@ -2461,6 +2461,639 @@
         "depends": [
           "T072"
         ],
+        "blockedBy": null
+      },
+      "details": {
+        "operation": "update"
+      }
+    },
+    {
+      "id": "log_6d17f9e8d7b5",
+      "timestamp": "2026-02-13T01:16:17Z",
+      "sessionId": null,
+      "action": "task_updated",
+      "actor": "system",
+      "taskId": "T016",
+      "before": {
+        "title": "Phase 0: Protocol Cleanup & Governance Foundations",
+        "status": "pending",
+        "priority": "critical",
+        "description": "Quick wins, fixture additions, conformance fixes, governance decisions. Every commit production-ready. Target: v0.2.0",
+        "phase": "setup",
+        "labels": [
+          "cleanup",
+          "governance",
+          "v0.2.0"
+        ],
+        "files": null,
+        "acceptance": null,
+        "depends": null,
+        "blockedBy": null
+      },
+      "after": {
+        "title": "Phase 0: Protocol Cleanup & Governance Foundations",
+        "status": "active",
+        "priority": "critical",
+        "description": "Quick wins, fixture additions, conformance fixes, governance decisions. Every commit production-ready. Target: v0.2.0",
+        "phase": "setup",
+        "labels": [
+          "cleanup",
+          "governance",
+          "v0.2.0"
+        ],
+        "files": null,
+        "acceptance": null,
+        "depends": null,
+        "blockedBy": null
+      },
+      "details": {
+        "operation": "update"
+      }
+    },
+    {
+      "id": "log_0a88cbb9ed37",
+      "timestamp": "2026-02-13T01:17:19Z",
+      "sessionId": null,
+      "action": "task_updated",
+      "actor": "system",
+      "taskId": "T017",
+      "before": {
+        "title": "Track AGENTS.md and GEMINI.md in git",
+        "status": "pending",
+        "priority": "low",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "governance"
+        ],
+        "files": null,
+        "acceptance": [
+          "Files are git-tracked",
+          "Decision documented in commit message"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "after": {
+        "title": "Track AGENTS.md and GEMINI.md in git",
+        "status": "active",
+        "priority": "low",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "governance"
+        ],
+        "files": null,
+        "acceptance": [
+          "Files are git-tracked",
+          "Decision documented in commit message"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "details": {
+        "operation": "update"
+      }
+    },
+    {
+      "id": "log_fdbcacc7379f",
+      "timestamp": "2026-02-13T01:17:19Z",
+      "sessionId": null,
+      "action": "task_updated",
+      "actor": "system",
+      "taskId": "T018",
+      "before": {
+        "title": "Add valid error envelope fixture",
+        "status": "pending",
+        "priority": "high",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "fixtures",
+          "testing"
+        ],
+        "files": null,
+        "acceptance": [
+          "fixtures/valid-error-envelope.json exists",
+          "Validates against envelope schema",
+          "Uses registered error code"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "after": {
+        "title": "Add valid error envelope fixture",
+        "status": "active",
+        "priority": "high",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "fixtures",
+          "testing"
+        ],
+        "files": null,
+        "acceptance": [
+          "fixtures/valid-error-envelope.json exists",
+          "Validates against envelope schema",
+          "Uses registered error code"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "details": {
+        "operation": "update"
+      }
+    },
+    {
+      "id": "log_d5f6a5090017",
+      "timestamp": "2026-02-13T01:17:20Z",
+      "sessionId": null,
+      "action": "task_updated",
+      "actor": "system",
+      "taskId": "T019",
+      "before": {
+        "title": "Add invalid unregistered error fixture",
+        "status": "pending",
+        "priority": "high",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "fixtures",
+          "testing"
+        ],
+        "files": null,
+        "acceptance": [
+          "fixtures/invalid-unregistered-error.json exists",
+          "Conformance runner rejects it"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "after": {
+        "title": "Add invalid unregistered error fixture",
+        "status": "active",
+        "priority": "high",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "fixtures",
+          "testing"
+        ],
+        "files": null,
+        "acceptance": [
+          "fixtures/invalid-unregistered-error.json exists",
+          "Conformance runner rejects it"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "details": {
+        "operation": "update"
+      }
+    },
+    {
+      "id": "log_689efa9d549e",
+      "timestamp": "2026-02-13T01:17:20Z",
+      "sessionId": null,
+      "action": "task_updated",
+      "actor": "system",
+      "taskId": "T020",
+      "before": {
+        "title": "Add invalid error-with-result fixture",
+        "status": "pending",
+        "priority": "high",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "fixtures",
+          "testing"
+        ],
+        "files": null,
+        "acceptance": [
+          "fixtures/invalid-error-with-result.json exists",
+          "success=false but result non-null",
+          "Schema rejects"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "after": {
+        "title": "Add invalid error-with-result fixture",
+        "status": "active",
+        "priority": "high",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "fixtures",
+          "testing"
+        ],
+        "files": null,
+        "acceptance": [
+          "fixtures/invalid-error-with-result.json exists",
+          "success=false but result non-null",
+          "Schema rejects"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "details": {
+        "operation": "update"
+      }
+    },
+    {
+      "id": "log_615cd07780e9",
+      "timestamp": "2026-02-13T01:17:21Z",
+      "sessionId": null,
+      "action": "task_updated",
+      "actor": "system",
+      "taskId": "T022",
+      "before": {
+        "title": "Fix conformance runner flag logic error",
+        "status": "pending",
+        "priority": "critical",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "bugfix",
+          "conformance"
+        ],
+        "files": null,
+        "acceptance": [
+          "json_default_when_unspecified split into protocol-default and config-override checks",
+          "Catch block fixed",
+          "Tests pass"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "after": {
+        "title": "Fix conformance runner flag logic error",
+        "status": "active",
+        "priority": "critical",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "bugfix",
+          "conformance"
+        ],
+        "files": null,
+        "acceptance": [
+          "json_default_when_unspecified split into protocol-default and config-override checks",
+          "Catch block fixed",
+          "Tests pass"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "details": {
+        "operation": "update"
+      }
+    },
+    {
+      "id": "log_21bdb4d962ac",
+      "timestamp": "2026-02-13T01:17:22Z",
+      "sessionId": null,
+      "action": "task_updated",
+      "actor": "system",
+      "taskId": "T023",
+      "before": {
+        "title": "Standardize JSON Schema draft across all files",
+        "status": "pending",
+        "priority": "low",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "cleanup",
+          "schema"
+        ],
+        "files": null,
+        "acceptance": [
+          "error-registry.json uses Draft-07 matching envelope.schema.json"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "after": {
+        "title": "Standardize JSON Schema draft across all files",
+        "status": "active",
+        "priority": "low",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "cleanup",
+          "schema"
+        ],
+        "files": null,
+        "acceptance": [
+          "error-registry.json uses Draft-07 matching envelope.schema.json"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "details": {
+        "operation": "update"
+      }
+    },
+    {
+      "id": "log_27664ac8202f",
+      "timestamp": "2026-02-13T01:19:49Z",
+      "sessionId": null,
+      "action": "status_changed",
+      "actor": "system",
+      "taskId": "T017",
+      "before": {
+        "status": "active",
+        "completedAt": null
+      },
+      "after": {
+        "status": "done",
+        "completedAt": "2026-02-13T01:19:48Z"
+      },
+      "details": {
+        "field": "status",
+        "operation": "complete"
+      }
+    },
+    {
+      "id": "log_3e24fbfa9fb1",
+      "timestamp": "2026-02-13T01:19:51Z",
+      "sessionId": null,
+      "action": "status_changed",
+      "actor": "system",
+      "taskId": "T018",
+      "before": {
+        "status": "active",
+        "completedAt": null
+      },
+      "after": {
+        "status": "done",
+        "completedAt": "2026-02-13T01:19:50Z"
+      },
+      "details": {
+        "field": "status",
+        "operation": "complete"
+      }
+    },
+    {
+      "id": "log_6bad5ad69b2b",
+      "timestamp": "2026-02-13T01:19:53Z",
+      "sessionId": null,
+      "action": "status_changed",
+      "actor": "system",
+      "taskId": "T019",
+      "before": {
+        "status": "active",
+        "completedAt": null
+      },
+      "after": {
+        "status": "done",
+        "completedAt": "2026-02-13T01:19:52Z"
+      },
+      "details": {
+        "field": "status",
+        "operation": "complete"
+      }
+    },
+    {
+      "id": "log_2ee006079d00",
+      "timestamp": "2026-02-13T01:19:55Z",
+      "sessionId": null,
+      "action": "status_changed",
+      "actor": "system",
+      "taskId": "T020",
+      "before": {
+        "status": "active",
+        "completedAt": null
+      },
+      "after": {
+        "status": "done",
+        "completedAt": "2026-02-13T01:19:54Z"
+      },
+      "details": {
+        "field": "status",
+        "operation": "complete"
+      }
+    },
+    {
+      "id": "log_3682fb6f2dec",
+      "timestamp": "2026-02-13T01:19:58Z",
+      "sessionId": null,
+      "action": "status_changed",
+      "actor": "system",
+      "taskId": "T022",
+      "before": {
+        "status": "active",
+        "completedAt": null
+      },
+      "after": {
+        "status": "done",
+        "completedAt": "2026-02-13T01:19:57Z"
+      },
+      "details": {
+        "field": "status",
+        "operation": "complete"
+      }
+    },
+    {
+      "id": "log_7ff2b6ba8e29",
+      "timestamp": "2026-02-13T01:19:59Z",
+      "sessionId": null,
+      "action": "status_changed",
+      "actor": "system",
+      "taskId": "T023",
+      "before": {
+        "status": "active",
+        "completedAt": null
+      },
+      "after": {
+        "status": "done",
+        "completedAt": "2026-02-13T01:19:59Z"
+      },
+      "details": {
+        "field": "status",
+        "operation": "complete"
+      }
+    },
+    {
+      "id": "log_9b18fefb5df2",
+      "timestamp": "2026-02-13T01:20:12Z",
+      "sessionId": null,
+      "action": "task_updated",
+      "actor": "system",
+      "taskId": "T021",
+      "before": {
+        "title": "Add error envelope test cases",
+        "status": "pending",
+        "priority": "high",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "conformance",
+          "testing"
+        ],
+        "files": null,
+        "acceptance": [
+          "isRegisteredErrorCode tested against real error",
+          "Unregistered code rejected",
+          "All tests pass"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "after": {
+        "title": "Add error envelope test cases",
+        "status": "active",
+        "priority": "high",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "conformance",
+          "testing"
+        ],
+        "files": null,
+        "acceptance": [
+          "isRegisteredErrorCode tested against real error",
+          "Unregistered code rejected",
+          "All tests pass"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "details": {
+        "operation": "update"
+      }
+    },
+    {
+      "id": "log_75d1ddb37ab2",
+      "timestamp": "2026-02-13T01:20:12Z",
+      "sessionId": null,
+      "action": "task_updated",
+      "actor": "system",
+      "taskId": "T024",
+      "before": {
+        "title": "Document error code naming convention",
+        "status": "pending",
+        "priority": "low",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "documentation",
+          "spec"
+        ],
+        "files": null,
+        "acceptance": [
+          "lafs.md Section 6 documents naming convention or regex relaxed"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "after": {
+        "title": "Document error code naming convention",
+        "status": "active",
+        "priority": "low",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "documentation",
+          "spec"
+        ],
+        "files": null,
+        "acceptance": [
+          "lafs.md Section 6 documents naming convention or regex relaxed"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "details": {
+        "operation": "update"
+      }
+    },
+    {
+      "id": "log_5efd3489c441",
+      "timestamp": "2026-02-13T01:20:13Z",
+      "sessionId": null,
+      "action": "task_updated",
+      "actor": "system",
+      "taskId": "T025",
+      "before": {
+        "title": "Add Non-Goals section to spec",
+        "status": "pending",
+        "priority": "high",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "documentation",
+          "spec"
+        ],
+        "files": null,
+        "acceptance": [
+          "lafs.md has Non-Goals section listing streaming async auth multi-modality with rationale"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "after": {
+        "title": "Add Non-Goals section to spec",
+        "status": "active",
+        "priority": "high",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "documentation",
+          "spec"
+        ],
+        "files": null,
+        "acceptance": [
+          "lafs.md has Non-Goals section listing streaming async auth multi-modality with rationale"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "details": {
+        "operation": "update"
+      }
+    },
+    {
+      "id": "log_017a4e512565",
+      "timestamp": "2026-02-13T01:20:14Z",
+      "sessionId": null,
+      "action": "task_updated",
+      "actor": "system",
+      "taskId": "T026",
+      "before": {
+        "title": "Add Security Considerations section to spec",
+        "status": "pending",
+        "priority": "high",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "documentation",
+          "security",
+          "spec"
+        ],
+        "files": null,
+        "acceptance": [
+          "lafs.md has Security Considerations covering injection tampering information disclosure replay"
+        ],
+        "depends": null,
+        "blockedBy": null
+      },
+      "after": {
+        "title": "Add Security Considerations section to spec",
+        "status": "active",
+        "priority": "high",
+        "description": null,
+        "phase": "setup",
+        "labels": [
+          "documentation",
+          "security",
+          "spec"
+        ],
+        "files": null,
+        "acceptance": [
+          "lafs.md has Security Considerations covering injection tampering information disclosure replay"
+        ],
+        "depends": null,
         "blockedBy": null
       },
       "details": {
