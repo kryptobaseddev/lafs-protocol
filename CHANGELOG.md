@@ -44,6 +44,8 @@ This release adds production operations features including health checks, gracef
 - **Operational Runbook** (`docs/runbook.md`) - Day-to-day operations
 - **Troubleshooting Guide** (`docs/troubleshooting.md`) - Common issues and solutions
 - **Architecture Document** (`docs/ARCHITECTURE.md`) - System design
+- **Programmatic Construction Guide** (`docs/programmatic-construction.md`) - Code examples with type safety
+- **Error Handling Implementation Guide** (`docs/error-handling-implementation.md`) - E_FORMAT_CONFLICT and error patterns
 - **Roadmap** (`ROADMAP.md`) - Future improvements
 
 ### Changed
