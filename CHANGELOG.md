@@ -7,6 +7,53 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-02-16
+
+### Operations & Reliability Release
+
+This release adds production operations features including health checks, graceful shutdown, circuit breakers, and comprehensive documentation.
+
+### Added
+
+#### Health Check Module
+- **Health check endpoints** (`src/health/index.ts`)
+- **Liveness probe** (`/health/live`)
+- **Readiness probe** (`/health/ready`)
+- **Custom health checks** for databases and external services
+- **Kubernetes-compatible** health endpoints
+- **Prometheus metrics** support
+
+#### Graceful Shutdown
+- **Graceful shutdown handler** (`src/shutdown/index.ts`)
+- **SIGTERM/SIGINT signal handling**
+- **Connection draining** - waits for active requests
+- **Custom shutdown hooks** for cleanup
+- **Force shutdown** option for emergencies
+- **Shutdown state tracking**
+
+#### Circuit Breaker Pattern
+- **Circuit breaker implementation** (`src/circuit-breaker/index.ts`)
+- **Three states**: CLOSED, OPEN, HALF_OPEN
+- **Configurable thresholds** for failure detection
+- **Auto-reset** after timeout
+- **Circuit breaker registry** for multiple services
+- **Express middleware** for easy integration
+
+#### Documentation
+- **Deployment Guide** (`docs/deployment.md`) - Complete deployment instructions
+- **Operational Runbook** (`docs/runbook.md`) - Day-to-day operations
+- **Troubleshooting Guide** (`docs/troubleshooting.md`) - Common issues and solutions
+- **Architecture Document** (`docs/ARCHITECTURE.md`) - System design
+- **Roadmap** (`ROADMAP.md`) - Future improvements
+
+### Changed
+
+- **Removed competing "unified toolkit"** - Now uses official `@a2a-js/sdk`
+- **Refactored A2A integration** - Proper bridge pattern using official SDK
+- **Updated exports** - Added health, shutdown, circuit-breaker, a2a modules
+
+---
+
 ## [1.0.0] - 2026-02-16
 
 ### Major Release - Agent-First Implementation

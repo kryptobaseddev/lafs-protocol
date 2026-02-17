@@ -8,6 +8,10 @@ export * from "./budgetEnforcement.js";
 export * from "./mcpAdapter.js";
 export * from "./discovery.js";
 
-// LAFS Envelope - Core functionality
-// A2A integration via @a2a-js/sdk (external dependency)
-// Token budgets, envelope validation, A2P/P2A patterns
+// Operations & Reliability
+export * from "./health/index.js";
+export * from "./shutdown/index.js";
+export * from "./circuit-breaker/index.js";
+
+// A2A Integration
+export * from "./a2a/index.js";
