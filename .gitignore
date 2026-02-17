@@ -5,3 +5,16 @@ coverage/
 .cleo/.cache/
 .cleo/*.lock
 .cleo/**/*.lock
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+.pytest_cache/
+.mypy_cache/

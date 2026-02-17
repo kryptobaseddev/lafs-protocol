@@ -1,15 +1,42 @@
 # LAFS Positioning: Response Contract for the AI Protocol Stack
 
+**What you'll learn:** Where LAFS fits in the AI protocol stack, how it complements MCP and A2A, and why agents need a standard response contract.
+
 ## The Problem
 
 The AI protocol ecosystem has converged on standards for how to *call* tools and how agents *communicate* — but no standard exists for what the *response* looks like.
 
-- **MCP** (Model Context Protocol) defines how LLMs discover and invoke tools, access resources, and receive context. It standardizes the *calling convention*.
-- **A2A** (Agent-to-Agent) defines how autonomous agents find each other, negotiate capabilities, and exchange messages. It standardizes *agent communication*.
+- **MCP** (Model Context Protocol) defines how LLMs discover and invoke tools. It standardizes the *calling convention*.
+- **A2A** (Agent-to-Agent) defines how autonomous agents find each other and exchange messages. It standardizes *agent communication*.
 
-Neither defines the shape of the structured data that comes back. Tool responses are freeform JSON. Agent artifacts are opaque blobs. Every integration re-invents error formats, pagination, context threading, and token-efficient defaults from scratch.
+Neither defines the shape of the structured data that comes back. Tool responses are freeform JSON. Agent artifacts are opaque blobs. Every integration re-invents:
 
-The result: brittle multi-step workflows, inconsistent error handling, lost context between agent turns, and token-heavy payloads that increase cost and reduce throughput.
+- Error formats and retry logic
+- Pagination metadata
+- Context threading between turns
+- Token-efficient defaults
+
+**The result for agents:**
+
+```typescript
+// Your agent needs custom code for each integration
+async function handleServiceA(response) {
+  if (response.error) throw new Error(response.error.message);
+  return response.data;
+}
+
+async function handleServiceB(response) {
+  if (!response.success) throw new Error(response.message);
+  return response.result;
+}
+
+async function handleServiceC(response) {
+  // MCP tool - plain object
+  return response;
+}
+```
+
+This creates brittle multi-step workflows, inconsistent error handling, lost context between agent turns, and token-heavy payloads.
 
 ## Where LAFS Fits
 
@@ -68,13 +95,42 @@ An MCP tool server returns a result when a tool is invoked. Today, that result i
 ```
 LLM ──► MCP Server ──► Tool ──► LAFS Envelope ──► MCP Server ──► LLM
 
-         MCP defines         LAFS defines
-         how to call         what comes back
+          MCP defines         LAFS defines
+          how to call         what comes back
 ```
 
-**Without LAFS**: The LLM must infer error handling, pagination, and context from prompt conventions per tool. Every tool has a different error shape. Multi-step tool chains lose context.
+**Without LAFS:** Your agent parses different formats per tool:
 
-**With LAFS**: The LLM knows every tool response has `success`, `error` (with registered codes and retry hints), `page` (with deterministic pagination), and `_meta.contextVersion` for continuity. One parsing contract, every tool.
+```typescript
+// Tool A returns this
+{ "users": [{"id": 1, "name": "Alice"}], "total": 1 }
+
+// Tool B returns this
+{ "result": {"items": [...]}, "error": null }
+
+// Tool C returns this on error
+{ "error": "Something went wrong" }
+
+// Your agent needs three different parsers
+```
+
+**With LAFS:** Every tool returns the same envelope:
+
+```typescript
+// All tools return LAFS envelopes
+{
+  "_meta": { "operation": "...", "requestId": "..." },
+  "success": true,
+  "result": { /* tool-specific data */ },
+  "error": null,
+  "page": { /* pagination if applicable */ }
+}
+
+// One parser handles all tools
+const result = parseLafsResponse(toolResponse);
+```
+
+The LLM knows every tool response has `success`, `error` (with registered codes and retry hints), `page` (with deterministic pagination), and `_meta.contextVersion` for continuity. One parsing contract, every tool.
 
 ### LAFS + A2A: Structured Agent Artifacts
 
@@ -87,9 +143,40 @@ Agent A ──► A2A Protocol ──► Agent B ──► LAFS Envelope ──�
             how agents talk          artifact response shape
 ```
 
-**Without LAFS**: Agent A must understand Agent B's custom response format. Error handling is ad-hoc. Pagination of large results varies per agent. Context threading is bespoke.
+**Without LAFS:** Agent A must understand Agent B's custom format:
 
-**With LAFS**: Every agent artifact is a LAFS envelope. Agent A knows how to parse errors, paginate through results, and track context state regardless of which agent produced the response.
+```typescript
+// Agent B returns findings like this
+{ findings: [...], confidence: 0.94, metadata: {...} }
+
+// Agent C returns findings like this
+{ results: [...], score: 0.94, meta: {...} }
+
+// Agent A needs custom parsing for each agent
+```
+
+**With LAFS:** Every agent artifact is a LAFS envelope:
+
+```typescript
+// All agents return LAFS envelopes
+{
+  "_meta": { "operation": "...", "contextVersion": 3 },
+  "success": true,
+  "result": { 
+    // Agent-specific data here
+    findings: [...], 
+    confidence: 0.94 
+  }
+}
+
+// Agent A parses all responses the same way
+const result = parseLafsResponse(agentResponse);
+if (result._meta.contextVersion) {
+  await updateContext(result._meta.contextVersion);
+}
+```
+
+Agent A knows how to parse errors, paginate through results, and track context state regardless of which agent produced the response.
 
 ## Adoption Spectrum
 

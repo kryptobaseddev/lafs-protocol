@@ -1,1 +1,45 @@
-{"$schema":"./schemas/project-info.schema.json","schemaVersion":"1.0.0","projectHash":"7e128ae45326","name":"lafs-protocol","registeredAt":"2026-02-12T01:56:01Z","lastUpdated":"2026-02-12T01:56:01Z","cleoVersion":"0.93.0","schemas":{"todo":{"version":"2.10.0","lastMigrated":null},"config":{"version":"2.10.0","lastMigrated":null},"archive":{"version":"2.4.0","lastMigrated":null},"log":{"version":"2.4.0","lastMigrated":null}},"injection":{},"health":{"status":"healthy","lastCheck":"2026-02-12T01:56:01Z","issues":[],"history":[]},"features":{"multiSession":true,"verification":false,"contextAlerts":true}}
+{
+  "$schema": "./schemas/project-info.schema.json",
+  "schemaVersion": "1.0.0",
+  "projectHash": "7e128ae45326",
+  "name": "lafs-protocol",
+  "registeredAt": "2026-02-12T01:56:01Z",
+  "lastUpdated": "2026-02-16T17:26:49Z",
+  "cleoVersion": "0.93.0",
+  "schemas": {
+    "todo": {
+      "version": "2.10.0",
+      "lastMigrated": null
+    },
+    "config": {
+      "version": "2.10.0",
+      "lastMigrated": null
+    },
+    "archive": {
+      "version": "2.4.0",
+      "lastMigrated": null
+    },
+    "log": {
+      "version": "2.4.0",
+      "lastMigrated": null
+    }
+  },
+  "injection": {},
+  "health": {
+    "status": "warning",
+    "lastCheck": "2026-02-16T17:26:49Z",
+    "issues": [
+      {
+        "severity": "warning",
+        "code": "GENERAL_ISSUE",
+        "message": "Features out of sync (run 'cleo upgrade' to fix)"
+      }
+    ],
+    "history": []
+  },
+  "features": {
+    "multiSession": true,
+    "verification": false,
+    "contextAlerts": true
+  }
+}

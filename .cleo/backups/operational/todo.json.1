@@ -47,14 +47,14 @@
       }
     }
   },
-  "lastUpdated": "2026-02-13T05:03:09Z",
+  "lastUpdated": "2026-02-17T01:52:11.383Z",
   "_meta": {
     "schemaVersion": "2.10.0",
-    "checksum": "fcc9fad7235a19d2",
+    "checksum": "beb5d9d9e8aafdc5",
     "configVersion": "2.10.0",
     "lastSessionId": null,
     "activeSession": null,
-    "generation": 143,
+    "generation": 145,
     "lastModified": "2026-02-12T01:59:14Z",
     "multiSessionEnabled": true,
     "activeSessionCount": 1
@@ -2016,12 +2016,12 @@
     {
       "id": "T058",
       "title": "Register MVI error codes",
-      "status": "pending",
+      "status": "done",
       "priority": "high",
       "type": "task",
       "parentId": "T053",
       "createdAt": "2026-02-12T17:43:02Z",
-      "updatedAt": "2026-02-12T17:43:02Z",
+      "updatedAt": "2026-02-13T05:15:47Z",
       "size": "small",
       "position": 5,
       "positionVersion": 0,
@@ -2032,7 +2032,26 @@
       ],
       "acceptance": [
         "E_MVI_BUDGET_EXCEEDED and E_DISCLOSURE_UNKNOWN_FIELD in error-registry.json with transport mappings"
-      ]
+      ],
+      "completedAt": "2026-02-13T05:15:47Z",
+      "notes": [
+        "[COMPLETED 2026-02-13T05:15:47Z] Both error codes already registered: E_DISCLOSURE_UNKNOWN_FIELD was in error-registry.json since initial creation, E_MVI_BUDGET_EXCEEDED was added in Phase 2B (T048). Both have full transport mappings (httpStatus, grpcStatus, cliExit). No additional work needed."
+      ],
+      "verification": {
+        "passed": false,
+        "round": 0,
+        "gates": {
+          "implemented": true,
+          "testsPassed": null,
+          "qaPassed": null,
+          "cleanupDone": null,
+          "securityPassed": null,
+          "documented": null
+        },
+        "lastAgent": "coder",
+        "lastUpdated": "2026-02-13T05:15:47Z",
+        "failureLog": []
+      }
     },
     {
       "id": "T059",
@@ -2232,12 +2251,12 @@
     {
       "id": "T068",
       "title": "Define token budget signaling spec",
-      "status": "pending",
+      "status": "done",
       "priority": "high",
       "type": "task",
       "parentId": "T067",
       "createdAt": "2026-02-12T17:43:36Z",
-      "updatedAt": "2026-02-12T17:43:36Z",
+      "updatedAt": "2026-02-17T01:52:05.667Z",
       "size": "medium",
       "position": 1,
       "positionVersion": 0,
@@ -2250,17 +2269,21 @@
         "_budget request parameters (maxTokens maxBytes maxItems) specified",
         "Server behavior defined",
         "E_MVI_BUDGET_EXCEEDED documented"
+      ],
+      "completedAt": "2026-02-17T01:52:05.667Z",
+      "notes": [
+        "2026-02-17 01:52:05 UTC: [DONE 2026-02-16] Token budget signaling fully implemented. Spec merged to lafs.md Section 9.5. TypeScript implementation in src/budgetEnforcement.ts, Python in python/lafs_protocol/budget.py. 113 TS tests + 55 Python tests pass."
       ]
     },
     {
       "id": "T069",
       "title": "Define context ledger projection modes",
-      "status": "pending",
+      "status": "done",
       "priority": "high",
       "type": "task",
       "parentId": "T067",
       "createdAt": "2026-02-12T17:43:36Z",
-      "updatedAt": "2026-02-12T17:43:36Z",
+      "updatedAt": "2026-02-17T01:52:07.416Z",
       "size": "medium",
       "position": 2,
       "positionVersion": 0,
@@ -2272,6 +2295,10 @@
       "acceptance": [
         "_contextScope full|delta|summary specified",
         "MVI/context contradiction explicitly resolved"
+      ],
+      "completedAt": "2026-02-17T01:52:07.416Z",
+      "notes": [
+        "2026-02-17 01:52:07 UTC: [DONE 2026-02-16] Context projection modes fully implemented. Spec merged to lafs.md Section 8.1. API design in /designs/context-query-v1.md. Discovery implementation in src/discovery.ts with 26 tests."
       ]
     },
     {
@@ -2345,12 +2372,12 @@
     {
       "id": "T073",
       "title": "Define lightweight discovery mechanism",
-      "status": "pending",
+      "status": "done",
       "priority": "high",
       "type": "task",
       "parentId": "T072",
       "createdAt": "2026-02-12T17:43:57Z",
-      "updatedAt": "2026-02-12T17:43:57Z",
+      "updatedAt": "2026-02-17T01:52:08.776Z",
       "size": "small",
       "position": 1,
       "positionVersion": 0,
@@ -2362,17 +2389,21 @@
       "acceptance": [
         "/.well-known/lafs.json endpoint schema defined",
         "specVersion and conformanceTier fields documented"
+      ],
+      "completedAt": "2026-02-17T01:52:08.776Z",
+      "notes": [
+        "2026-02-17 01:52:08 UTC: [DONE 2026-02-16] Agent discovery protocol fully implemented. Endpoint /.well-known/lafs.json working. Express middleware in src/discovery.ts. Schema in schemas/v1/discovery.schema.json. Example server in examples/discovery-server.ts."
       ]
     },
     {
       "id": "T074",
       "title": "Build Python validation library",
-      "status": "pending",
+      "status": "done",
       "priority": "high",
       "type": "task",
       "parentId": "T072",
       "createdAt": "2026-02-12T17:43:57Z",
-      "updatedAt": "2026-02-12T17:43:57Z",
+      "updatedAt": "2026-02-17T01:52:10.061Z",
       "size": "medium",
       "position": 2,
       "positionVersion": 0,
@@ -2386,17 +2417,21 @@
         "Validates envelopes against schema",
         "Checks error codes",
         "README with usage"
+      ],
+      "completedAt": "2026-02-17T01:52:10.061Z",
+      "notes": [
+        "2026-02-17 01:52:10 UTC: [DONE 2026-02-16] Python SDK complete. Package lafs-protocol pip installable. Modules: envelope.py, budget.py, client.py. 55 tests pass. Example in python/examples/basic_usage.py."
       ]
     },
     {
       "id": "T075",
       "title": "Build MCP integration proof-of-concept",
-      "status": "pending",
+      "status": "done",
       "priority": "high",
       "type": "task",
       "parentId": "T072",
       "createdAt": "2026-02-12T17:43:58Z",
-      "updatedAt": "2026-02-12T17:43:58Z",
+      "updatedAt": "2026-02-17T01:52:11.383Z",
       "size": "medium",
       "position": 3,
       "positionVersion": 0,
@@ -2409,6 +2444,10 @@
         "MCP tool server returning LAFS-conformant envelopes",
         "Demonstrates complementarity",
         "Documented"
+      ],
+      "completedAt": "2026-02-17T01:52:11.383Z",
+      "notes": [
+        "2026-02-17 01:52:11 UTC: [DONE 2026-02-16] MCP integration complete. Working server in examples/mcp-lafs-server.ts with 3 tools. Client in examples/mcp-lafs-client.ts. Adapter in src/mcpAdapter.ts. 14 integration tests pass. Proves LAFS complements MCP."
       ]
     },
     {
@@ -2653,6 +2692,156 @@
         "npm published",
         "Python package published",
         "Announcement drafted"
+      ]
+    },
+    {
+      "id": "T087",
+      "title": "PROTOTYPE: Token budget enforcement feasibility",
+      "status": "done",
+      "priority": "critical",
+      "type": "task",
+      "parentId": null,
+      "position": 13,
+      "positionVersion": 0,
+      "size": "medium",
+      "createdAt": "2026-02-16T23:40:37.127Z",
+      "updatedAt": "2026-02-17T01:35:58.465Z",
+      "phase": "setup",
+      "description": "Before implementing T068 token budget signaling, validate that servers can realistically estimate and enforce token budgets. This prototype will test estimation algorithms and enforcement mechanisms.",
+      "labels": [
+        "validation"
+      ],
+      "completedAt": "2026-02-17T01:35:58.465Z",
+      "notes": [
+        "2026-02-17 01:35:58 UTC: [DONE 2026-02-16] Budget enforcement prototype complete. Decision: IMPLEMENTABLE with 94-95% accuracy, <1.3ms overhead. Report: /prototypes/budget-enforcement.md"
+      ]
+    },
+    {
+      "id": "T088",
+      "title": "PROTOTYPE: Context ledger retrieval efficiency",
+      "status": "pending",
+      "priority": "critical",
+      "type": "task",
+      "parentId": null,
+      "position": 14,
+      "positionVersion": 0,
+      "size": "medium",
+      "createdAt": "2026-02-16T23:40:39.417Z",
+      "updatedAt": "2026-02-16T23:40:39.417Z",
+      "phase": "setup",
+      "description": "Validate that agents can efficiently retrieve and validate context ledgers. Test projection modes (full/delta/summary) and query performance.",
+      "labels": [
+        "validation"
+      ]
+    },
+    {
+      "id": "T089",
+      "title": "DESIGN: Agent discovery protocol v1",
+      "status": "done",
+      "priority": "critical",
+      "type": "task",
+      "parentId": null,
+      "position": 15,
+      "positionVersion": 0,
+      "size": "medium",
+      "createdAt": "2026-02-16T23:40:41.167Z",
+      "updatedAt": "2026-02-17T01:35:59.307Z",
+      "phase": "setup",
+      "description": "Design the minimal discovery protocol that agents need to detect LAFS support and capabilities. This unblocks all SDK and integration work.",
+      "labels": [
+        "spec"
+      ],
+      "completedAt": "2026-02-17T01:35:59.307Z",
+      "notes": [
+        "2026-02-17 01:35:59 UTC: [DONE 2026-02-16] Agent discovery protocol design complete. Design: /designs/agent-discovery-v1.md"
+      ]
+    },
+    {
+      "id": "T090",
+      "title": "DESIGN: Context ledger query interface for agents",
+      "status": "done",
+      "priority": "critical",
+      "type": "task",
+      "parentId": null,
+      "position": 16,
+      "positionVersion": 0,
+      "size": "medium",
+      "createdAt": "2026-02-16T23:40:42.967Z",
+      "updatedAt": "2026-02-17T01:36:00.249Z",
+      "phase": "setup",
+      "description": "Design the API that agents use to query context ledger state. Must support projection modes, filtering, and efficient delta retrieval.",
+      "labels": [
+        "api"
+      ],
+      "completedAt": "2026-02-17T01:36:00.249Z",
+      "notes": [
+        "2026-02-17 01:36:00 UTC: [DONE 2026-02-16] Context ledger query API design complete. Design: /designs/context-query-v1.md"
+      ]
+    },
+    {
+      "id": "T091",
+      "title": "SPEC: Token budget signaling protocol",
+      "status": "done",
+      "priority": "critical",
+      "type": "task",
+      "parentId": null,
+      "position": 17,
+      "positionVersion": 0,
+      "size": "medium",
+      "createdAt": "2026-02-16T23:40:49.591Z",
+      "updatedAt": "2026-02-17T01:36:01.344Z",
+      "phase": "setup",
+      "description": "Define the _budget request parameter and server behavior for token budget enforcement. Builds on T087 prototype findings.",
+      "labels": [
+        "mvi"
+      ],
+      "completedAt": "2026-02-17T01:36:01.344Z",
+      "notes": [
+        "2026-02-17 01:36:01 UTC: [DONE 2026-02-16] Token budget signaling spec complete. Spec: /specs/token-budget-signaling.md"
+      ]
+    },
+    {
+      "id": "T092",
+      "title": "SPEC: Context projection modes",
+      "status": "done",
+      "priority": "critical",
+      "type": "task",
+      "parentId": null,
+      "position": 18,
+      "positionVersion": 0,
+      "size": "medium",
+      "createdAt": "2026-02-16T23:40:51.599Z",
+      "updatedAt": "2026-02-17T01:36:02.264Z",
+      "phase": "setup",
+      "description": "Define full/delta/summary projection modes for context ledger retrieval. Agents choose disclosure level based on their context budget.",
+      "labels": [
+        "context"
+      ],
+      "completedAt": "2026-02-17T01:36:02.264Z",
+      "notes": [
+        "2026-02-17 01:36:02 UTC: [DONE 2026-02-16] Context projection modes spec complete. Spec: /specs/context-projection-modes.md"
+      ]
+    },
+    {
+      "id": "T093",
+      "title": "IMPLEMENT: Agent reasoning chain fixtures",
+      "status": "done",
+      "priority": "critical",
+      "type": "task",
+      "parentId": null,
+      "position": 19,
+      "positionVersion": 0,
+      "size": "medium",
+      "createdAt": "2026-02-16T23:40:53.198Z",
+      "updatedAt": "2026-02-17T01:36:02.768Z",
+      "phase": "setup",
+      "description": "Create test fixtures demonstrating real multi-step agent workflows using LAFS. Show context preservation across tool chains.",
+      "labels": [
+        "context"
+      ],
+      "completedAt": "2026-02-17T01:36:02.768Z",
+      "notes": [
+        "2026-02-17 01:36:02 UTC: [DONE 2026-02-16] Agent reasoning chain fixtures complete. Fixtures: /fixtures/agent-workflows/"
       ]
     }
   ],

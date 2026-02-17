@@ -1,0 +1,53 @@
+# Summary
+
+## Getting Started
+
+* [Welcome to LAFS](README.md)
+* [Quick Start Guide](getting-started/quickstart.md)
+* [Understanding Envelopes](getting-started/envelope-basics.md)
+* [Error Handling](getting-started/error-handling.md)
+* [Token Budgets](getting-started/token-budgets.md)
+
+## Specification
+
+* [LAFS Protocol Specification](specification.md)
+  * [Scope and Non-Goals](specification.md#scope-and-non-goals)
+  * [Envelope Contract](specification.md#canonical-response-envelope)
+  * [Error Codes](specification.md#error-contract)
+  * [Context Preservation](specification.md#context-preservation)
+  * [MVI and Progressive Disclosure](specification.md#mvi-and-progressive-disclosure)
+  * [Token Budget Signaling](specification.md#token-budget-signaling)
+  * [Conformance Requirements](specification.md#conformance)
+
+## Integration Guides
+
+* [Overview](integrations/README.md)
+* [MCP Integration](integrations/mcp.md)
+* [A2A Integration](integrations/a2a.md)
+* [REST API Integration](integrations/rest.md)
+
+## SDK Reference
+
+* [TypeScript SDK](sdk/typescript.md)
+* [Python SDK](sdk/python.md)
+* [CLI Reference](sdk/cli.md)
+
+## Conformance and Testing
+
+* [Conformance Guide](CONFORMANCE.md)
+* [Adoption Tiers](CONFORMANCE.md#adoption-tiers)
+* [Conformance Runner](CONFORMANCE.md#conformance-runner)
+
+## Reference
+
+* [Vision](VISION.md)
+* [Positioning](POSITIONING.md)
+* [Versioning Policy](VERSIONING.md)
+* [Deprecation Policy](DEPRECATION.md)
+* [Error Registry](../schemas/v1/error-registry.json)
+* [Envelope Schema](../schemas/v1/envelope.schema.json)
+
+---
+
+* [Contributing](../CONTRIBUTING.md)
+* [License](../LICENSE)

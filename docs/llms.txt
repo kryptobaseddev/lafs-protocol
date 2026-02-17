@@ -1,0 +1,78 @@
+# LAFS Documentation Index for LLM Agents
+
+## Overview
+LAFS (LLM-Agent-First Specification) is a response envelope contract for AI agent systems. This index helps LLM agents discover and navigate LAFS documentation programmatically.
+
+## Quick Navigation
+
+### Entry Points
+- docs/README.md - Landing page with quick start
+- lafs.md - Complete protocol specification (normative)
+- docs/SUMMARY.md - GitBook navigation structure
+- docs/getting-started/quickstart.md - 5-minute setup guide
+
+### Getting Started
+- docs/getting-started/quickstart.md - 5-minute setup for TypeScript/Python
+- docs/getting-started/envelope-basics.md - Understanding LAFS envelopes
+- docs/getting-started/error-handling.md - Working with LAFS errors and retry logic
+- docs/getting-started/token-budgets.md - Token budget management and MVI
+
+### Integration Guides
+- docs/integrations/README.md - Integration overview
+- docs/integrations/mcp.md - MCP (Model Context Protocol) integration with code examples
+- docs/integrations/a2a.md - A2A (Agent-to-Agent) integration with code examples
+- docs/integrations/rest.md - REST API integration with Express examples
+
+### SDK Reference
+- docs/sdk/typescript.md - TypeScript SDK functions and types
+- docs/sdk/python.md - Python SDK functions and classes
+- docs/sdk/cli.md - CLI commands and options
+
+### Specification
+- docs/specification.md - Complete LAFS specification (copy of lafs.md)
+- docs/VISION.md - Project vision with before/after examples
+- docs/POSITIONING.md - Complementary positioning with MCP/A2A
+- docs/CONFORMANCE.md - Conformance testing with code examples
+- docs/VERSIONING.md - Versioning policy (SemVer)
+- docs/DEPRECATION.md - Deprecation policy
+
+### Schemas and Types
+- schemas/v1/envelope.schema.json - Canonical envelope schema (Draft-07)
+- schemas/v1/error-registry.json - 12 registered error codes
+- schemas/v1/context-ledger.schema.json - Context ledger schema
+- schemas/v1/discovery.schema.json - Service discovery schema
+
+## File Manifest
+
+Total documentation files: 30+
+Primary specification: docs/specification.md (478 lines, copy of lafs.md)
+Getting started guides: 4 files with working code examples
+Integration guides: 4 files (overview + 3 protocol guides)
+SDK reference: 3 files (TypeScript, Python, CLI)
+Reference docs: 5 files (Vision, Positioning, Conformance, Versioning, Deprecation)
+Schema files: 4 JSON schemas (Draft-07)
+
+## Agent Consumption Tips
+
+1. **Start here:** docs/getting-started/quickstart.md for immediate implementation
+2. **Reference:** docs/specification.md for normative specification details
+3. **Integrate:** Use docs/integrations/ for protocol-specific implementations
+4. **Validate:** Check against schemas/v1/envelope.schema.json
+5. **Debug:** Use schemas/v1/error-registry.json for error codes
+6. **Navigate:** Use docs/SUMMARY.md for full navigation structure
+
+## Key Features for Agents
+
+- **Standard envelope shape** - Parse all responses with one function
+- **Registered error codes** - Deterministic error handling with retry hints
+- **Token budgets** - Prevent context window overflow
+- **MVI defaults** - Efficient token usage
+- **Context preservation** - Track state across multi-step workflows
+- **Pagination** - Cursor and offset modes with consistent metadata
+
+## Version Information
+Current spec version: 1.0.0
+Last updated: 2026-02-16
+GitBook compatible: Yes (with .gitbook.yaml)
+Context7 optimized: Yes (clear hierarchy, cross-links, code examples)
+LLM-ready: Yes (llms.txt index, structured examples)

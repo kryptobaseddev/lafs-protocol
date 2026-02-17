@@ -104,3 +104,42 @@ export interface ConformanceReport {
   ok: boolean;
   checks: Array<{ name: string; pass: boolean; detail?: string }>;
 }
+
+// Budget enforcement types
+export type BudgetEnforcementOptions = {
+  truncateOnExceed?: boolean;
+  onBudgetExceeded?: (estimated: number, budget: number) => void;
+};
+
+export interface TokenEstimate {
+  estimated: number;
+  truncated?: boolean;
+  originalEstimate?: number;
+}
+
+export interface LAFSMetaWithBudget extends LAFSMeta {
+  _tokenEstimate?: TokenEstimate;
+}
+
+export interface LAFSEnvelopeWithBudget extends Omit<LAFSEnvelope, '_meta'> {
+  _meta: LAFSMetaWithBudget;
+}
+
+export type MiddlewareFunction = (
+  envelope: LAFSEnvelope
+) => LAFSEnvelope | Promise<LAFSEnvelope>;
+
+export type NextFunction = () => LAFSEnvelope | Promise<LAFSEnvelope>;
+
+export type BudgetMiddleware = (
+  envelope: LAFSEnvelope,
+  next: NextFunction
+) => Promise<LAFSEnvelope> | LAFSEnvelope;
+
+export interface BudgetEnforcementResult {
+  envelope: LAFSEnvelope;
+  withinBudget: boolean;
+  estimatedTokens: number;
+  budget: number;
+  truncated: boolean;
+}

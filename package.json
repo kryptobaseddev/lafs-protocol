@@ -1,6 +1,6 @@
 {
   "name": "@cleocode/lafs-protocol",
-  "version": "0.5.0",
+  "version": "1.0.0",
   "private": false,
   "type": "module",
   "description": "LLM-Agent-First Specification schemas and conformance tooling",
@@ -50,13 +50,18 @@
   ],
   "license": "MIT",
   "devDependencies": {
+    "@modelcontextprotocol/sdk": "^1.26.0",
+    "@types/express": "^5.0.6",
     "@types/node": "^24.3.0",
+    "@types/supertest": "^6.0.3",
+    "supertest": "^7.2.2",
     "tsx": "^4.20.5",
     "typescript": "^5.9.2",
     "vitest": "^2.1.9"
   },
   "dependencies": {
-    "ajv": "^8.17.1",
-    "ajv-formats": "^3.0.1"
+    "ajv": "^8.18.0",
+    "ajv-formats": "^3.0.1",
+    "express": "^5.2.1"
   }
 }
