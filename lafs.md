@@ -1,5 +1,8 @@
 # LAFS: LLM-Agent-First Specification
 
+> 📚 **Documentation:** https://codluv.gitbook.io/lafs-protocol/  
+> **Version:** 1.0.0 | **Status:** Production Ready
+
 ## 1. Scope
 
 LAFS is a **response envelope contract specification**. It defines the canonical shape of structured responses — success envelopes, error envelopes, pagination metadata, and context preservation — for software systems whose primary consumer is an LLM agent or AI-driven tool.

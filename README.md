@@ -4,7 +4,10 @@
 
 LAFS defines a standard envelope format for structured responses from LLM-powered agents and tools. It complements transport protocols like [MCP](https://modelcontextprotocol.io/) and [A2A](https://github.com/google/A2A) by standardizing what comes back — not how it gets there.
 
-**Current version:** 0.5.0 | [Spec](lafs.md) | [Migration Guides](migrations/)
+**Current version:** 1.0.0 | [📚 Documentation](https://codluv.gitbook.io/lafs-protocol/) | [Spec](lafs.md) | [Migration Guides](migrations/)
+
+[![GitBook](https://img.shields.io/badge/docs-gitbook-blue)](https://codluv.gitbook.io/lafs-protocol/)
+[![npm](https://img.shields.io/npm/v/@cleocode/lafs-protocol)](https://www.npmjs.com/package/@cleocode/lafs-protocol)
 
 ## What LAFS provides
 
@@ -17,7 +20,7 @@ LAFS defines a standard envelope format for structured responses from LLM-powere
 | **Tooling** | `src/` | TypeScript validation, conformance runner, CLI diagnostic tool |
 | **Tests** | `tests/` | 31 tests covering envelope, pagination, strict mode, error handling |
 | **Fixtures** | `fixtures/` | 14 JSON fixtures (valid + invalid) for conformance testing |
-| **Docs** | `docs/` | Positioning, vision, conformance tiers, deprecation policy |
+| **Docs** | `docs/` | [GitBook documentation](https://codluv.gitbook.io/lafs-protocol/) with guides, SDK reference, and specs |
 
 ## Install
 
@@ -64,7 +67,7 @@ npm run typecheck
 {
   "$schema": "https://lafs.dev/schemas/v1/envelope.schema.json",
   "_meta": {
-    "specVersion": "0.5.0",
+    "specVersion": "1.0.0",
     "schemaVersion": "1.0.0",
     "timestamp": "2026-02-13T00:00:00Z",
     "operation": "example.list",
@@ -139,6 +142,7 @@ CONTRIBUTING.md                  # Contributor guidelines, RFC process
 
 | Version | Phase | Description |
 |---------|-------|-------------|
+| **v1.0.0** | **3** | **Production release: Token budgets, agent discovery, MCP integration, complete SDKs** |
 | v0.5.0 | 2B | Conditional pagination, MVI field selection/expansion, context ledger schema |
 | v0.4.0 | 2A | Optional page/error, extensions, strict/lenient mode, warnings |
 | v0.3.0 | 1 | Strategic positioning, vision alignment, adoption tiers |

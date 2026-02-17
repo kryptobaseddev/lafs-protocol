@@ -43,8 +43,9 @@ setup(
     },
     keywords="lafs llm agent api protocol envelope budget",
     project_urls={
-        "Bug Reports": "https://github.com/lafs-protocol/lafs-python/issues",
-        "Source": "https://github.com/lafs-protocol/lafs-python",
-        "Documentation": "https://lafs.dev/docs/python",
+        "Bug Reports": "https://github.com/kryptobaseddev/lafs-protocol/issues",
+        "Source": "https://github.com/kryptobaseddev/lafs-protocol",
+        "Documentation": "https://codluv.gitbook.io/lafs-protocol/",
+        "Homepage": "https://codluv.gitbook.io/lafs-protocol/",
     },
 )

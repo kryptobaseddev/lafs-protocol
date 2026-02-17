@@ -1,5 +1,7 @@
 # Welcome to LAFS
 
+> 📚 **View this documentation on GitBook:** https://codluv.gitbook.io/lafs-protocol/
+
 **What you'll learn:** This guide introduces LAFS (LLM-Agent-First Specification) — a response envelope contract that makes your API responses predictable and easy for LLM agents to consume.
 
 ## What is LAFS?
