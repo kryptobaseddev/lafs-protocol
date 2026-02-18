@@ -7,7 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.3] - 2026-02-18
+
+### CI/CD Fixes
+
+Fixed npm publish failures due to version conflicts:
+- Bumped version to 1.2.3 (1.2.0, 1.2.1, 1.2.2 already published)
+- Updated all version references (package.json, README, lafs.md)
+- Fixed GitHub release workflow to create releases automatically
+
 ## [1.2.2] - 2026-02-18
+
+### Documentation Fixes
+
+Fixed documentation inaccuracies discovered after 1.2.0 release:
+- Fixed CLI format option documentation (table → json/human)
+- Synced specification.md with lafs.md (added format documentation and extensions examples)
+- Added sessionId and warnings to envelope-basics.md field table
 
 ### Documentation Fixes
 
