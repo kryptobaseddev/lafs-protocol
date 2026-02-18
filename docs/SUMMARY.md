@@ -32,6 +32,10 @@
 * [Python SDK](sdk/python.md)
 * [CLI Reference](sdk/cli.md)
 
+## Guides
+
+* [LLM Agent Guide](guides/llm-agent-guide.md)
+
 ## Implementation Guides
 
 * [Programmatic Construction](programmatic-construction.md)
