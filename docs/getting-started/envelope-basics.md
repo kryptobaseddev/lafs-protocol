@@ -53,6 +53,8 @@ Metadata about the response:
 | `strict` | boolean | Strict mode enabled |
 | `mvi` | boolean/string | MVI disclosure level |
 | `contextVersion` | integer | Context ledger version |
+| `sessionId` | string | Session identifier for multi-step workflows (optional) |
+| `warnings` | array | Non-fatal warnings (deprecations, etc.) (optional) |
 
 ### `success` (required)
 
