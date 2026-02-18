@@ -130,7 +130,7 @@ Result: PASS (8/8)
 |--------|-------------|
 | `--envelope, -e` | Path to envelope JSON file |
 | `--tier, -t` | Conformance tier (core/standard/complete) |
-| `--format, -f` | Output format (table/json) |
+| `--format, -f` | Output format (json/human) |
 | `--strict` | Enable strict mode |
 
 ### `create`
