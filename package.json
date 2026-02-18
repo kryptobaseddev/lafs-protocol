@@ -48,6 +48,7 @@
     "schema",
     "conformance"
   ],
+  "author": "CLEO Code <hello@cleo.co> (https://cleo.co)",
   "license": "MIT",
   "devDependencies": {
     "@modelcontextprotocol/sdk": "^1.26.0",
