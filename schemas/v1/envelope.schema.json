@@ -67,6 +67,12 @@
           "type": "integer",
           "minimum": 0
         },
+        "sessionId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "description": "Session identifier for correlating multi-step agent workflows"
+        },
         "warnings": {
           "type": "array",
           "items": {

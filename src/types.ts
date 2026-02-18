@@ -30,6 +30,8 @@ export interface LAFSMeta {
   strict: boolean;
   mvi: 'minimal' | 'standard' | 'full' | 'custom';
   contextVersion: number;
+  /** Session identifier for correlating multi-step agent workflows */
+  sessionId?: string;
   warnings?: Warning[];
 }
 
@@ -98,6 +100,8 @@ export interface FlagInput {
   humanFlag?: boolean;
   projectDefault?: "json" | "human";
   userDefault?: "json" | "human";
+  /** Suppress non-essential output for scripting. When true, only essential data is returned. */
+  quiet?: boolean;
 }
 
 export interface ConformanceReport {

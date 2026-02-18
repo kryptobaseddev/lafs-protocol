@@ -1,7 +1,7 @@
 # LAFS: LLM-Agent-First Specification
 
 > 📚 **Documentation:** https://codluv.gitbook.io/lafs-protocol/  
-> **Version:** 1.0.0 | **Status:** Production Ready
+> **Version:** 1.2.0 | **Status:** Production Ready
 
 ## 1. Scope
 
@@ -67,6 +67,52 @@ The keywords MUST, MUST NOT, SHOULD, SHOULD NOT, and MAY are interpreted per RFC
 3. Global/user config
 4. Protocol default (`json`)
 
+### 5.3 Supported formats
+
+LAFS supports exactly two output formats:
+
+- **`json`** (default) — Machine-readable JSON envelope for programmatic consumption
+- **`human`** — Human-readable text output for terminal display
+
+#### 5.3.1 Human format definition
+
+The `human` format produces plain text output optimized for terminal display:
+
+- Suitable for direct human consumption in CLI environments
+- NOT markdown, NOT tables, NOT structured data
+- May include ANSI colors (respect `NO_COLOR` environment variable)
+- Example: Tabular data displayed with aligned columns using spaces
+
+```
+ID    Name          Status
+----  ------------  --------
+123   Alpha         active
+456   Beta          pending
+```
+
+#### 5.3.2 Rejected formats
+
+The following formats were explicitly rejected to maintain protocol minimalism:
+
+| Format | Status | Rationale |
+|--------|--------|-----------|
+| `text` | ❌ Rejected | Ambiguous overlap with `human`. Use `human` format with `NO_COLOR=1` for plain text. |
+| `markdown` | ❌ Rejected | Presentation format, not data format. Generate from JSON if markdown rendering is needed. |
+| `table` | ❌ Rejected | Presentation concern. Use `jq` + `column` command or `human` format for tabular display. |
+| `jsonl` | ❌ Rejected | Streaming format violates LAFS discrete envelope contract (see Section 2: Non-Goals). |
+
+**Design principle:** LAFS is a response envelope contract, not a presentation layer. Six formats = format proliferation = protocol bloat.
+
+#### 5.3.3 Achieving presentation goals with json format
+
+Consumers needing presentation formats should:
+
+1. Request `json` format from LAFS-compliant services
+2. Transform JSON to desired presentation format using standard tools:
+   - **Markdown:** `jq` + template engine
+   - **Tables:** `jq` + `column` command
+   - **Plain text:** `jq` with `-r` (raw) output
+
 ---
 
 ## 6. Canonical Response Envelope
@@ -109,6 +155,144 @@ The envelope supports an optional `_extensions` object for vendor-specific metad
 - Keys SHOULD use the `x-` prefix convention (e.g., `x-myvendor-trace-id`).
 - Consumers MUST NOT rely on extension fields for protocol-required behavior.
 - Producers MAY omit `_extensions` entirely; the field is always optional.
+
+#### 6.2.1 Extension use cases
+
+The following examples demonstrate common use cases for `_extensions`. These fields were rejected from the core protocol but are valid extension use cases.
+
+**Example 1: Performance timing**
+
+```typescript
+// Extension type definition
+interface XTimingExtension {
+  "x-timing": {
+    executionMs: number;        // Total request execution time
+    parseMs?: number;           // Input parsing time
+    queryMs?: number;           // Database query time
+    serializeMs?: number;       // Response serialization time
+  };
+}
+```
+
+```json
+{
+  "_extensions": {
+    "x-timing": {
+      "executionMs": 42,
+      "queryMs": 15,
+      "serializeMs": 3
+    }
+  }
+}
+```
+
+**Example 2: Source metadata**
+
+```typescript
+interface XSourceExtension {
+  "x-source": {
+    gitRef?: string;           // Git commit SHA
+    apiVersion?: string;       // API implementation version
+    buildTimestamp?: string;   // ISO 8601 build time
+    deployment?: string;       // Deployment environment (staging, prod)
+  };
+}
+```
+
+```json
+{
+  "_extensions": {
+    "x-source": {
+      "gitRef": "abc123def456",
+      "apiVersion": "2.1.0",
+      "deployment": "production"
+    }
+  }
+}
+```
+
+**Example 3: Applied filters**
+
+```typescript
+interface XFiltersExtension {
+  "x-filters": {
+    applied: Array<{
+      field: string;
+      operator: "eq" | "neq" | "gt" | "lt" | "contains";
+      value: unknown;
+    }>;
+    omitted: string[];         // Fields excluded due to permissions
+  };
+}
+```
+
+```json
+{
+  "_extensions": {
+    "x-filters": {
+      "applied": [
+        { "field": "status", "operator": "eq", "value": "active" },
+        { "field": "createdAt", "operator": "gt", "value": "2024-01-01" }
+      ],
+      "omitted": ["internalNotes", "costCenter"]
+    }
+  }
+}
+```
+
+**Example 4: Result summary**
+
+```typescript
+interface XSummaryExtension {
+  "x-summary": {
+    totalCount: number;        // Total matching records
+    returnedCount: number;     // Records in this response
+    aggregated?: {
+      revenue?: number;
+      count?: number;
+      average?: number;
+    };
+  };
+}
+```
+
+```json
+{
+  "_extensions": {
+    "x-summary": {
+      "totalCount": 150,
+      "returnedCount": 25,
+      "aggregated": {
+        "revenue": 125000.00,
+        "average": 833.33
+      }
+    }
+  }
+}
+```
+
+#### 6.2.2 Extension best practices
+
+1. **Use x- prefix** — All extension keys MUST start with `x-` (e.g., `x-caamp-timing`)
+2. **Document your schema** — Publish extension schemas separately from LAFS core
+3. **Don't rely on extensions for core behavior** — Extensions are informational only
+4. **Version your extensions** — Include version in extension key if schema may change (e.g., `x-vendor-v2-field`)
+5. **Keep extensions optional** — Consumers MUST be able to operate without extension data
+6. **Namespace by vendor** — Use vendor prefix to avoid collisions (e.g., `x-caamp-`, `x-acme-`)
+
+#### 6.2.3 When to use extensions vs core protocol
+
+| Use Case | Core Protocol | Extensions |
+|----------|---------------|------------|
+| Session correlation | ✅ sessionId | — |
+| Soft warnings | ✅ warnings array | — |
+| Performance timing | — | ✅ x-timing |
+| Source/version metadata | — | ✅ x-source |
+| Debug filters | — | ✅ x-filters |
+| Derived summaries | — | ✅ x-summary |
+| Data integrity (TLS covers) | — | ✅ x-checksum (if needed) |
+
+**Guideline:** If a field is required for basic operation, it belongs in core. If it's useful for debugging, monitoring, or rich display, it belongs in extensions.
 
 ---
 

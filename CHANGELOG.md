@@ -7,6 +7,55 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-02-18
+
+### Protocol Enhancement - Session Management & Format Documentation
+
+This release adds session correlation support, quiet mode for scripting, and comprehensive documentation on format types and extension patterns.
+
+### Added
+
+#### Session Management
+- **sessionId field** (`src/types.ts`) - Added to LAFSMeta for correlating multi-step agent workflows
+- **Session tracking** - Enables context preservation across distributed operations
+- **JSON Schema update** (`schemas/v1/envelope.schema.json`) - Added sessionId validation
+
+#### Quiet Mode
+- **quiet flag** (`src/types.ts`, `src/flagSemantics.ts`) - Suppresses non-essential output for scripting
+- **Flag resolution** - Updated resolveOutputFormat() to handle quiet mode throughout all code paths
+- **MVI compliance** - Aligns with Minimal Viable Information principle
+
+#### Format Documentation
+- **Section 5.3** (`lafs.md`) - Comprehensive format type documentation
+- **Supported formats** - Explicitly documents json and human as only supported formats
+- **Rejected formats table** - Documents why text, markdown, table, and jsonl were rejected
+- **Human format definition** - Clear specification of human-readable output behavior
+- **Tooling guidance** - Examples using jq and column commands for presentation needs
+
+#### Extensions Documentation
+- **Section 6.2** (`lafs.md`) - Expanded with comprehensive _extensions examples
+- **4 complete examples** - Timing, source metadata, filters, and summaries
+- **TypeScript interfaces** - Full type definitions for each extension pattern
+- **Best practices** - 6 guidelines for extension usage including x- prefix convention
+- **Decision matrix** - Clear guidance on Core Protocol vs Extensions
+
+#### LLM Agent Guide
+- **New guide** (`docs/guides/llm-agent-guide.md`) - Complete quick reference for AI agents
+- **Envelope structure** - Full documentation with TypeScript interfaces
+- **Format selection** - Guidance on choosing between json and human
+- **Context preservation** - Session management and ledger usage patterns
+- **Error handling** - Retry logic patterns for all error categories
+- **Integration examples** - MCP, A2A, and HTTP API integration patterns
+- **Best practices checklist** - 5 key patterns for robust agent implementation
+
+### Design Principles Validated
+
+- **MVI** - Rejected format bloat, kept only json|human
+- **Progressive Disclosure** - Clear documentation on _fields, _expand, _budget
+- **Transport Agnosticism** - No TTY-specific logic in protocol
+- **Schema-First** - All changes reflected in JSON Schema and TypeScript types
+- **Self-Documenting** - All code has JSDoc, comprehensive examples provided
+
 ## [1.1.0] - 2026-02-16
 
 ### Operations & Reliability Release
