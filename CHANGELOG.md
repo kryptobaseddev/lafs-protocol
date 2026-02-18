@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.1] - 2026-02-18
+
+### Documentation Fixes
+
+Fixed documentation inaccuracies discovered after 1.2.0 release:
+- Fixed CLI format option documentation (table → json/human)
+- Synced specification.md with lafs.md (added format documentation and extensions examples)
+- Added sessionId and warnings to envelope-basics.md field table
+
 ## [1.2.0] - 2026-02-18
 
 ### Protocol Enhancement - Session Management & Format Documentation
