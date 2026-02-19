@@ -1,34 +1,131 @@
 /**
  * LAFS Agent Discovery - Express/Fastify Middleware
- * Serves discovery document at /.well-known/lafs.json
+ * Serves A2A-compliant Agent Card at /.well-known/agent-card.json
+ * Maintains backward compatibility with legacy /.well-known/lafs.json
+ * 
+ * A2A v1.0+ Compliant Implementation
+ * Reference: specs/external/agent-discovery.md
  */
 
 import type { Request, Response, NextFunction, RequestHandler } from "express";
 import { createRequire } from "node:module";
 import { createHash } from "crypto";
-import { readFileSync } from "fs";
-import { fileURLToPath } from "url";
-import { dirname, join } from "path";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-// Handle ESM/CommonJS interop for AJV
 const require = createRequire(import.meta.url);
-const AjvModule = require("ajv") as { default?: new (opts: object) => unknown } | (new (opts: object) => unknown);
-const AddFormatsModule = require("ajv-formats") as { default?: (ajv: unknown) => void } | ((ajv: unknown) => void);
 
-const AjvCtor = (typeof AjvModule === "function" ? AjvModule : AjvModule.default) as new (opts: object) => {
-  compile: (schema: unknown) => {
-    (input: unknown): boolean;
-    errors?: Array<{ instancePath?: string; message?: string }>;
-  };
-};
-
-const addFormats = (typeof AddFormatsModule === "function" ? AddFormatsModule : AddFormatsModule.default) as (ajv: unknown) => void;
+// ============================================================================
+// A2A v1.0 Agent Card Types
+// ============================================================================
 
 /**
- * Capability definition for service advertisement
+ * A2A Agent Provider information
+ */
+export interface AgentProvider {
+  /** Organization URL */
+  url: string;
+  /** Organization name */
+  organization: string;
+}
+
+/**
+ * A2A Agent Capabilities
+ */
+export interface AgentCapabilities {
+  /** Supports streaming responses */
+  streaming?: boolean;
+  /** Supports push notifications */
+  pushNotifications?: boolean;
+  /** Supports extended agent card */
+  extendedAgentCard?: boolean;
+  /** Supported extensions */
+  extensions?: AgentExtension[];
+}
+
+/**
+ * A2A Agent Extension declaration
+ */
+export interface AgentExtension {
+  /** Extension URI (unique identifier) */
+  uri: string;
+  /** Human-readable description */
+  description: string;
+  /** Whether the extension is required */
+  required: boolean;
+  /** Extension-specific parameters */
+  params?: Record<string, unknown>;
+}
+
+/**
+ * A2A Agent Skill
+ */
+export interface AgentSkill {
+  /** Skill unique identifier */
+  id: string;
+  /** Human-readable name */
+  name: string;
+  /** Detailed description */
+  description: string;
+  /** Keywords/tags for the skill */
+  tags: string[];
+  /** Example prompts */
+  examples?: string[];
+  /** Supported input modes (overrides agent defaults) */
+  inputModes?: string[];
+  /** Supported output modes (overrides agent defaults) */
+  outputModes?: string[];
+}
+
+/**
+ * Security scheme for authentication (OpenAPI 3.0 style)
+ */
+export interface SecurityScheme {
+  type: "http" | "apiKey" | "oauth2" | "openIdConnect";
+  description?: string;
+  scheme?: string;
+  bearerFormat?: string;
+}
+
+/**
+ * A2A v1.0 Agent Card - Standard format for agent discovery
+ * Reference: specs/external/specification.md Section 5
+ */
+export interface AgentCard {
+  /** JSON Schema URL */
+  $schema?: string;
+  /** Human-readable agent name */
+  name: string;
+  /** Detailed description of agent capabilities */
+  description: string;
+  /** Agent version (SemVer) */
+  version: string;
+  /** Base URL for A2A endpoints */
+  url: string;
+  /** Service provider information */
+  provider?: AgentProvider;
+  /** Agent capabilities */
+  capabilities: AgentCapabilities;
+  /** Supported input content types */
+  defaultInputModes: string[];
+  /** Supported output content types */
+  defaultOutputModes: string[];
+  /** Agent skills/capabilities */
+  skills: AgentSkill[];
+  /** Security authentication schemes */
+  securitySchemes?: Record<string, SecurityScheme>;
+  /** Required security schemes */
+  security?: Array<Record<string, string[]>>;
+  /** Documentation URL */
+  documentationUrl?: string;
+  /** Icon URL */
+  iconUrl?: string;
+}
+
+// ============================================================================
+// Legacy LAFS Discovery Types (Deprecated - for backward compatibility)
+// ============================================================================
+
+/**
+ * @deprecated Use AgentSkill instead
  */
 export interface Capability {
   name: string;
@@ -39,7 +136,7 @@ export interface Capability {
 }
 
 /**
- * Service configuration for discovery document
+ * @deprecated Use AgentCard instead
  */
 export interface ServiceConfig {
   name: string;
@@ -48,7 +145,7 @@ export interface ServiceConfig {
 }
 
 /**
- * Endpoint configuration for discovery document
+ * @deprecated Will be removed in v2.0.0
  */
 export interface EndpointConfig {
   envelope: string;
@@ -57,7 +154,7 @@ export interface EndpointConfig {
 }
 
 /**
- * Complete discovery document served at /.well-known/lafs.json
+ * @deprecated Use AgentCard instead
  */
 export interface DiscoveryDocument {
   $schema: string;
@@ -67,129 +164,84 @@ export interface DiscoveryDocument {
   endpoints: EndpointConfig;
 }
 
+// ============================================================================
+// Configuration Types
+// ============================================================================
+
 /**
- * Configuration for the discovery middleware
+ * Configuration for the discovery middleware (A2A v1.0 format)
  */
 export interface DiscoveryConfig {
-  /** Service information */
-  service: ServiceConfig;
-  /** List of capabilities this service provides */
-  capabilities: Capability[];
-  /** Endpoint URLs - can be relative paths or absolute URLs */
-  endpoints: {
-    /** URL for envelope submission endpoint */
-    envelope: string;
-    /** Optional URL for context ledger endpoint */
-    context?: string;
-    /** URL for this discovery document (usually auto-detected) */
-    discovery?: string;
-  };
-  /** Cache duration in seconds (default: 3600) */
-  cacheMaxAge?: number;
-  /** LAFS protocol version (default: "1.0.0") */
-  lafsVersion?: string;
-  /** Schema URL override */
-  schemaUrl?: string;
+  /** Agent information */
+  agent: Omit<AgentCard, '$schema'>;
   /** Base URL for constructing absolute URLs */
   baseUrl?: string;
-  /** Optional custom headers to include in response */
+  /** Cache duration in seconds (default: 3600) */
+  cacheMaxAge?: number;
+  /** Schema URL override */
+  schemaUrl?: string;
+  /** Optional custom headers */
   headers?: Record<string, string>;
+  /**
+   * @deprecated Use 'agent' instead
+   */
+  service?: ServiceConfig;
+  /**
+   * @deprecated Use 'agent.skills' instead
+   */
+  capabilities?: Capability[];
+  /**
+   * @deprecated Use 'agent.url' and individual endpoints
+   */
+  endpoints?: {
+    envelope: string;
+    context?: string;
+    discovery?: string;
+  };
+  /**
+   * @deprecated Use 'agent.version' instead
+   */
+  lafsVersion?: string;
 }
 
 /**
  * Discovery middleware options
  */
 export interface DiscoveryMiddlewareOptions {
-  /** Path to serve discovery document (default: /.well-known/lafs.json) */
+  /** 
+   * Primary path to serve Agent Card (default: /.well-known/agent-card.json)
+   */
   path?: string;
+  /**
+   * Legacy path for backward compatibility (default: /.well-known/lafs.json)
+   * @deprecated Will be removed in v2.0.0
+   */
+  legacyPath?: string;
+  /** Enable legacy path support (default: true) */
+  enableLegacyPath?: boolean;
   /** Enable HEAD requests (default: true) */
   enableHead?: boolean;
   /** Enable ETag caching (default: true) */
   enableEtag?: boolean;
 }
 
-// AJV instance and validator
-type AjvInstance = InstanceType<typeof AjvCtor>;
-let ajvInstance: AjvInstance | null = null;
-let validateDiscovery: ReturnType<AjvInstance["compile"]> | null = null;
-
-/**
- * Initialize AJV validator for discovery documents
- */
-function initValidator(): void {
-  if (ajvInstance && validateDiscovery) return;
-  
-  ajvInstance = new AjvCtor({ strict: true, allErrors: true });
-  addFormats(ajvInstance);
-  
-  try {
-    // Try to load schema from schemas directory
-    const schemaPath = join(__dirname, "..", "..", "schemas", "v1", "discovery.schema.json");
-    const schema = JSON.parse(readFileSync(schemaPath, "utf-8"));
-    validateDiscovery = ajvInstance.compile(schema);
-  } catch (e) {
-    // Fallback to inline schema if file not found
-    const fallbackSchema = {
-      $schema: "http://json-schema.org/draft-07/schema#",
-      type: "object",
-      required: ["$schema", "lafs_version", "service", "capabilities", "endpoints"],
-      properties: {
-        $schema: { type: "string", format: "uri" },
-        lafs_version: { type: "string", pattern: "^\\d+\\.\\d+\\.\\d+$" },
-        service: {
-          type: "object",
-          required: ["name", "version"],
-          properties: {
-            name: { type: "string", minLength: 1 },
-            version: { type: "string", pattern: "^\\d+\\.\\d+\\.\\d+$" },
-            description: { type: "string" }
-          }
-        },
-        capabilities: {
-          type: "array",
-          items: {
-            type: "object",
-            required: ["name", "version", "operations"],
-            properties: {
-              name: { type: "string", minLength: 1 },
-              version: { type: "string", pattern: "^\\d+\\.\\d+\\.\\d+$" },
-              description: { type: "string" },
-              operations: { type: "array", items: { type: "string" } },
-              optional: { type: "boolean" }
-            }
-          }
-        },
-        endpoints: {
-          type: "object",
-          required: ["envelope", "discovery"],
-          properties: {
-            envelope: { type: "string", minLength: 1 },
-            context: { type: "string", minLength: 1 },
-            discovery: { type: "string", minLength: 1 }
-          }
-        }
-      }
-    };
-    validateDiscovery = ajvInstance.compile(fallbackSchema);
-  }
-}
+// ============================================================================
+// Utility Functions
+// ============================================================================
 
 /**
  * Build absolute URL from base and path
  */
 function buildUrl(base: string | undefined, path: string, req?: Request): string {
-  // If path is already absolute, return it
   if (path.startsWith("http://") || path.startsWith("https://")) {
     return path;
   }
   
-  // If base is provided, use it
   if (base) {
     const separator = base.endsWith("/") || path.startsWith("/") ? "" : "/";
     return `${base}${separator}${path}`;
   }
   
-  // Otherwise try to construct from request
   if (req) {
     const protocol = req.headers["x-forwarded-proto"] || req.protocol || "http";
     const host = req.headers.host || "localhost";
@@ -197,96 +249,140 @@ function buildUrl(base: string | undefined, path: string, req?: Request): string
     return `${protocol}://${host}${separator}${path}`;
   }
   
-  // Fallback to relative path
   return path.startsWith("/") ? path : `/${path}`;
 }
 
 /**
- * Generate ETag from document content
+ * Generate ETag from content
  */
 function generateETag(content: string): string {
   return `"${createHash("sha256").update(content).digest("hex").slice(0, 32)}"`;
 }
 
 /**
- * Build discovery document from configuration
+ * Build A2A Agent Card from configuration
  */
-function buildDiscoveryDocument(
+function buildAgentCard(
   config: DiscoveryConfig,
   req?: Request
-): DiscoveryDocument {
-  const schemaUrl = config.schemaUrl || "https://lafs.dev/schemas/v1/discovery.schema.json";
-  const lafsVersion = config.lafsVersion || "1.0.0";
+): AgentCard {
+  const schemaUrl = config.schemaUrl || "https://lafs.dev/schemas/v1/agent-card.schema.json";
   
+  // Handle legacy config migration
+  if (config.service && !config.agent) {
+    console.warn("[DEPRECATION] Using legacy 'service' config. Migrate to 'agent' format for A2A v1.0+ compliance.");
+    
+    return {
+      $schema: schemaUrl,
+      name: config.service.name,
+      description: config.service.description || "LAFS-compliant agent",
+      version: config.lafsVersion || config.service.version || "1.0.0",
+      url: config.endpoints?.envelope 
+        ? buildUrl(config.baseUrl, config.endpoints.envelope, req)
+        : buildUrl(config.baseUrl, "/", req),
+      capabilities: {
+        streaming: false,
+        pushNotifications: false,
+        extendedAgentCard: false,
+        extensions: []
+      },
+      defaultInputModes: ["application/json"],
+      defaultOutputModes: ["application/json"],
+      skills: (config.capabilities || []).map(cap => ({
+        id: cap.name.toLowerCase().replace(/\s+/g, "-"),
+        name: cap.name,
+        description: cap.description || `${cap.name} capability`,
+        tags: cap.operations || [],
+        examples: []
+      }))
+    };
+  }
+  
+  // Standard A2A v1.0 Agent Card
   return {
     $schema: schemaUrl,
-    lafs_version: lafsVersion,
-    service: config.service,
-    capabilities: config.capabilities,
-    endpoints: {
-      envelope: buildUrl(config.baseUrl, config.endpoints.envelope, req),
-      context: config.endpoints.context 
-        ? buildUrl(config.baseUrl, config.endpoints.context, req)
-        : undefined,
-      discovery: config.endpoints.discovery 
-        ? buildUrl(config.baseUrl, config.endpoints.discovery, req)
-        : buildUrl(config.baseUrl, "/.well-known/lafs.json", req)
-    }
+    ...config.agent,
+    url: config.agent.url || buildUrl(config.baseUrl, "/", req)
   };
 }
 
 /**
- * Validate discovery document against schema
+ * Build legacy discovery document for backward compatibility
+ * @deprecated Will be removed in v2.0.0
  */
-function validateDocument(doc: DiscoveryDocument): void {
-  initValidator();
+function buildLegacyDiscoveryDocument(
+  config: DiscoveryConfig,
+  req?: Request
+): DiscoveryDocument {
+  const schemaUrl = config.schemaUrl || "https://lafs.dev/schemas/v1/discovery.schema.json";
+  const lafsVersion = config.lafsVersion || "1.2.3";
   
-  if (!validateDiscovery) {
-    throw new Error("Discovery document validator not initialized");
-  }
-  
-  const valid = validateDiscovery(doc);
-  
-  if (!valid) {
-    const errors = validateDiscovery.errors;
-    const errorMessages = errors?.map((e: { instancePath?: string; message?: string }) => 
-      `${e.instancePath || "root"}: ${e.message}`
-    ).join("; ");
-    throw new Error(`Discovery document validation failed: ${errorMessages}`);
-  }
+  return {
+    $schema: schemaUrl,
+    lafs_version: lafsVersion,
+    service: config.service || {
+      name: config.agent.name,
+      version: config.agent.version,
+      description: config.agent.description
+    },
+    capabilities: config.capabilities || config.agent.skills.map(skill => ({
+      name: skill.name,
+      version: config.agent.version,
+      description: skill.description,
+      operations: skill.tags,
+      optional: false
+    })),
+    endpoints: {
+      envelope: config.endpoints?.envelope || config.agent.url,
+      context: config.endpoints?.context,
+      discovery: config.endpoints?.discovery || buildUrl(config.baseUrl, "/.well-known/lafs.json", req)
+    }
+  };
 }
 
+// ============================================================================
+// Middleware
+// ============================================================================
+
 /**
- * Create Express middleware for serving LAFS discovery document
+ * Create Express middleware for serving A2A Agent Card
  * 
- * @param config - Discovery configuration
+ * Serves A2A-compliant Agent Card at /.well-known/agent-card.json
+ * Maintains backward compatibility with legacy /.well-known/lafs.json
+ * 
+ * @param config - Discovery configuration (A2A v1.0 format)
  * @param options - Middleware options
  * @returns Express RequestHandler
  * 
  * @example
  * ```typescript
  * import express from "express";
- * import { discoveryMiddleware } from "./discovery.js";
+ * import { discoveryMiddleware } from "@cleocode/lafs-protocol/discovery";
  * 
  * const app = express();
  * 
  * app.use(discoveryMiddleware({
- *   service: {
- *     name: "my-lafs-service",
+ *   agent: {
+ *     name: "my-lafs-agent",
+ *     description: "A LAFS-compliant agent with A2A support",
  *     version: "1.0.0",
- *     description: "A LAFS-compliant API service"
- *   },
- *   capabilities: [
- *     {
- *       name: "envelope-processor",
- *       version: "1.0.0",
- *       operations: ["process", "validate"],
- *       description: "Process LAFS envelopes"
- *     }
- *   ],
- *   endpoints: {
- *     envelope: "/api/v1/envelope",
- *     context: "/api/v1/context"
+ *     url: "https://api.example.com",
+ *     capabilities: {
+ *       streaming: true,
+ *       pushNotifications: false,
+ *       extensions: []
+ *     },
+ *     defaultInputModes: ["application/json", "text/plain"],
+ *     defaultOutputModes: ["application/json"],
+ *     skills: [
+ *       {
+ *         id: "envelope-processor",
+ *         name: "Envelope Processor",
+ *         description: "Process LAFS envelopes",
+ *         tags: ["lafs", "envelope", "validation"],
+ *         examples: ["Validate this envelope", "Process envelope data"]
+ *       }
+ *     ]
  *   }
  * }));
  * ```
@@ -295,22 +391,16 @@ export function discoveryMiddleware(
   config: DiscoveryConfig,
   options: DiscoveryMiddlewareOptions = {}
 ): RequestHandler {
-  const path = options.path || "/.well-known/lafs.json";
+  const path = options.path || "/.well-known/agent-card.json";
+  const legacyPath = options.legacyPath || "/.well-known/lafs.json";
+  const enableLegacyPath = options.enableLegacyPath !== false;
   const enableHead = options.enableHead !== false;
   const enableEtag = options.enableEtag !== false;
   const cacheMaxAge = config.cacheMaxAge || 3600;
   
   // Validate configuration
-  if (!config.service?.name || !config.service?.version) {
-    throw new Error("Discovery config requires service.name and service.version");
-  }
-  
-  if (!Array.isArray(config.capabilities)) {
-    throw new Error("Discovery config requires capabilities array");
-  }
-  
-  if (!config.endpoints?.envelope) {
-    throw new Error("Discovery config requires endpoints.envelope");
+  if (!config.agent && !config.service) {
+    throw new Error("Discovery config requires 'agent' (A2A v1.0) or 'service' (legacy) configuration");
   }
   
   return function discoveryHandler(
@@ -318,10 +408,19 @@ export function discoveryMiddleware(
     res: Response,
     next: NextFunction
   ): void {
-    // Only handle requests to the discovery path
-    if (req.path !== path) {
+    const isPrimaryPath = req.path === path;
+    const isLegacyPath = enableLegacyPath && req.path === legacyPath;
+    
+    // Only handle requests to discovery paths
+    if (!isPrimaryPath && !isLegacyPath) {
       next();
       return;
+    }
+    
+    // Log deprecation warning for legacy path
+    if (isLegacyPath) {
+      console.warn(`[DEPRECATION] Accessing legacy discovery endpoint ${legacyPath}. ` +
+        `Migrate to ${path} for A2A v1.0+ compliance. Legacy support will be removed in v2.0.0.`);
     }
     
     // Handle HEAD requests
@@ -334,26 +433,18 @@ export function discoveryMiddleware(
         return;
       }
       
-      // For HEAD, we still need to build the document to get the ETag
-      const doc = buildDiscoveryDocument(config, req);
-      const json = JSON.stringify(doc);
+      const doc = isLegacyPath 
+        ? JSON.stringify(buildLegacyDiscoveryDocument(config, req))
+        : JSON.stringify(buildAgentCard(config, req));
       
-      // Generate stable ETag from config hash (not request-dependent document)
-      const configHash = generateETag(JSON.stringify({
-        schemaUrl: config.schemaUrl,
-        lafsVersion: config.lafsVersion,
-        service: config.service,
-        capabilities: config.capabilities,
-        endpoints: config.endpoints,
-        cacheMaxAge: config.cacheMaxAge
-      }));
-      const etag = enableEtag ? configHash : undefined;
+      const etag = enableEtag ? generateETag(doc) : undefined;
       
       res.set({
         "Content-Type": "application/json",
         "Cache-Control": `public, max-age=${cacheMaxAge}`,
         ...(etag && { "ETag": etag }),
-        "Content-Length": Buffer.byteLength(json)
+        ...(isLegacyPath && { "Deprecation": "true", "Sunset": "Sat, 31 Dec 2025 23:59:59 GMT" }),
+        "Content-Length": Buffer.byteLength(doc)
       });
       
       res.status(200).end();
@@ -370,26 +461,13 @@ export function discoveryMiddleware(
     }
     
     try {
-      // Build discovery document
-      const doc = buildDiscoveryDocument(config, req);
+      // Build appropriate document
+      const doc = isLegacyPath
+        ? buildLegacyDiscoveryDocument(config, req)
+        : buildAgentCard(config, req);
       
-      // Validate against schema
-      validateDocument(doc);
-      
-      // Serialize document
-      const json = JSON.stringify(doc);
-      
-      // Generate ETag from config hash (stable) rather than request-dependent document
-      // This ensures ETag is consistent across requests even when URLs are constructed from request
-      const configHash = generateETag(JSON.stringify({
-        schemaUrl: config.schemaUrl,
-        lafsVersion: config.lafsVersion,
-        service: config.service,
-        capabilities: config.capabilities,
-        endpoints: config.endpoints,
-        cacheMaxAge: config.cacheMaxAge
-      }));
-      const etag = enableEtag ? configHash : undefined;
+      const json = JSON.stringify(doc, null, 2);
+      const etag = enableEtag ? generateETag(json) : undefined;
       
       // Check If-None-Match for conditional request
       if (enableEtag && req.headers["if-none-match"] === etag) {
@@ -408,6 +486,13 @@ export function discoveryMiddleware(
         headers["ETag"] = etag;
       }
       
+      // Add deprecation headers for legacy path
+      if (isLegacyPath) {
+        headers["Deprecation"] = "true";
+        headers["Sunset"] = "Sat, 31 Dec 2025 23:59:59 GMT";
+        headers["Link"] = `<${buildUrl(config.baseUrl, path, req)}>; rel="successor-version"`;
+      }
+      
       res.set(headers);
       res.status(200).send(json);
     } catch (error) {
@@ -417,7 +502,7 @@ export function discoveryMiddleware(
 }
 
 /**
- * Fastify plugin for LAFS discovery (for Fastify users)
+ * Fastify plugin for A2A Agent Card discovery
  * 
  * @param fastify - Fastify instance
  * @param options - Plugin options
@@ -426,14 +511,12 @@ export async function discoveryFastifyPlugin(
   fastify: unknown,
   options: { config: DiscoveryConfig; path?: string }
 ): Promise<void> {
-  const path = options.path || "/.well-known/lafs.json";
+  const path = options.path || "/.well-known/agent-card.json";
   const config = options.config;
   const cacheMaxAge = config.cacheMaxAge || 3600;
   
   const handler = async (request: { raw?: Request }, reply: { header: (k: string, v: string) => void }) => {
-    const doc = buildDiscoveryDocument(config, request.raw);
-    validateDocument(doc);
-    
+    const doc = buildAgentCard(config, request.raw);
     const json = JSON.stringify(doc);
     const etag = generateETag(json);
     
@@ -447,5 +530,35 @@ export async function discoveryFastifyPlugin(
   // Note: Actual route registration depends on Fastify's API
   // This is a type-safe signature for the plugin
 }
+
+// ============================================================================
+// Breaking Changes Documentation
+// ============================================================================
+
+/**
+ * BREAKING CHANGES v1.2.3 → v2.0.0:
+ * 
+ * 1. Discovery Endpoint Path
+ *    - OLD: /.well-known/lafs.json
+ *    - NEW: /.well-known/agent-card.json
+ *    - MIGRATION: Update client code to use new path
+ *    - BACKWARD COMPAT: Legacy path still works but logs deprecation warning
+ * 
+ * 2. Discovery Document Format
+ *    - OLD: DiscoveryDocument interface (lafs_version, service, capabilities, endpoints)
+ *    - NEW: AgentCard interface (A2A v1.0 compliant)
+ *    - MIGRATION: Update config from 'service' to 'agent' format
+ *    - BACKWARD COMPAT: Legacy config format automatically converted with warning
+ * 
+ * 3. Type Names
+ *    - Capability → AgentSkill (renamed to align with A2A spec)
+ *    - ServiceConfig → AgentCard (renamed)
+ *    - All old types marked as @deprecated
+ * 
+ * 4. Removed in v2.0.0
+ *    - Legacy path support will be removed
+ *    - Old type definitions will be removed
+ *    - Automatic config migration will be removed
+ */
 
 export default discoveryMiddleware;

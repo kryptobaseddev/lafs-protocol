@@ -1,44 +1,86 @@
 /**
- * LAFS Agent-to-Agent (A2A) Integration
+ * LAFS Agent-to-Agent (A2A) Integration v2.0
  * 
- * This module provides integration between LAFS and the official 
- * @a2a-js/sdk for Agent-to-Agent communication.
+ * Full integration with the official @a2a-js/sdk for Agent-to-Agent communication.
+ * Implements A2A Protocol v1.0+ specification.
+ * 
+ * Reference: specs/external/specification.md
  * 
  * @example
  * ```typescript
+ * import type { AgentCard, Task } from '@cleocode/lafs-protocol/a2a';
+ * import { 
+ *   createLafsArtifact, 
+ *   createTextArtifact,
+ *   LafsA2AResult,
+ *   isExtensionRequired 
+ * } from '@cleocode/lafs-protocol/a2a';
+ * 
+ * // Use A2A SDK directly for client operations
  * import { ClientFactory } from '@a2a-js/sdk/client';
- * import { withLafsEnvelope } from '@cleocode/lafs-protocol/a2a';
  * 
- * // Create official A2A client
  * const factory = new ClientFactory();
- * const a2aClient = await factory.createFromUrl('http://agent.example.com');
+ * const client = await factory.createFromUrl('https://agent.example.com');
+ * const result = await client.sendMessage({...});
  * 
- * // Wrap with LAFS support
- * const client = withLafsEnvelope(a2aClient, {
- *   defaultBudget: { maxTokens: 4000 }
- * });
- * 
- * // Send message
- * const result = await client.sendMessage({
- *   message: {
- *     role: 'user',
- *     parts: [{ text: 'Analyze data' }]
- *   }
- * });
- * 
- * // Extract LAFS envelope from response
- * const envelope = result.getLafsEnvelope();
- * if (envelope) {
- *   console.log(envelope._meta._tokenEstimate);
- * }
+ * // Wrap result with LAFS helpers
+ * const lafsResult = new LafsA2AResult(result, {}, 'req-001');
+ * const envelope = lafsResult.getLafsEnvelope();
  * ```
  */
 
+// ============================================================================
+// Core Exports
+// ============================================================================
+
 export {
-  withLafsEnvelope,
-  LafsA2AClient,
+  // Result wrapper
   LafsA2AResult,
+  
+  // Artifact helpers
   createLafsArtifact,
-  type LafsA2AConfig,
-  type LafsEnvelope
+  createTextArtifact,
+  createFileArtifact,
+  
+  // Extension helpers
+  isExtensionRequired,
+  getExtensionParams,
+  
+  // Constants
+  AGENT_CARD_PATH,
+  HTTP_EXTENSION_HEADER,
 } from './bridge.js';
+
+// ============================================================================
+// Type Exports
+// ============================================================================
+
+export type {
+  // LAFS-specific types
+  LafsA2AConfig,
+  LafsSendMessageParams,
+} from './bridge.js';
+
+// Re-export A2A SDK types for convenience
+export type {
+  Task,
+  TaskState,
+  TaskStatus,
+  Artifact,
+  Part,
+  Message,
+  AgentCard,
+  AgentSkill,
+  AgentCapabilities,
+  AgentExtension,
+  PushNotificationConfig,
+  MessageSendConfiguration,
+  TaskStatusUpdateEvent,
+  TaskArtifactUpdateEvent,
+  SendMessageResponse,
+  SendMessageSuccessResponse,
+  JSONRPCErrorResponse,
+  TextPart,
+  DataPart,
+  FilePart,
+} from '@a2a-js/sdk';

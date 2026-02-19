@@ -10,6 +10,14 @@
     ".": {
       "import": "./dist/src/index.js",
       "types": "./dist/src/index.d.ts"
+    },
+    "./discovery": {
+      "import": "./dist/src/discovery.js",
+      "types": "./dist/src/discovery.d.ts"
+    },
+    "./a2a": {
+      "import": "./dist/src/a2a/index.js",
+      "types": "./dist/src/a2a/index.d.ts"
     }
   },
   "files": [

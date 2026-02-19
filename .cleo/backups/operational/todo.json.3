@@ -47,10 +47,10 @@
       }
     }
   },
-  "lastUpdated": "2026-02-17T01:52:08.776Z",
+  "lastUpdated": "2026-02-19T18:19:20.092Z",
   "_meta": {
     "schemaVersion": "2.10.0",
-    "checksum": "3d21b5d7e1927b94",
+    "checksum": "5e17c7dc66f55254",
     "configVersion": "2.10.0",
     "lastSessionId": null,
     "activeSession": null,
@@ -1993,12 +1993,12 @@
     {
       "id": "T057",
       "title": "Add MVI conformance checks",
-      "status": "pending",
+      "status": "done",
       "priority": "high",
       "type": "task",
       "parentId": "T053",
       "createdAt": "2026-02-12T17:43:01Z",
-      "updatedAt": "2026-02-12T17:43:01Z",
+      "updatedAt": "2026-02-17T01:52:12.840Z",
       "size": "medium",
       "position": 4,
       "positionVersion": 0,
@@ -2011,6 +2011,10 @@
         "Response validated against declared MVI profile",
         "Unknown expansion fields rejected",
         "Tests pass"
+      ],
+      "completedAt": "2026-02-17T01:52:12.840Z",
+      "notes": [
+        "2026-02-17 01:52:12 UTC: [DONE 2026-02-16] Token budget validation conformance check implemented in src/budgetEnforcement.ts with 42 tests. Validates _budget parameter enforcement, E_MVI_BUDGET_EXCEEDED errors, truncation strategies, token estimation accuracy."
       ]
     },
     {
@@ -2398,12 +2402,12 @@
     {
       "id": "T074",
       "title": "Build Python validation library",
-      "status": "pending",
+      "status": "done",
       "priority": "high",
       "type": "task",
       "parentId": "T072",
       "createdAt": "2026-02-12T17:43:57Z",
-      "updatedAt": "2026-02-12T17:43:57Z",
+      "updatedAt": "2026-02-17T01:52:10.061Z",
       "size": "medium",
       "position": 2,
       "positionVersion": 0,
@@ -2417,17 +2421,21 @@
         "Validates envelopes against schema",
         "Checks error codes",
         "README with usage"
+      ],
+      "completedAt": "2026-02-17T01:52:10.061Z",
+      "notes": [
+        "2026-02-17 01:52:10 UTC: [DONE 2026-02-16] Python SDK complete. Package lafs-protocol pip installable. Modules: envelope.py, budget.py, client.py. 55 tests pass. Example in python/examples/basic_usage.py."
       ]
     },
     {
       "id": "T075",
       "title": "Build MCP integration proof-of-concept",
-      "status": "pending",
+      "status": "done",
       "priority": "high",
       "type": "task",
       "parentId": "T072",
       "createdAt": "2026-02-12T17:43:58Z",
-      "updatedAt": "2026-02-12T17:43:58Z",
+      "updatedAt": "2026-02-17T01:52:11.383Z",
       "size": "medium",
       "position": 3,
       "positionVersion": 0,
@@ -2440,6 +2448,10 @@
         "MCP tool server returning LAFS-conformant envelopes",
         "Demonstrates complementarity",
         "Documented"
+      ],
+      "completedAt": "2026-02-17T01:52:11.383Z",
+      "notes": [
+        "2026-02-17 01:52:11 UTC: [DONE 2026-02-16] MCP integration complete. Working server in examples/mcp-lafs-server.ts with 3 tools. Client in examples/mcp-lafs-client.ts. Adapter in src/mcpAdapter.ts. 14 integration tests pass. Proves LAFS complements MCP."
       ]
     },
     {
@@ -2835,6 +2847,126 @@
       "notes": [
         "2026-02-17 01:36:02 UTC: [DONE 2026-02-16] Agent reasoning chain fixtures complete. Fixtures: /fixtures/agent-workflows/"
       ]
+    },
+    {
+      "id": "T094",
+      "title": "A2A Protocol v1.0+ Compliance and Integration",
+      "status": "pending",
+      "priority": "critical",
+      "type": "task",
+      "parentId": null,
+      "position": 20,
+      "positionVersion": 0,
+      "size": "medium",
+      "createdAt": "2026-02-19T18:18:59.833Z",
+      "updatedAt": "2026-02-19T18:18:59.833Z",
+      "phase": "setup",
+      "description": "Achieve full A2A v1.0+ protocol compliance: Update discovery path to /.well-known/agent-card.json, implement A2A Extensions, ensure protobuf compliance, integrate upstream SDK, align Agent Card format, implement task lifecycle. Download A2A specs instead of duplicating."
+    },
+    {
+      "id": "T095",
+      "title": "Download and reference A2A specification documents",
+      "status": "pending",
+      "priority": "critical",
+      "type": "subtask",
+      "parentId": "T094",
+      "position": 1,
+      "positionVersion": 0,
+      "size": "medium",
+      "createdAt": "2026-02-19T18:19:06.780Z",
+      "updatedAt": "2026-02-19T18:19:06.780Z",
+      "phase": "setup",
+      "description": "Download A2A specification documents to specs/external/ directory for internal reference. Create symlinks or references instead of duplicating content. Documents: specification.md, agent-discovery.md, life-of-a-task.md, extensions.md, streaming-and-async.md, a2a-and-mcp.md, whats-new-v1.md"
+    },
+    {
+      "id": "T096",
+      "title": "Update discovery path to /.well-known/agent-card.json",
+      "status": "pending",
+      "priority": "critical",
+      "type": "subtask",
+      "parentId": "T094",
+      "position": 2,
+      "positionVersion": 0,
+      "size": "medium",
+      "createdAt": "2026-02-19T18:19:09.555Z",
+      "updatedAt": "2026-02-19T18:19:09.555Z",
+      "phase": "setup",
+      "description": "Update LAFS discovery endpoint from /.well-known/lafs.json to /.well-known/agent-card.json per A2A v1.0 spec and IANA feedback. Update middleware, documentation, and examples. Maintain backward compatibility with deprecation notice."
+    },
+    {
+      "id": "T097",
+      "title": "Align Agent Card format with A2A specification",
+      "status": "pending",
+      "priority": "critical",
+      "type": "subtask",
+      "parentId": "T094",
+      "position": 3,
+      "positionVersion": 0,
+      "size": "medium",
+      "createdAt": "2026-02-19T18:19:11.690Z",
+      "updatedAt": "2026-02-19T18:19:11.690Z",
+      "phase": "setup",
+      "description": "Update Agent Card JSON structure to match A2A v1.0 specification. Include: name, description, version, url, capabilities (streaming, pushNotifications, extensions), skills, securitySchemes, provider, defaultInputModes, defaultOutputModes, documentationUrl, iconUrl"
+    },
+    {
+      "id": "T098",
+      "title": "Implement A2A Extensions support",
+      "status": "pending",
+      "priority": "critical",
+      "type": "subtask",
+      "parentId": "T094",
+      "position": 4,
+      "positionVersion": 0,
+      "size": "medium",
+      "createdAt": "2026-02-19T18:19:14.038Z",
+      "updatedAt": "2026-02-19T18:19:14.038Z",
+      "phase": "setup",
+      "description": "Full implementation of A2A Extensions mechanism: Extension declaration in Agent Card, A2A-Extensions header handling, extension activation negotiation, required extension validation, ExtensionSupportRequiredError. Support data-only, profile, method, and state machine extensions."
+    },
+    {
+      "id": "T099",
+      "title": "Implement task lifecycle per A2A specification",
+      "status": "pending",
+      "priority": "critical",
+      "type": "subtask",
+      "parentId": "T094",
+      "position": 5,
+      "positionVersion": 0,
+      "size": "medium",
+      "createdAt": "2026-02-19T18:19:15.973Z",
+      "updatedAt": "2026-02-19T18:19:15.973Z",
+      "phase": "setup",
+      "description": "Implement full A2A task lifecycle: states (submitted, working, completed, failed, canceled, rejected, input-required, auth-required), status updates, task immutability after terminal state, contextId semantics, task refinement with referenceTaskIds, parallel follow-ups support"
+    },
+    {
+      "id": "T100",
+      "title": "Add A2A protocol bindings support",
+      "status": "pending",
+      "priority": "critical",
+      "type": "subtask",
+      "parentId": "T094",
+      "position": 6,
+      "positionVersion": 0,
+      "size": "medium",
+      "createdAt": "2026-02-19T18:19:18.084Z",
+      "updatedAt": "2026-02-19T18:19:18.084Z",
+      "phase": "setup",
+      "description": "Implement A2A protocol bindings: JSON-RPC 2.0 (methods, error codes), HTTP+JSON/REST (endpoints, headers), gRPC (service definitions). Include proper error mapping across bindings and A2A-Version header support."
+    },
+    {
+      "id": "T101",
+      "title": "Implement streaming and async operations",
+      "status": "pending",
+      "priority": "high",
+      "type": "subtask",
+      "parentId": "T094",
+      "position": 7,
+      "positionVersion": 0,
+      "size": "medium",
+      "createdAt": "2026-02-19T18:19:20.092Z",
+      "updatedAt": "2026-02-19T18:19:20.092Z",
+      "phase": "setup",
+      "description": "Implement A2A streaming operations: SendStreamingMessage, SubscribeToTask, TaskStatusUpdateEvent, TaskArtifactUpdateEvent, artifact append/last_chunk. Implement async push notifications with webhook support and PushNotificationConfig management."
     }
   ],
   "labels": {}
