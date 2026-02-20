@@ -47,6 +47,14 @@ All modules are re-exported from `src/index.ts`:
 | `flagSemantics.ts` | Output format resolution with precedence: explicit flag > project config > user config > default (json) |
 | `conformance.ts` | Conformance test runners for envelopes and flags |
 | `cli.ts` | CLI entry point (`lafs-conformance` binary) |
+| `discovery.ts` | Express middleware for A2A Agent Card at `/.well-known/agent-card.json` with `autoIncludeLafsExtension` option |
+| `a2a/bridge.ts` | A2A SDK integration: `LafsA2AResult`, `createLafsArtifact()`, extension helpers |
+| `a2a/extensions.ts` | Extension negotiation (`negotiateExtensions()`), `buildLafsExtension()`, Express middleware, `ExtensionSupportRequiredError` |
+| `a2a/task-lifecycle.ts` | Task state machine (`TaskManager`), state constants, `attachLafsEnvelope()` |
+| `a2a/bindings/jsonrpc.ts` | JSON-RPC method constants, A2A error codes (-32001 to -32009), request/response builders |
+| `a2a/bindings/http.ts` | HTTP endpoints, status codes, RFC 9457 Problem Details, URL building |
+| `a2a/bindings/grpc.ts` | gRPC status codes, error reasons, service method definitions (types only, no runtime dep) |
+| `a2a/bindings/index.ts` | Barrel export + `getErrorCodeMapping()` cross-binding error mapping |
 
 ### Key Protocol Invariants
 

@@ -18,6 +18,10 @@
     "./a2a": {
       "import": "./dist/src/a2a/index.js",
       "types": "./dist/src/a2a/index.d.ts"
+    },
+    "./a2a/bindings": {
+      "import": "./dist/src/a2a/bindings/index.js",
+      "types": "./dist/src/a2a/bindings/index.d.ts"
     }
   },
   "files": [

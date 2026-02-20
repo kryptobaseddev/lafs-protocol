@@ -36,20 +36,88 @@
 export {
   // Result wrapper
   LafsA2AResult,
-  
+
   // Artifact helpers
   createLafsArtifact,
   createTextArtifact,
   createFileArtifact,
-  
+
   // Extension helpers
   isExtensionRequired,
   getExtensionParams,
-  
+
   // Constants
   AGENT_CARD_PATH,
   HTTP_EXTENSION_HEADER,
 } from './bridge.js';
+
+// ============================================================================
+// Extensions (T098)
+// ============================================================================
+
+export {
+  // Constants
+  LAFS_EXTENSION_URI,
+  A2A_EXTENSIONS_HEADER,
+
+  // Functions
+  parseExtensionsHeader,
+  negotiateExtensions,
+  formatExtensionsHeader,
+  buildLafsExtension,
+
+  // Error class
+  ExtensionSupportRequiredError,
+
+  // Middleware
+  extensionNegotiationMiddleware,
+} from './extensions.js';
+
+export type {
+  LafsExtensionParams,
+  ExtensionNegotiationResult,
+  BuildLafsExtensionOptions,
+  ExtensionNegotiationMiddlewareOptions,
+} from './extensions.js';
+
+// ============================================================================
+// Task Lifecycle (T099)
+// ============================================================================
+
+export {
+  // State constants
+  TERMINAL_STATES,
+  INTERRUPTED_STATES,
+  VALID_TRANSITIONS,
+
+  // State functions
+  isValidTransition,
+  isTerminalState,
+  isInterruptedState,
+
+  // Error classes
+  InvalidStateTransitionError,
+  TaskImmutabilityError,
+  TaskNotFoundError,
+
+  // Task manager
+  TaskManager,
+
+  // LAFS integration
+  attachLafsEnvelope,
+} from './task-lifecycle.js';
+
+export type {
+  CreateTaskOptions,
+  ListTasksOptions,
+  ListTasksResult,
+} from './task-lifecycle.js';
+
+// ============================================================================
+// Protocol Bindings (T100)
+// ============================================================================
+
+export * from './bindings/index.js';
 
 // ============================================================================
 // Type Exports

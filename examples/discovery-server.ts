@@ -159,8 +159,8 @@ app.use(discoveryMiddleware(discoveryConfig));
 app.get("/health", (req: Request, res: Response) => {
   res.json({
     status: "healthy",
-    service: discoveryConfig.service.name,
-    version: discoveryConfig.service.version,
+    service: discoveryConfig.service?.name ?? discoveryConfig.agent?.name,
+    version: discoveryConfig.service?.version ?? discoveryConfig.agent?.version,
     timestamp: new Date().toISOString()
   });
 });
@@ -192,8 +192,8 @@ const server = app.listen(PORT, () => {
 ╔════════════════════════════════════════════════════════╗
 ║     LAFS Discovery Server Running                      ║
 ╠════════════════════════════════════════════════════════╣
-║  Service:    ${discoveryConfig.service.name.padEnd(43)}║
-║  Version:    ${discoveryConfig.service.version.padEnd(43)}║
+║  Service:    ${(discoveryConfig.service?.name ?? discoveryConfig.agent?.name ?? 'unknown').padEnd(43)}║
+║  Version:    ${(discoveryConfig.service?.version ?? discoveryConfig.agent?.version ?? 'unknown').padEnd(43)}║
 ║  Port:       ${String(PORT).padEnd(43)}║
 ╠════════════════════════════════════════════════════════╣
 ║  Endpoints:                                            ║

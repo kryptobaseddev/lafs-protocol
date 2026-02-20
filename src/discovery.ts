@@ -10,6 +10,7 @@
 import type { Request, Response, NextFunction, RequestHandler } from "express";
 import { createRequire } from "node:module";
 import { createHash } from "crypto";
+import { buildLafsExtension } from './a2a/extensions.js';
 
 const require = createRequire(import.meta.url);
 
@@ -172,8 +173,8 @@ export interface DiscoveryDocument {
  * Configuration for the discovery middleware (A2A v1.0 format)
  */
 export interface DiscoveryConfig {
-  /** Agent information */
-  agent: Omit<AgentCard, '$schema'>;
+  /** Agent information (required for A2A v1.0; omit only with legacy 'service') */
+  agent?: Omit<AgentCard, '$schema'>;
   /** Base URL for constructing absolute URLs */
   baseUrl?: string;
   /** Cache duration in seconds (default: 3600) */
@@ -182,6 +183,15 @@ export interface DiscoveryConfig {
   schemaUrl?: string;
   /** Optional custom headers */
   headers?: Record<string, string>;
+  /**
+   * Automatically include LAFS as an A2A extension in Agent Card.
+   * Pass `true` for defaults, or an object to customize parameters.
+   */
+  autoIncludeLafsExtension?: boolean | {
+    required?: boolean;
+    supportsContextLedger?: boolean;
+    supportsTokenBudgets?: boolean;
+  };
   /**
    * @deprecated Use 'agent' instead
    */
@@ -298,12 +308,32 @@ function buildAgentCard(
     };
   }
   
-  // Standard A2A v1.0 Agent Card
-  return {
+  // Standard A2A v1.0 Agent Card (agent is guaranteed present; legacy path returned above)
+  const agent = config.agent!;
+  const card: AgentCard = {
     $schema: schemaUrl,
-    ...config.agent,
-    url: config.agent.url || buildUrl(config.baseUrl, "/", req)
+    ...agent,
+    url: agent.url || buildUrl(config.baseUrl, "/", req)
   };
+
+  // Auto-include LAFS extension if configured
+  if (config.autoIncludeLafsExtension) {
+    const lafsOptions = typeof config.autoIncludeLafsExtension === 'object'
+      ? config.autoIncludeLafsExtension
+      : undefined;
+    const ext = buildLafsExtension(lafsOptions);
+    if (!card.capabilities.extensions) {
+      card.capabilities.extensions = [];
+    }
+    card.capabilities.extensions.push({
+      uri: ext.uri,
+      description: ext.description ?? 'LAFS envelope protocol for structured agent responses',
+      required: ext.required ?? false,
+      params: ext.params,
+    });
+  }
+
+  return card;
 }
 
 /**
@@ -321,19 +351,19 @@ function buildLegacyDiscoveryDocument(
     $schema: schemaUrl,
     lafs_version: lafsVersion,
     service: config.service || {
-      name: config.agent.name,
-      version: config.agent.version,
-      description: config.agent.description
+      name: config.agent!.name,
+      version: config.agent!.version,
+      description: config.agent!.description
     },
-    capabilities: config.capabilities || config.agent.skills.map(skill => ({
+    capabilities: config.capabilities || config.agent!.skills.map(skill => ({
       name: skill.name,
-      version: config.agent.version,
+      version: config.agent!.version,
       description: skill.description,
       operations: skill.tags,
       optional: false
     })),
     endpoints: {
-      envelope: config.endpoints?.envelope || config.agent.url,
+      envelope: config.endpoints?.envelope || config.agent!.url,
       context: config.endpoints?.context,
       discovery: config.endpoints?.discovery || buildUrl(config.baseUrl, "/.well-known/lafs.json", req)
     }

@@ -290,7 +290,7 @@ describe("Discovery Middleware", () => {
       };
       
       expect(() => {
-        discoveryMiddleware(invalidConfig);
+        discoveryMiddleware(invalidConfig as DiscoveryConfig);
       }).toThrow();
     });
 
@@ -302,9 +302,9 @@ describe("Discovery Middleware", () => {
           version: ""
         }
       };
-      
+
       expect(() => {
-        discoveryMiddleware(invalidConfig);
+        discoveryMiddleware(invalidConfig as DiscoveryConfig);
       }).toThrow();
     });
 

@@ -18,7 +18,8 @@ LAFS defines a standard envelope format for structured responses from LLM-powere
 | | `schemas/v1/context-ledger.schema.json` | Context ledger for state tracking across request/response cycles |
 | | `schemas/v1/error-registry.json` | 12 registered error codes with HTTP/gRPC/CLI transport mappings |
 | **Tooling** | `src/` | TypeScript validation, conformance runner, CLI diagnostic tool |
-| **Tests** | `tests/` | 31 tests covering envelope, pagination, strict mode, error handling |
+| **A2A** | `src/a2a/` | Agent-to-Agent integration: extensions, task lifecycle, protocol bindings (JSON-RPC/HTTP/gRPC) |
+| **Tests** | `tests/` | Tests covering envelope, pagination, strict mode, error handling, A2A extensions, task lifecycle, bindings |
 | **Fixtures** | `fixtures/` | 14 JSON fixtures (valid + invalid) for conformance testing |
 | **Docs** | `docs/` | [GitBook documentation](https://codluv.gitbook.io/lafs-protocol/) with guides, SDK reference, and specs |
 
@@ -97,6 +98,47 @@ npm run typecheck
 - **Error registry** — 12 codes with category, retryability, and transport-specific status mappings
 - **Extension mechanism** — `_extensions` field for vendor metadata (`x-` prefix convention)
 - **Adoption tiers** — Core, Standard, Complete with progressive conformance requirements
+- **A2A integration** — Agent Card discovery, extension negotiation, task lifecycle management, protocol bindings
+
+## A2A Integration
+
+LAFS integrates with the [A2A Protocol](https://github.com/google/A2A) via `@a2a-js/sdk`. Import from the `@cleocode/lafs-protocol/a2a` subpath:
+
+```typescript
+import {
+  // Extensions
+  buildLafsExtension,
+  extensionNegotiationMiddleware,
+  LAFS_EXTENSION_URI,
+
+  // Task lifecycle
+  TaskManager,
+  attachLafsEnvelope,
+  isTerminalState,
+
+  // Protocol bindings
+  getErrorCodeMapping,
+  createJsonRpcRequest,
+  createProblemDetails,
+} from "@cleocode/lafs-protocol/a2a";
+```
+
+**Agent Card with LAFS extension** — use `autoIncludeLafsExtension` in discovery config:
+
+```typescript
+import { discoveryMiddleware } from "@cleocode/lafs-protocol/discovery";
+
+app.use(discoveryMiddleware({
+  agent: { name: "my-agent", /* ... */ },
+  autoIncludeLafsExtension: true,
+}));
+```
+
+**Protocol bindings** are also available as a standalone subpath:
+
+```typescript
+import { getErrorCodeMapping } from "@cleocode/lafs-protocol/a2a/bindings";
+```
 
 ## Conformance checks
 
@@ -125,9 +167,19 @@ src/
   conformance.ts                 # Conformance runner (8 checks)
   errorRegistry.ts               # Error code helpers
   flagSemantics.ts               # Format flag resolution
+  discovery.ts                   # A2A Agent Card discovery middleware
   cli.ts                         # CLI diagnostic tool
-tests/                           # 31 tests (vitest)
-fixtures/                        # 14 JSON test fixtures
+  a2a/
+    bridge.ts                    # A2A SDK integration & result wrapper
+    extensions.ts                # Extension negotiation & LAFS extension builder
+    task-lifecycle.ts            # Task state machine & lifecycle management
+    bindings/
+      jsonrpc.ts                 # JSON-RPC 2.0 method/error constants & builders
+      http.ts                    # HTTP endpoints, RFC 9457 Problem Details
+      grpc.ts                    # gRPC status codes & service definitions (types only)
+      index.ts                   # Barrel export & cross-binding error mapping
+tests/                           # Tests (vitest)
+fixtures/                        # JSON test fixtures
 docs/
   POSITIONING.md                 # MCP/A2A complementary positioning
   VISION.md                      # Project vision and primary persona
@@ -142,7 +194,8 @@ CONTRIBUTING.md                  # Contributor guidelines, RFC process
 
 | Version | Phase | Description |
 |---------|-------|-------------|
-| **v1.0.0** | **3** | **Production release: Token budgets, agent discovery, MCP integration, complete SDKs** |
+| **v1.2.3** | **4** | **A2A v1.0+ compliance: extension negotiation, task lifecycle, protocol bindings (JSON-RPC/HTTP/gRPC)** |
+| v1.0.0 | 3 | Production release: Token budgets, agent discovery, MCP integration, complete SDKs |
 | v0.5.0 | 2B | Conditional pagination, MVI field selection/expansion, context ledger schema |
 | v0.4.0 | 2A | Optional page/error, extensions, strict/lenient mode, warnings |
 | v0.3.0 | 1 | Strategic positioning, vision alignment, adoption tiers |
