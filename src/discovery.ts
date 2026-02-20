@@ -363,8 +363,8 @@ function buildLegacyDiscoveryDocument(
       optional: false
     })),
     endpoints: {
-      envelope: config.endpoints?.envelope || config.agent!.url,
-      context: config.endpoints?.context,
+      envelope: buildUrl(config.baseUrl, config.endpoints?.envelope || config.agent!.url, req),
+      context: config.endpoints?.context ? buildUrl(config.baseUrl, config.endpoints.context, req) : undefined,
       discovery: config.endpoints?.discovery || buildUrl(config.baseUrl, "/.well-known/lafs.json", req)
     }
   };
@@ -423,7 +423,8 @@ export function discoveryMiddleware(
 ): RequestHandler {
   const path = options.path || "/.well-known/agent-card.json";
   const legacyPath = options.legacyPath || "/.well-known/lafs.json";
-  const enableLegacyPath = options.enableLegacyPath !== false;
+  // Disable legacy path by default when a custom path is set, unless explicitly enabled
+  const enableLegacyPath = options.enableLegacyPath ?? !options.path;
   const enableHead = options.enableHead !== false;
   const enableEtag = options.enableEtag !== false;
   const cacheMaxAge = config.cacheMaxAge || 3600;
@@ -432,7 +433,44 @@ export function discoveryMiddleware(
   if (!config.agent && !config.service) {
     throw new Error("Discovery config requires 'agent' (A2A v1.0) or 'service' (legacy) configuration");
   }
+
+  // Validate legacy service config fields
+  if (config.service) {
+    if (!config.service.name) {
+      throw new Error("Discovery config requires 'service.name'");
+    }
+    if (!config.service.version) {
+      throw new Error("Discovery config requires 'service.version'");
+    }
+  }
+
+  // Validate legacy capabilities/endpoints when using service config
+  if (config.service && !config.agent) {
+    if (config.capabilities === undefined || config.capabilities === null) {
+      throw new Error("Discovery config requires 'capabilities' when using legacy 'service' config");
+    }
+    if (!config.endpoints?.envelope) {
+      throw new Error("Discovery config requires 'endpoints.envelope' when using legacy 'service' config");
+    }
+  }
   
+  // Cache serialized documents to ensure consistent ETags across GET/HEAD
+  let cachedPrimaryJson: string | null = null;
+  let cachedLegacyJson: string | null = null;
+
+  function getSerializedDoc(isLegacy: boolean, req: Request): string {
+    if (isLegacy) {
+      if (!cachedLegacyJson) {
+        cachedLegacyJson = JSON.stringify(buildLegacyDiscoveryDocument(config, req), null, 2);
+      }
+      return cachedLegacyJson;
+    }
+    if (!cachedPrimaryJson) {
+      cachedPrimaryJson = JSON.stringify(buildAgentCard(config, req), null, 2);
+    }
+    return cachedPrimaryJson;
+  }
+
   return function discoveryHandler(
     req: Request,
     res: Response,
@@ -440,19 +478,19 @@ export function discoveryMiddleware(
   ): void {
     const isPrimaryPath = req.path === path;
     const isLegacyPath = enableLegacyPath && req.path === legacyPath;
-    
+
     // Only handle requests to discovery paths
     if (!isPrimaryPath && !isLegacyPath) {
       next();
       return;
     }
-    
+
     // Log deprecation warning for legacy path
     if (isLegacyPath) {
       console.warn(`[DEPRECATION] Accessing legacy discovery endpoint ${legacyPath}. ` +
         `Migrate to ${path} for A2A v1.0+ compliance. Legacy support will be removed in v2.0.0.`);
     }
-    
+
     // Handle HEAD requests
     if (req.method === "HEAD") {
       if (!enableHead) {
@@ -462,25 +500,22 @@ export function discoveryMiddleware(
         });
         return;
       }
-      
-      const doc = isLegacyPath 
-        ? JSON.stringify(buildLegacyDiscoveryDocument(config, req))
-        : JSON.stringify(buildAgentCard(config, req));
-      
-      const etag = enableEtag ? generateETag(doc) : undefined;
-      
+
+      const json = getSerializedDoc(isLegacyPath, req);
+      const etag = enableEtag ? generateETag(json) : undefined;
+
       res.set({
         "Content-Type": "application/json",
         "Cache-Control": `public, max-age=${cacheMaxAge}`,
         ...(etag && { "ETag": etag }),
         ...(isLegacyPath && { "Deprecation": "true", "Sunset": "Sat, 31 Dec 2025 23:59:59 GMT" }),
-        "Content-Length": Buffer.byteLength(doc)
+        "Content-Length": Buffer.byteLength(json)
       });
-      
+
       res.status(200).end();
       return;
     }
-    
+
     // Only handle GET requests
     if (req.method !== "GET") {
       res.status(405).json({
@@ -489,14 +524,9 @@ export function discoveryMiddleware(
       });
       return;
     }
-    
+
     try {
-      // Build appropriate document
-      const doc = isLegacyPath
-        ? buildLegacyDiscoveryDocument(config, req)
-        : buildAgentCard(config, req);
-      
-      const json = JSON.stringify(doc, null, 2);
+      const json = getSerializedDoc(isLegacyPath, req);
       const etag = enableEtag ? generateETag(json) : undefined;
       
       // Check If-None-Match for conditional request

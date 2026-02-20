@@ -249,18 +249,19 @@ describe("Discovery Middleware", () => {
 
     it("should return Content-Length matching GET response", async () => {
       const app = createApp(validConfig);
-      
+
       const getResponse = await request(app)
         .get("/.well-known/lafs.json")
         .expect(200);
-      
+
       const headResponse = await request(app)
         .head("/.well-known/lafs.json")
         .expect(200);
-      
-      const getBodyLength = Buffer.byteLength(JSON.stringify(getResponse.body));
+
+      // Compare against actual response body length (raw text, not re-serialized)
+      const getBodyLength = Buffer.byteLength(getResponse.text);
       const headContentLength = parseInt(headResponse.headers["content-length"] || "0");
-      
+
       expect(headContentLength).toBe(getBodyLength);
     });
 
