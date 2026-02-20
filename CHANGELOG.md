@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.1] - 2026-02-20
+
+### Fixed
+
+- Legacy discovery config validation: reject empty `service.name`, empty `service.version`, missing `capabilities`, and missing `endpoints.envelope`
+- ETag mismatch between HEAD and GET requests on legacy discovery endpoint (HEAD used compact JSON, GET used pretty-printed)
+- Relative URLs in legacy discovery documents not resolved against `baseUrl`
+- Custom discovery path not disabling legacy `/.well-known/lafs.json` fallback
+- Content-Length test comparing re-serialized compact JSON against pretty-printed response body
+
+All 243 tests now pass (0 failures).
+
 ## [1.3.0] - 2026-02-20
 
 ### Added
