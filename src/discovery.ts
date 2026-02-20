@@ -345,7 +345,7 @@ function buildLegacyDiscoveryDocument(
   req?: Request
 ): DiscoveryDocument {
   const schemaUrl = config.schemaUrl || "https://lafs.dev/schemas/v1/discovery.schema.json";
-  const lafsVersion = config.lafsVersion || "1.2.3";
+  const lafsVersion = config.lafsVersion || "1.3.0";
   
   return {
     $schema: schemaUrl,

@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-02-20
+
+### Added
+
+A2A v1.0+ compliance implementation (Wave 1):
+
+- **Extension negotiation** (`src/a2a/extensions.ts`): `parseExtensionsHeader()`, `negotiateExtensions()`, `buildLafsExtension()`, Express middleware, `ExtensionSupportRequiredError` (code -32008)
+- **Task lifecycle** (`src/a2a/task-lifecycle.ts`): `TaskManager` with CRUD/pagination, state machine enforcement (valid transitions, terminal state immutability), `attachLafsEnvelope()` integration helper
+- **Protocol bindings** (`src/a2a/bindings/`): JSON-RPC method/error constants, HTTP endpoints with RFC 9457 Problem Details, gRPC status codes and service definitions (types only, no runtime dependency), cross-binding `getErrorCodeMapping()` for all 9 A2A error types
+- **Discovery integration**: `autoIncludeLafsExtension` option in `DiscoveryConfig` to auto-declare LAFS in Agent Card
+- **Subpath export**: `@cleocode/lafs-protocol/a2a/bindings` for standalone binding imports
+- 130 new tests across extensions (32), task lifecycle (44), and bindings (54)
+
+### Fixed
+
+- Resolved type name conflicts between `discovery.ts` and `@a2a-js/sdk` re-exports in root `index.ts` (pre-existing from Wave 0)
+- Made `DiscoveryConfig.agent` optional for backward compatibility with legacy `service` configs
+- Fixed `examples/discovery-server.ts` references to optional `service` field
+
 ## [1.2.3] - 2026-02-18
 
 ### CI/CD Fixes
