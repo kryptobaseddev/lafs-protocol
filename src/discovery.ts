@@ -14,6 +14,14 @@ import { buildLafsExtension } from './a2a/extensions.js';
 
 const require = createRequire(import.meta.url);
 
+// Resolve package.json from project root (works from both src/ and dist/src/)
+let pkg: { version: string };
+try {
+  pkg = require('../package.json');
+} catch {
+  pkg = require('../../package.json');
+}
+
 // ============================================================================
 // A2A v1.0 Agent Card Types
 // ============================================================================
@@ -345,7 +353,7 @@ function buildLegacyDiscoveryDocument(
   req?: Request
 ): DiscoveryDocument {
   const schemaUrl = config.schemaUrl || "https://lafs.dev/schemas/v1/discovery.schema.json";
-  const lafsVersion = config.lafsVersion || "1.3.1";
+  const lafsVersion = config.lafsVersion || pkg.version;
   
   return {
     $schema: schemaUrl,

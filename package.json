@@ -46,6 +46,7 @@
     "lafs-conformance": "dist/src/cli.js"
   },
   "scripts": {
+    "version": "node scripts/sync-version.mjs",
     "build": "rm -rf dist && tsc -p tsconfig.build.json",
     "prepack": "npm run build",
     "typecheck": "tsc --noEmit",

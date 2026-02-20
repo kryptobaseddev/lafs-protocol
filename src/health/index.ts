@@ -5,6 +5,15 @@
  */
 
 import { Application } from 'express';
+import { createRequire } from 'node:module';
+
+const require = createRequire(import.meta.url);
+let pkg: { version: string };
+try {
+  pkg = require('../../package.json');
+} catch {
+  pkg = require('../../../package.json');
+}
 
 export interface HealthCheckConfig {
   path?: string;
@@ -102,7 +111,7 @@ export function healthCheck(config: HealthCheckConfig = {}) {
     const health: HealthStatus = {
       status,
       timestamp,
-      version: process.env.npm_package_version || '1.1.0',
+      version: pkg.version,
       uptime: Math.floor((Date.now() - startTime) / 1000),
       checks: checkResults
     };
