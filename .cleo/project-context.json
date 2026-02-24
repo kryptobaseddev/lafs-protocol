@@ -1,0 +1,8 @@
+{
+  "type": "node",
+  "testFramework": "unknown",
+  "hasTypeScript": true,
+  "monorepo": false,
+  "packageManager": "npm",
+  "detectedAt": "2026-02-24T21:32:53.969Z"
+}
