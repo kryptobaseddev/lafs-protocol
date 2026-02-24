@@ -20,6 +20,8 @@ export interface Warning {
   removeBy?: string;
 }
 
+export type MVILevel = 'minimal' | 'standard' | 'full' | 'custom';
+
 export interface LAFSMeta {
   specVersion: string;
   schemaVersion: string;
@@ -28,7 +30,7 @@ export interface LAFSMeta {
   requestId: string;
   transport: LAFSTransport;
   strict: boolean;
-  mvi: 'minimal' | 'standard' | 'full' | 'custom';
+  mvi: MVILevel;
   contextVersion: number;
   /** Session identifier for correlating multi-step agent workflows */
   sessionId?: string;
