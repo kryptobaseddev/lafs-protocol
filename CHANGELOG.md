@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.2] - 2026-02-24
+
+### Added
+
+- Exported `MVILevel` type alias (`'minimal' | 'standard' | 'full' | 'custom'`) from `types.ts` so consumers can import it directly instead of redeclaring the mvi disclosure level union
+
 ## [1.3.1] - 2026-02-20
 
 ### Fixed
