@@ -1,253 +1,214 @@
 # TypeScript SDK Reference
 
-**What you'll learn:** How to use the LAFS TypeScript SDK for envelope creation, validation, and conformance testing.
+Code-truth source for this page: `src/index.ts`.
 
-## Installation
+## Install
 
 ```bash
 npm install @cleocode/lafs-protocol
 ```
 
-## Core functions
+## Envelope APIs
 
-### `createEnvelope(options)`
+### `createEnvelope(input)`
 
-Create a LAFS-compliant envelope.
+Builds a schema-ready envelope with sane defaults for `_meta`.
 
 ```typescript
-import { createEnvelope } from '@cleocode/lafs-protocol';
+import { createEnvelope } from "@cleocode/lafs-protocol";
 
 const envelope = createEnvelope({
   success: true,
   result: { message: "Hello, World!" },
   meta: {
     operation: "hello.world",
-    requestId: "req_123"
-  }
+    requestId: "req_123",
+  },
 });
 ```
 
-**Parameters:**
+Defaults applied:
+- `$schema`: `https://lafs.dev/schemas/v1/envelope.schema.json`
+- `_meta.specVersion`: `1.0.0`
+- `_meta.schemaVersion`: `1.0.0`
+- `_meta.timestamp`: current ISO date-time
+- `_meta.transport`: `sdk`
+- `_meta.strict`: `true`
+- `_meta.mvi`: `standard`
+- `_meta.contextVersion`: `0`
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `success` | `boolean` | Yes | Success indicator |
-| `result` | `unknown` | Conditional | Result data (required if success=true) |
-| `error` | `LafsError` | Conditional | Error details (required if success=false) |
-| `page` | `PageMetadata` | No | Pagination info |
-| `meta` | `object` | Yes | Metadata including operation, requestId |
+### `parseLafsResponse(input, options?)`
 
-### `validateEnvelope(envelope)`
-
-Validate an envelope against the JSON Schema.
-
-```typescript
-import { validateEnvelope } from '@cleocode/lafs-protocol';
-
-const result = validateEnvelope(envelope);
-
-if (result.valid) {
-  console.log('Envelope is valid');
-} else {
-  console.error('Validation errors:', result.errors);
-}
-```
-
-**Returns:**
+Validates input and returns `result` on success. Throws `LafsError` on protocol error envelopes.
 
 ```typescript
-interface ValidationResult {
-  valid: boolean;
-  errors?: ValidationError[];
-}
-```
-
-### `parseLafsResponse(envelope)`
-
-Parse and validate a LAFS response, extracting the result or throwing on error.
-
-```typescript
-import { parseLafsResponse } from '@cleocode/lafs-protocol';
+import { LafsError, parseLafsResponse } from "@cleocode/lafs-protocol";
 
 try {
-  const result = parseLafsResponse(envelope);
-  console.log('Result:', result);
+  const result = parseLafsResponse<{ users: Array<{ id: string }> }>(envelope);
+  console.log(result.users.length);
 } catch (error) {
   if (error instanceof LafsError) {
-    console.error('LAFS Error:', error.code, error.message);
-    if (error.retryable) {
-      // Retry logic
-    }
+    console.error(error.code, error.category, error.retryable);
   }
 }
 ```
 
-### `isRegisteredErrorCode(code)`
-
-Check if an error code is in the LAFS registry.
-
-```typescript
-import { isRegisteredErrorCode } from '@cleocode/lafs-protocol';
-
-if (isRegisteredErrorCode('E_NOT_FOUND_RESOURCE')) {
-  console.log('Valid error code');
-}
-```
-
-## Conformance testing
-
-### `runEnvelopeConformance(envelope, options)`
-
-Run the full conformance test suite on an envelope.
-
-```typescript
-import { runEnvelopeConformance } from '@cleocode/lafs-protocol';
-
-const report = runEnvelopeConformance(envelope, {
-  tier: 'standard',  // 'core', 'standard', or 'complete'
-  strict: true
-});
-
-console.log('All checks passed:', report.ok);
-console.log('Passed:', report.passed);
-console.log('Failed:', report.failed);
-
-// Individual check results
-report.checks.forEach(check => {
-  console.log(`${check.name}: ${check.passed ? 'PASS' : 'FAIL'}`);
-  if (!check.passed) {
-    console.log('  Error:', check.error);
-  }
-});
-```
-
-**Conformance checks:**
-
-| Check | Tier | Description |
-|-------|------|-------------|
-| `envelope_schema_valid` | Core | Validates against JSON Schema |
-| `envelope_invariants` | Core | Checks success/result/error consistency |
-| `error_code_registered` | Core | Verifies error code exists in registry |
-| `meta_mvi_present` | Standard | Validates MVI disclosure level |
-| `meta_strict_present` | Standard | Checks strict mode declaration |
-| `strict_mode_behavior` | Standard | Validates optional field handling |
-| `strict_mode_enforced` | Standard | Checks unknown property rejection |
-| `pagination_mode_consistent` | Standard | Validates pagination metadata |
-
-## Types
-
-### `LafsEnvelope`
-
-```typescript
-interface LafsEnvelope {
-  $schema?: string;
-  _meta: MetaData;
-  success: boolean;
-  result: unknown | null;
-  error: LafsError | null;
-  page?: PageMetadata | null;
-  _extensions?: Record<string, unknown>;
-}
-```
+Options:
+- `requireRegisteredErrorCode?: boolean`
 
 ### `LafsError`
 
-```typescript
-interface LafsError {
-  code: string;
-  message: string;
-  category: ErrorCategory;
-  retryable: boolean;
-  retryAfterMs?: number | null;
-  details?: Record<string, unknown>;
-}
+Thrown by `parseLafsResponse` for `success: false` envelopes.
 
-type ErrorCategory = 
-  | 'VALIDATION' 
-  | 'NOT_FOUND' 
-  | 'AUTH' 
-  | 'PERMISSION' 
-  | 'RATE_LIMIT' 
-  | 'CONFLICT' 
-  | 'TRANSIENT' 
-  | 'INTERNAL' 
-  | 'CONTRACT' 
-  | 'MIGRATION';
-```
+Properties:
+- `code`
+- `message`
+- `category`
+- `retryable`
+- `retryAfterMs`
+- `details`
+- `registered` (whether code exists in registry)
 
-### `PageMetadata`
+## Validation and conformance APIs
+
+### `validateEnvelope(input)`
+
+Schema validation using Ajv and `schemas/v1/envelope.schema.json`.
 
 ```typescript
-type PageMetadata = 
-  | CursorPageMetadata 
-  | OffsetPageMetadata;
+import { validateEnvelope } from "@cleocode/lafs-protocol";
 
-interface CursorPageMetadata {
-  mode: 'cursor';
-  nextCursor: string;
-  hasMore: boolean;
-}
-
-interface OffsetPageMetadata {
-  mode: 'offset';
-  offset: number;
-  limit: number;
-  total: number;
-  hasMore: boolean;
+const result = validateEnvelope(envelope);
+if (!result.valid) {
+  console.error(result.errors);
 }
 ```
 
-## Error handling
+### `assertEnvelope(input)`
 
-### `LafsError` class
+Same validation, throws if invalid and returns typed `LAFSEnvelope` if valid.
 
 ```typescript
-import { LafsError } from '@cleocode/lafs-protocol';
+import { assertEnvelope } from "@cleocode/lafs-protocol";
 
-try {
-  const result = parseLafsResponse(envelope);
-} catch (error) {
-  if (error instanceof LafsError) {
-    console.log('Code:', error.code);
-    console.log('Category:', error.category);
-    console.log('Retryable:', error.retryable);
-    
-    if (error.retryable) {
-      // Implement retry
-    }
+const typed = assertEnvelope(unknownInput);
+```
+
+### `runEnvelopeConformance(envelope)`
+
+Runs semantic checks in addition to schema validation.
+
+```typescript
+import { runEnvelopeConformance } from "@cleocode/lafs-protocol";
+
+const report = runEnvelopeConformance(envelope);
+if (!report.ok) {
+  for (const check of report.checks) {
+    if (!check.pass) console.error(check.name, check.detail);
   }
 }
 ```
 
-## Advanced usage
+Checks currently include:
+- `envelope_schema_valid`
+- `envelope_invariants`
+- `error_code_registered`
+- `meta_mvi_present`
+- `meta_strict_present`
+- `strict_mode_behavior`
+- `pagination_mode_consistent`
+- `strict_mode_enforced`
 
-### Custom validation
+### `isRegisteredErrorCode(code)`
 
 ```typescript
-import { Ajv } from 'ajv';
-import envelopeSchema from '@cleocode/lafs-protocol/schemas/envelope.schema.json';
+import { isRegisteredErrorCode } from "@cleocode/lafs-protocol";
 
-const ajv = new Ajv({ strict: false });
-const validate = ajv.compile(envelopeSchema);
-
-const isValid = validate(envelope);
-if (!isValid) {
-  console.error(validate.errors);
+if (!isRegisteredErrorCode("E_VALIDATION_SCHEMA")) {
+  throw new Error("Unregistered error code");
 }
 ```
 
-### Token estimation
+## Compliance pipeline APIs
+
+### `enforceCompliance(input, options?)`
+
+Runs schema validation, envelope conformance checks, optional flag conformance, and optional JSON-output policy checks.
 
 ```typescript
-import { estimateTokens } from '@cleocode/lafs-protocol';
+import { enforceCompliance } from "@cleocode/lafs-protocol";
 
-const data = { users: [{ id: 1, name: "Alice" }] };
-const tokens = estimateTokens(data);
-console.log(`Estimated tokens: ${tokens}`);
+const result = enforceCompliance(envelope, {
+  checkConformance: true,
+  requireJsonOutput: true,
+  flags: { jsonFlag: true },
+});
+
+if (!result.ok) {
+  console.error(result.issues);
+}
+```
+
+### `assertCompliance(input, options?)`
+
+Returns typed `LAFSEnvelope` if compliant, otherwise throws `ComplianceError`.
+
+### `withCompliance(producer, options?)`
+
+Wrap any envelope producer with compliance gating.
+
+### `createComplianceMiddleware(options?)`
+
+Creates middleware `(envelope, next) => envelope` that enforces compliance on `next()` output.
+
+## Format policy APIs
+
+### `resolveOutputFormat(flags)`
+
+```typescript
+import { resolveOutputFormat } from "@cleocode/lafs-protocol";
+
+const format = resolveOutputFormat({ jsonFlag: true, humanFlag: false });
+// { format: "json", source: "flag", quiet: false }
+```
+
+### `runFlagConformance(flags)`
+
+```typescript
+import { runFlagConformance } from "@cleocode/lafs-protocol";
+
+const report = runFlagConformance({ projectDefault: "json" });
+console.log(report.ok);
+```
+
+## MCP adapter APIs
+
+### `wrapMCPResult(mcpResult, operation, budget?)`
+
+Converts MCP `CallToolResult` to a LAFS envelope.
+
+### `createAdapterErrorEnvelope(message, operation, category?)`
+
+Creates LAFS envelope for adapter-level failures.
+
+## A2A APIs
+
+Use `@cleocode/lafs-protocol/a2a` for:
+- Extension negotiation
+- Task lifecycle utilities
+- Binding helpers (`@cleocode/lafs-protocol/a2a/bindings`)
+
+## Schema imports
+
+You can import canonical schemas directly:
+
+```typescript
+import envelopeSchema from "@cleocode/lafs-protocol/schemas/v1/envelope.schema.json";
 ```
 
 ## Next steps
 
-- **[Python SDK](python.md)** — Python SDK reference
-- **[CLI Reference](cli.md)** — Command-line tools
-- **[Envelope basics](../getting-started/envelope-basics.md)** — Learn about envelopes
+- [Quick Start Guide](../getting-started/quickstart.md)
+- [LLM Agent Guide](../guides/llm-agent-guide.md)
+- [Schema Extension Guide](../guides/schema-extension.md)

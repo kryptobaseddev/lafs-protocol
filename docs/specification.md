@@ -1,7 +1,7 @@
 # LAFS: LLM-Agent-First Specification
 
 > 📚 **Documentation:** https://codluv.gitbook.io/lafs-protocol/  
-> **Version:** 1.3.1 | **Status:** Production Ready
+> **Version:** 1.4.0 | **Status:** Production Ready
 
 ## 1. Scope
 
@@ -130,7 +130,7 @@ All responses MUST conform to `schemas/v1/envelope.schema.json`.
     "requestId": "req_123",
     "transport": "cli",
     "strict": true,
-    "mvi": true,
+    "mvi": "standard",
     "contextVersion": 0
   },
   "success": true,
@@ -142,7 +142,6 @@ All responses MUST conform to `schemas/v1/envelope.schema.json`.
 
 ### 6.1 Envelope invariants
 
-- Exactly one of `result` or `error` MUST be non-null.
 - `success=true` implies `error=null` or error omitted.
 - `success=false` implies `result=null` and `error` MUST be present.
 - The `page` and `error` fields are optional when their value would be null. In strict mode, producers SHOULD omit these fields rather than set them to null.

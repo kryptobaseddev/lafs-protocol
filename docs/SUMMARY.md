@@ -35,6 +35,8 @@
 ## Guides
 
 * [LLM Agent Guide](guides/llm-agent-guide.md)
+* [Schema Extension Guide](guides/schema-extension.md)
+* [Compliance Pipeline Guide](guides/compliance-pipeline.md)
 
 ## Implementation Guides
 
@@ -54,6 +56,7 @@
 
 * [Vision](VISION.md)
 * [Positioning](POSITIONING.md)
+* [Documentation Accuracy Audit](DOCS-ACCURACY-AUDIT.md)
 * [Versioning Policy](VERSIONING.md)
 * [Deprecation Policy](DEPRECATION.md)
 * [Error Registry](../schemas/v1/error-registry.json)

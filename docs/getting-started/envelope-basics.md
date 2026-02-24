@@ -17,7 +17,7 @@ Every LAFS response follows this canonical shape:
     "requestId": "req_123",
     "transport": "http",
     "strict": true,
-    "mvi": true,
+    "mvi": "standard",
     "contextVersion": 0
   },
   "success": true,
@@ -51,7 +51,7 @@ Metadata about the response:
 | `requestId` | string | Unique request identifier |
 | `transport` | string | Transport used (`http`, `grpc`, `cli`, etc.) |
 | `strict` | boolean | Strict mode enabled |
-| `mvi` | boolean/string | MVI disclosure level |
+| `mvi` | string | MVI disclosure level (`minimal`, `standard`, `full`, `custom`) |
 | `contextVersion` | integer | Context ledger version |
 | `sessionId` | string | Session identifier for multi-step workflows (optional) |
 | `warnings` | array | Non-fatal warnings (deprecations, etc.) (optional) |
@@ -132,11 +132,10 @@ Pagination metadata for list operations.
 
 These rules **must** always hold:
 
-1. **Exactly one** of `result` or `error` is non-null
-2. `success=true` → `error` is null (or omitted)
-3. `success=false` → `result` is null and `error` is present
-4. In strict mode, unknown fields are rejected
-5. `page` and `error` can be omitted when null
+1. `success=true` → `error` is null (or omitted)
+2. `success=false` → `result` is null and `error` is present
+3. In strict mode, unknown top-level fields are rejected
+4. `page` and `error` can be omitted when null
 
 ## Working with envelopes
 

@@ -7,6 +7,59 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-02-24
+
+### Added
+
+- First-class compliance pipeline APIs in core SDK (`src/compliance.ts`): `enforceCompliance`, `assertCompliance`, `withCompliance`, `createComplianceMiddleware`, and `ComplianceError`
+- Envelope-first APIs in core SDK (`src/envelope.ts`): `createEnvelope`, `parseLafsResponse`, `LafsError`, and `LAFS_SCHEMA_URL`
+- Package schema subpath exports in `package.json` for machine tooling and LLM agent workflows:
+  - `@cleocode/lafs-protocol/schemas/v1/envelope.schema.json`
+  - `@cleocode/lafs-protocol/schemas/v1/error-registry.json`
+  - `@cleocode/lafs-protocol/schemas/v1/context-ledger.schema.json`
+  - `@cleocode/lafs-protocol/schemas/v1/discovery.schema.json`
+- New SDK tests:
+  - `tests/envelopeApi.test.ts`
+  - `tests/compliance.test.ts`
+
+### Changed
+
+- Python envelope semantics aligned closer to canonical schema and TypeScript behavior (`python/lafs_protocol/envelope.py`):
+  - `mvi` now uses enum strings (`minimal|standard|full|custom`) with legacy bool normalization
+  - `_meta` validation now enforces required schema fields and value constraints
+  - error object validation now enforces required shape
+  - strict mode now rejects unknown top-level fields
+  - pagination validation now enforces mode-conditional required fields
+  - envelope serialization always includes `result`
+- Python package version now derives from root `package.json` (single source of truth) via `python/setup.py`
+- Python classifier matrix updated to include Python `3.13` and `3.14`
+
+### Documentation
+
+- Added and/or updated LLM-agent-first docs with code-true examples:
+  - `docs/guides/compliance-pipeline.md`
+  - `docs/guides/schema-extension.md`
+  - `docs/guides/llm-agent-guide.md`
+  - `docs/sdk/typescript.md`
+  - `docs/getting-started/quickstart.md`
+  - `docs/CONFORMANCE.md`
+  - `docs/integrations/mcp.md`
+  - `docs/integrations/a2a.md`
+  - `docs/integrations/rest.md`
+  - `docs/programmatic-construction.md`
+  - `docs/troubleshooting.md`
+  - `docs/ARCHITECTURE.md`
+  - `docs/llms.txt`
+- Removed stale examples and signatures to reduce doc drift (legacy CLI commands, legacy package paths, outdated conformance signatures).
+
+### Provenance
+
+- Task provenance tracked in CLEO:
+  - `T105` Envelope API hardening and docs provenance
+  - `T106` Implement first-class compliance middleware API
+  - `T107` Align Python envelope semantics with schema
+  - `T108` Eliminate stale examples across docs
+
 ## [1.3.2] - 2026-02-24
 
 ### Added

@@ -4,7 +4,7 @@
 
 LAFS defines a standard envelope format for structured responses from LLM-powered agents and tools. It complements transport protocols like [MCP](https://modelcontextprotocol.io/) and [A2A](https://github.com/google/A2A) by standardizing what comes back — not how it gets there.
 
-**Current version:** 1.3.1 | [📚 Documentation](https://codluv.gitbook.io/lafs-protocol/) | [Spec](lafs.md) | [Migration Guides](migrations/)
+**Current version:** 1.4.0 | [📚 Documentation](https://codluv.gitbook.io/lafs-protocol/) | [Spec](lafs.md) | [Migration Guides](migrations/)
 
 [![GitBook](https://img.shields.io/badge/docs-gitbook-blue)](https://codluv.gitbook.io/lafs-protocol/)
 [![npm](https://img.shields.io/npm/v/@cleocode/lafs-protocol)](https://www.npmjs.com/package/@cleocode/lafs-protocol)
@@ -33,21 +33,48 @@ npm install @cleocode/lafs-protocol
 
 ```typescript
 import {
+  createEnvelope,
+  parseLafsResponse,
+  LafsError,
   validateEnvelope,
   runEnvelopeConformance,
   isRegisteredErrorCode,
 } from "@cleocode/lafs-protocol";
 
+// Build envelope with defaults
+const envelope = createEnvelope({
+  success: true,
+  result: { items: [] },
+  meta: { operation: "example.list", requestId: "req_1" },
+});
+
 // Validate an envelope against the schema
-const result = validateEnvelope(envelope);
-if (!result.valid) {
-  console.error(result.errors);
+const validation = validateEnvelope(envelope);
+if (!validation.valid) {
+  console.error(validation.errors);
+}
+
+// Parse envelope responses with one function
+try {
+  const parsed = parseLafsResponse(envelope);
+  console.log(parsed);
+} catch (error) {
+  if (error instanceof LafsError) {
+    console.error(error.code, error.message);
+  }
 }
 
 // Run full conformance suite (schema + invariants + error codes + strict mode + pagination)
 const report = runEnvelopeConformance(envelope);
 console.log(report.ok); // true if all checks pass
 ```
+
+## LLM-agent implementation guides
+
+- `docs/guides/llm-agent-guide.md` - parser, success/error handling, strict JSON policy
+- `docs/guides/schema-extension.md` - operation-specific result validation on top of core schema
+- `docs/guides/compliance-pipeline.md` - generation middleware with validate + conformance gates
+- `docs/llms.txt` - LLM-oriented index and canonical sources
 
 ## CLI
 
