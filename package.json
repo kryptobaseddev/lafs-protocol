@@ -1,6 +1,6 @@
 {
   "name": "@cleocode/lafs-protocol",
-  "version": "1.3.2",
+  "version": "1.4.0",
   "private": false,
   "type": "module",
   "description": "LLM-Agent-First Specification schemas and conformance tooling",
@@ -22,7 +22,11 @@
     "./a2a/bindings": {
       "import": "./dist/src/a2a/bindings/index.js",
       "types": "./dist/src/a2a/bindings/index.d.ts"
-    }
+    },
+    "./schemas/v1/envelope.schema.json": "./schemas/v1/envelope.schema.json",
+    "./schemas/v1/error-registry.json": "./schemas/v1/error-registry.json",
+    "./schemas/v1/context-ledger.schema.json": "./schemas/v1/context-ledger.schema.json",
+    "./schemas/v1/discovery.schema.json": "./schemas/v1/discovery.schema.json"
   },
   "files": [
     "dist",
