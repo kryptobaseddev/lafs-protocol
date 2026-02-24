@@ -67,18 +67,24 @@ class Envelope:
         page: Optional[Dict] = None,
         context_version: int = 0,
         strict: bool = True,
-        mvi: Union[str, bool] = True,
+        mvi: Union[str, bool] = "standard",
+        transport: str = "sdk",
     ) -> "Envelope":
         """Create a successful response envelope."""
+        if isinstance(mvi, bool):
+            mvi_level = "minimal" if mvi else "standard"
+        else:
+            mvi_level = mvi
+
         meta = {
             "specVersion": "1.0.0",
             "schemaVersion": "1.0.0",
             "timestamp": datetime.utcnow().isoformat() + "Z",
             "operation": operation,
             "requestId": request_id,
-            "transport": "http",
+            "transport": transport,
             "strict": strict,
-            "mvi": mvi if isinstance(mvi, bool) else mvi == "minimal",
+            "mvi": mvi_level,
             "contextVersion": context_version,
         }
         return cls(success=True, result=result, page=page, meta=meta)
@@ -95,17 +101,25 @@ class Envelope:
         retry_after_ms: Optional[int] = None,
         details: Optional[Dict] = None,
         context_version: int = 0,
+        strict: bool = True,
+        mvi: Union[str, bool] = "standard",
+        transport: str = "sdk",
     ) -> "Envelope":
         """Create an error response envelope."""
+        if isinstance(mvi, bool):
+            mvi_level = "minimal" if mvi else "standard"
+        else:
+            mvi_level = mvi
+
         meta = {
             "specVersion": "1.0.0",
             "schemaVersion": "1.0.0",
             "timestamp": datetime.utcnow().isoformat() + "Z",
             "operation": operation,
             "requestId": request_id,
-            "transport": "http",
-            "strict": True,
-            "mvi": True,
+            "transport": transport,
+            "strict": strict,
+            "mvi": mvi_level,
             "contextVersion": context_version,
         }
         error = {
@@ -116,7 +130,7 @@ class Envelope:
             "retryAfterMs": retry_after_ms,
             "details": details or {},
         }
-        return cls(success=False, error=error, meta=meta)
+        return cls(success=False, error=error, result=None, meta=meta)
 
     def to_dict(self) -> Dict[str, Any]:
         """Convert envelope to dictionary."""
@@ -124,10 +138,9 @@ class Envelope:
             "$schema": self.schema,
             "_meta": self._meta,
             "success": self.success,
+            "result": self.result,
         }
 
-        if self.result is not None:
-            envelope["result"] = self.result
         if self.error is not None:
             envelope["error"] = self.error
         if self.page is not None:
@@ -175,12 +188,43 @@ class EnvelopeValidator:
         "MIGRATION",
     }
 
+    VALID_MVI_LEVELS = {"minimal", "standard", "full", "custom"}
+    VALID_TRANSPORTS = {"cli", "http", "grpc", "sdk"}
+
     REQUIRED_META_FIELDS = {
         "specVersion",
         "schemaVersion",
         "timestamp",
         "operation",
         "requestId",
+        "transport",
+        "strict",
+        "mvi",
+        "contextVersion",
+    }
+
+    ALLOWED_ENVELOPE_FIELDS = {
+        "$schema",
+        "_meta",
+        "success",
+        "result",
+        "error",
+        "page",
+        "_extensions",
+    }
+
+    ALLOWED_META_FIELDS = {
+        "specVersion",
+        "schemaVersion",
+        "timestamp",
+        "operation",
+        "requestId",
+        "transport",
+        "strict",
+        "mvi",
+        "contextVersion",
+        "sessionId",
+        "warnings",
     }
 
     def validate(self, envelope: Union[Envelope, Dict]) -> List[str]:
@@ -209,10 +253,37 @@ class EnvelopeValidator:
                 if field not in meta:
                     errors.append(f"Missing required meta field: {field}")
 
+            unknown_meta_fields = set(meta.keys()) - self.ALLOWED_META_FIELDS
+            if unknown_meta_fields:
+                errors.append(
+                    f"Unknown _meta field(s): {', '.join(sorted(unknown_meta_fields))}"
+                )
+
+            if "transport" in meta and meta["transport"] not in self.VALID_TRANSPORTS:
+                errors.append(f"Invalid transport: {meta['transport']}")
+
+            if "strict" in meta and not isinstance(meta["strict"], bool):
+                errors.append("Meta field 'strict' must be a boolean")
+
+            if "mvi" in meta and meta["mvi"] not in self.VALID_MVI_LEVELS:
+                errors.append(f"Invalid mvi level: {meta['mvi']}")
+
+            if "contextVersion" in meta:
+                if (
+                    not isinstance(meta["contextVersion"], int)
+                    or meta["contextVersion"] < 0
+                ):
+                    errors.append(
+                        "Meta field 'contextVersion' must be a non-negative integer"
+                    )
+
         if "success" not in data:
             errors.append("Missing required field: success")
         elif not isinstance(data["success"], bool):
             errors.append("Field 'success' must be a boolean")
+
+        if "result" not in data:
+            errors.append("Missing required field: result")
 
         # Validate envelope invariants
         success = data.get("success")
@@ -222,17 +293,28 @@ class EnvelopeValidator:
         if success:
             if error is not None:
                 errors.append("success=true implies error must be null or omitted")
-            if result is None:
-                errors.append("success=true requires non-null result")
         else:
             if result is not None:
                 errors.append("success=false implies result must be null")
             if error is None:
                 errors.append("success=false requires non-null error")
 
+        meta = data.get("_meta", {}) if isinstance(data.get("_meta"), dict) else {}
+        if meta.get("strict") is True:
+            unknown_fields = set(data.keys()) - self.ALLOWED_ENVELOPE_FIELDS
+            if unknown_fields:
+                errors.append(
+                    f"Strict mode rejects unknown top-level field(s): {', '.join(sorted(unknown_fields))}"
+                )
+
         # Validate error structure if present
         if error is not None:
             errors.extend(self._validate_error(error))
+
+        # Validate pagination structure if present
+        page = data.get("page")
+        if page is not None:
+            errors.extend(self._validate_page(page))
 
         return errors
 
@@ -248,12 +330,53 @@ class EnvelopeValidator:
         if "message" not in error:
             errors.append("Error missing required field: message")
 
+        if "category" not in error:
+            errors.append("Error missing required field: category")
+
         if "category" in error:
             if error["category"] not in self.VALID_CATEGORIES:
                 errors.append(f"Invalid error category: {error['category']}")
 
-        if "retryable" in error and not isinstance(error["retryable"], bool):
+        if "retryable" not in error:
+            errors.append("Error missing required field: retryable")
+        elif not isinstance(error["retryable"], bool):
             errors.append("Error field 'retryable' must be a boolean")
+
+        if "retryAfterMs" not in error:
+            errors.append("Error missing required field: retryAfterMs")
+
+        if "details" not in error:
+            errors.append("Error missing required field: details")
+
+        return errors
+
+    def _validate_page(self, page: Dict) -> List[str]:
+        """Validate page object with mode-conditional requirements."""
+        errors = []
+
+        if not isinstance(page, dict):
+            errors.append("Field 'page' must be an object")
+            return errors
+
+        mode = page.get("mode")
+        if mode not in {"cursor", "offset", "none"}:
+            errors.append("Page field 'mode' must be one of: cursor, offset, none")
+            return errors
+
+        if mode == "cursor":
+            for field in ["nextCursor", "hasMore"]:
+                if field not in page:
+                    errors.append(f"Cursor mode missing required field: {field}")
+        elif mode == "offset":
+            for field in ["limit", "offset", "hasMore"]:
+                if field not in page:
+                    errors.append(f"Offset mode missing required field: {field}")
+        elif mode == "none":
+            extra_fields = set(page.keys()) - {"mode"}
+            if extra_fields:
+                errors.append(
+                    f"None mode must only contain mode; found extra field(s): {', '.join(sorted(extra_fields))}"
+                )
 
         return errors
 

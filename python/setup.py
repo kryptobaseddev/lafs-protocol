@@ -1,13 +1,23 @@
 """Setup script for lafs_protocol package."""
 
+import json
+from pathlib import Path
 from setuptools import setup, find_packages
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
+
+def read_lafs_version() -> str:
+    """Single source of truth: root package.json version."""
+    root_package_json = Path(__file__).resolve().parent.parent / "package.json"
+    with root_package_json.open("r", encoding="utf-8") as fp:
+        return json.load(fp)["version"]
+
+
 setup(
     name="lafs-protocol",
-    version="1.0.0",
+    version=read_lafs_version(),
     author="LAFS Protocol Team",
     author_email="contact@lafs.dev",
     description="Python SDK for the LLM-Agent-First Specification (LAFS)",
@@ -26,6 +36,8 @@ setup(
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
+        "Programming Language :: Python :: 3.14",
         "Topic :: Software Development :: Libraries :: Python Modules",
         "Topic :: Internet :: WWW/HTTP",
     ],
