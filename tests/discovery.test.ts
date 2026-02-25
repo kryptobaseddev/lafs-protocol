@@ -79,7 +79,58 @@ const validConfig: DiscoveryConfig = {
   lafsVersion: "1.0.0"
 };
 
+const validAgentConfig: DiscoveryConfig = {
+  agent: {
+    name: "test-agent",
+    description: "A2A test agent",
+    version: "1.0.0",
+    url: "https://example.com/api/v1/envelope",
+    capabilities: {
+      streaming: true,
+      pushNotifications: false,
+      extensions: [],
+    },
+    defaultInputModes: ["application/json"],
+    defaultOutputModes: ["application/json"],
+    skills: [
+      {
+        id: "envelope-processor",
+        name: "Envelope Processor",
+        description: "Process LAFS envelopes",
+        tags: ["process", "validate"],
+      },
+    ],
+  },
+  cacheMaxAge: 3600,
+};
+
 describe("Discovery Middleware", () => {
+  describe("GET /.well-known/agent-card.json", () => {
+    it("should return A2A agent card as primary discovery document", async () => {
+      const app = createApp(validAgentConfig);
+      const response = await request(app)
+        .get("/.well-known/agent-card.json")
+        .expect(200)
+        .expect("Content-Type", /json/);
+
+      expect(response.body.name).toBe("test-agent");
+      expect(response.body.capabilities).toBeDefined();
+      expect(response.body.skills).toBeDefined();
+      expect(response.body.defaultInputModes).toContain("application/json");
+      expect(response.body.defaultOutputModes).toContain("application/json");
+    });
+
+    it("should not include legacy deprecation headers on primary path", async () => {
+      const app = createApp(validAgentConfig);
+      const response = await request(app)
+        .get("/.well-known/agent-card.json")
+        .expect(200);
+
+      expect(response.headers.deprecation).toBeUndefined();
+      expect(response.headers.sunset).toBeUndefined();
+    });
+  });
+
   describe("GET /.well-known/lafs.json", () => {
     it("should return valid JSON", async () => {
       const app = createApp(validConfig);
