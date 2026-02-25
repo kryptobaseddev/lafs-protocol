@@ -37,6 +37,9 @@
 * [LLM Agent Guide](guides/llm-agent-guide.md)
 * [Schema Extension Guide](guides/schema-extension.md)
 * [Compliance Pipeline Guide](guides/compliance-pipeline.md)
+* [LAFS for CLI Tools](guides/lafs-for-cli.md)
+* [LAFS for REST APIs](guides/lafs-for-rest.md)
+* [LAFS for MCP Tool Servers](guides/lafs-for-mcp.md)
 
 ## Implementation Guides
 
