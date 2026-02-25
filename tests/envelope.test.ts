@@ -1,6 +1,11 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { isRegisteredErrorCode, runEnvelopeConformance, validateEnvelope } from "../src/index.js";
+import {
+  getTransportMapping,
+  isRegisteredErrorCode,
+  runEnvelopeConformance,
+  validateEnvelope,
+} from "../src/index.js";
 
 function load(path: string): unknown {
   return JSON.parse(readFileSync(path, "utf8")) as unknown;
@@ -383,6 +388,98 @@ describe("LAFS strict/lenient additional-properties enforcement (T038)", () => {
     };
     const report = runEnvelopeConformance(envelope);
     const check = report.checks.find((c) => c.name === "strict_mode_enforced");
+    expect(check).toBeDefined();
+    expect(check!.pass).toBe(true);
+  });
+});
+
+describe("LAFS transport mapping helper/conformance (T059/T060)", () => {
+  it("returns HTTP/GRPC/CLI mappings for a registered code", () => {
+    expect(getTransportMapping("E_NOT_FOUND_RESOURCE", "http")?.value).toBe(404);
+    expect(getTransportMapping("E_NOT_FOUND_RESOURCE", "grpc")?.value).toBe("NOT_FOUND");
+    expect(getTransportMapping("E_NOT_FOUND_RESOURCE", "cli")?.value).toBe(4);
+  });
+
+  it("returns null mapping for unregistered code", () => {
+    expect(getTransportMapping("E_FAKE_UNREGISTERED", "http")).toBeNull();
+  });
+
+  it("passes transport mapping conformance for registered error code", () => {
+    const envelope = load("fixtures/valid-error-envelope.json");
+    const report = runEnvelopeConformance(envelope);
+    const check = report.checks.find((c) => c.name === "transport_mapping_consistent");
+    expect(check).toBeDefined();
+    expect(check!.pass).toBe(true);
+  });
+
+  it("fails transport mapping conformance for unregistered error code", () => {
+    const envelope = load("fixtures/invalid-unregistered-error.json");
+    const report = runEnvelopeConformance(envelope);
+    const check = report.checks.find((c) => c.name === "transport_mapping_consistent");
+    expect(check).toBeDefined();
+    expect(check!.pass).toBe(false);
+  });
+});
+
+describe("LAFS context mutation conformance (T055)", () => {
+  it("fails when context-required mutation succeeds without context identity", () => {
+    const envelope = {
+      $schema: "https://lafs.dev/schemas/v1/envelope.schema.json",
+      _meta: {
+        specVersion: "1.0.0",
+        schemaVersion: "1.0.0",
+        timestamp: "2026-02-25T00:00:00Z",
+        operation: "orders.update",
+        requestId: "req_context_missing",
+        transport: "http",
+        strict: true,
+        mvi: "standard",
+        contextVersion: 0,
+      },
+      success: true,
+      result: { ok: true },
+      _extensions: {
+        context: { required: true },
+      },
+    };
+
+    const report = runEnvelopeConformance(envelope);
+    const check = report.checks.find((c) => c.name === "context_mutation_failure");
+    expect(check).toBeDefined();
+    expect(check!.pass).toBe(false);
+  });
+
+  it("passes when context-required mutation fails with E_CONTEXT_MISSING", () => {
+    const envelope = {
+      $schema: "https://lafs.dev/schemas/v1/envelope.schema.json",
+      _meta: {
+        specVersion: "1.0.0",
+        schemaVersion: "1.0.0",
+        timestamp: "2026-02-25T00:00:00Z",
+        operation: "orders.update",
+        requestId: "req_context_error",
+        transport: "http",
+        strict: true,
+        mvi: "standard",
+        contextVersion: 0,
+      },
+      success: false,
+      result: null,
+      error: {
+        code: "E_CONTEXT_MISSING",
+        message: "context required",
+        category: "CONTRACT",
+        retryable: false,
+        retryAfterMs: null,
+        details: {},
+      },
+      _extensions: {
+        lafsContextRequired: true,
+      },
+    };
+
+    const report = runEnvelopeConformance(envelope);
+    const check = report.checks.find((c) => c.name === "context_mutation_failure");
     expect(check).toBeDefined();
     expect(check!.pass).toBe(true);
   });

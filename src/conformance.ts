@@ -1,4 +1,4 @@
-import { isRegisteredErrorCode } from "./errorRegistry.js";
+import { getTransportMapping, isRegisteredErrorCode } from "./errorRegistry.js";
 import { resolveOutputFormat, LAFSFlagError } from "./flagSemantics.js";
 import type { ConformanceReport, FlagInput } from "./types.js";
 import { validateEnvelope } from "./validateEnvelope.js";
@@ -33,7 +33,15 @@ export function runEnvelopeConformance(envelope: unknown): ConformanceReport {
     error?: null | { code: string };
     page?: unknown;
     _extensions?: Record<string, unknown>;
-    _meta: { mvi: string; strict: boolean; warnings?: unknown[] };
+    _meta: {
+      mvi: string;
+      strict: boolean;
+      warnings?: unknown[];
+      operation: string;
+      contextVersion: number;
+      sessionId?: string;
+      transport: "http" | "grpc" | "cli" | "sdk";
+    };
   };
 
   // envelope_invariants: success=true allows error to be null OR omitted;
@@ -68,6 +76,81 @@ export function runEnvelopeConformance(envelope: unknown): ConformanceReport {
       true,
       "error field absent or null — skipped (optional when success=true)",
     );
+  }
+
+  // transport_mapping_consistent: when an error is present, ensure the code has
+  // a transport-specific mapping in the registry for the declared transport.
+  if (typed.error) {
+    if (typed._meta.transport === "sdk") {
+      pushCheck(
+        checks,
+        "transport_mapping_consistent",
+        true,
+        "sdk transport does not require external status-code mapping",
+      );
+    } else {
+      const mapping = getTransportMapping(typed.error.code, typed._meta.transport);
+      const mappingOk = mapping !== null;
+      pushCheck(
+        checks,
+        "transport_mapping_consistent",
+        mappingOk,
+        mappingOk
+          ? undefined
+          : `no ${typed._meta.transport} mapping found for code ${typed.error.code}`,
+      );
+    }
+  } else {
+    pushCheck(
+      checks,
+      "transport_mapping_consistent",
+      true,
+      "no error present — mapping check skipped",
+    );
+  }
+
+  // context_mutation_failure: if the producer marks context as required for a
+  // mutation operation, missing context must fail with a context error code.
+  {
+    const ext = (typed._extensions ?? {}) as Record<string, unknown>;
+    const contextObj = (ext["context"] ?? {}) as Record<string, unknown>;
+    const lafsObj = (ext["lafs"] ?? {}) as Record<string, unknown>;
+    const contextRequired =
+      ext["lafsContextRequired"] === true ||
+      contextObj["required"] === true ||
+      lafsObj["contextRequired"] === true;
+
+    if (!contextRequired) {
+      pushCheck(
+        checks,
+        "context_mutation_failure",
+        true,
+        "context not marked required — skipped",
+      );
+    } else {
+      const hasContextIdentity = typed._meta.contextVersion > 0 || Boolean(typed._meta.sessionId);
+
+      if (typed.success) {
+        const pass = hasContextIdentity;
+        pushCheck(
+          checks,
+          "context_mutation_failure",
+          pass,
+          pass ? undefined : "context required but missing identity (expect E_CONTEXT_MISSING)",
+        );
+      } else {
+        const code = typed.error?.code;
+        const pass = code === "E_CONTEXT_MISSING" || code === "E_CONTEXT_STALE";
+        pushCheck(
+          checks,
+          "context_mutation_failure",
+          pass,
+          pass
+            ? undefined
+            : `context required failures should return E_CONTEXT_MISSING or E_CONTEXT_STALE, got ${String(code)}`,
+        );
+      }
+    }
   }
 
   const validMviLevels = ["minimal", "standard", "full", "custom"];
