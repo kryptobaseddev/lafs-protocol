@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.1] - 2026-02-25
+
+### Added
+
+- A2A bridge alignment test coverage in `tests/a2aBridge.test.ts` for upstream constants, LAFS artifact envelope extraction, extension requirement checks, and text artifact generation
+- A2A streaming completion APIs in `src/a2a/streaming.ts`:
+  - `PushNotificationDispatcher` for async webhook fan-out from `PushNotificationConfigStore`
+  - `TaskArtifactAssembler` for artifact delta merge semantics (`append` + `lastChunk`)
+
+### Changed
+
+- Updated `src/a2a/bridge.ts` to import `AGENT_CARD_PATH` and `HTTP_EXTENSION_HEADER` as runtime values from `@a2a-js/sdk`
+- Expanded streaming exports through `src/a2a/index.ts` and `src/index.ts` for dispatcher/assembler APIs
+- Expanded `tests/streamingAsync.test.ts` to cover webhook dispatch delivery and artifact append/final-chunk behavior
+
 ### Documentation
 
 - Rewrote `docs/programmatic-construction.md` with comprehensive from-scratch construction guidance: factory parameter breakdown, field constraint tables from the JSON schema, success and error envelope patterns, paginated results (cursor and offset modes), session-correlated messages, versioning fields, MVI levels, construction error handling, and schema import patterns for external validators

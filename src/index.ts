@@ -59,6 +59,8 @@ export {
   // Streaming and Async (T101)
   TaskEventBus,
   PushNotificationConfigStore,
+  PushNotificationDispatcher,
+  TaskArtifactAssembler,
   streamTaskEvents,
 } from "./a2a/index.js";
 
@@ -74,6 +76,8 @@ export type {
   ListTasksResult,
   TaskStreamEvent,
   StreamIteratorOptions,
+  PushNotificationDeliveryResult,
+  PushTransport,
 } from "./a2a/index.js";
 
 // A2A SDK types (non-conflicting subset)

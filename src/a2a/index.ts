@@ -115,12 +115,16 @@ export {
 export {
   TaskEventBus,
   PushNotificationConfigStore,
+  PushNotificationDispatcher,
+  TaskArtifactAssembler,
   streamTaskEvents,
 } from './streaming.js';
 
 export type {
   TaskStreamEvent,
   StreamIteratorOptions,
+  PushNotificationDeliveryResult,
+  PushTransport,
 } from './streaming.js';
 
 export type {

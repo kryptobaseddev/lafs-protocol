@@ -1,7 +1,7 @@
 # LAFS: LLM-Agent-First Specification
 
 > 📚 **Documentation:** https://codluv.gitbook.io/lafs-protocol/  
-> **Version:** 1.4.0 | **Status:** Production Ready
+> **Version:** 1.4.1 | **Status:** Production Ready
 
 ## 1. Scope
 

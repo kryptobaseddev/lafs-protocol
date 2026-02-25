@@ -6,6 +6,7 @@
  */
 
 import type {
+  Artifact,
   PushNotificationConfig,
   TaskArtifactUpdateEvent,
   TaskStatusUpdateEvent,
@@ -173,5 +174,183 @@ export class PushNotificationConfigStore {
       this.configs.delete(taskId);
     }
     return removed;
+  }
+}
+
+export interface PushNotificationDeliveryResult {
+  configId: string;
+  ok: boolean;
+  status?: number;
+  error?: string;
+}
+
+export type PushTransport = (
+  input: string,
+  init?: {
+    method?: string;
+    headers?: Record<string, string>;
+    body?: string;
+  },
+) => Promise<{ ok: boolean; status: number }>;
+
+/**
+ * Deliver task updates to registered push-notification webhooks.
+ */
+export class PushNotificationDispatcher {
+  constructor(
+    private readonly store: PushNotificationConfigStore,
+    private readonly transport: PushTransport = async (input, init) => {
+      if (typeof fetch !== "function") {
+        throw new Error("Global fetch is not available for push dispatch");
+      }
+      return fetch(input, init);
+    },
+  ) {}
+
+  async dispatch(
+    taskId: string,
+    event: TaskStreamEvent,
+  ): Promise<PushNotificationDeliveryResult[]> {
+    const configs = this.store.list(taskId);
+    if (configs.length === 0) {
+      return [];
+    }
+
+    const payload = {
+      taskId,
+      event,
+      timestamp: new Date().toISOString(),
+    };
+
+    const deliveries = configs.map(async (config, index) => {
+      const configId = config.id ?? `${taskId}:${index}`;
+      if (!config.url) {
+        return {
+          configId,
+          ok: false,
+          error: "Push notification config is missing url",
+        } satisfies PushNotificationDeliveryResult;
+      }
+
+      const headers = this.buildHeaders(config);
+
+      try {
+        const response = await this.transport(config.url, {
+          method: "POST",
+          headers,
+          body: JSON.stringify(payload),
+        });
+
+        return {
+          configId,
+          ok: response.ok,
+          status: response.status,
+          ...(response.ok ? {} : { error: `HTTP ${response.status}` }),
+        } satisfies PushNotificationDeliveryResult;
+      } catch (error) {
+        return {
+          configId,
+          ok: false,
+          error: error instanceof Error ? error.message : String(error),
+        } satisfies PushNotificationDeliveryResult;
+      }
+    });
+
+    return Promise.all(deliveries);
+  }
+
+  private buildHeaders(config: PushNotificationConfig): Record<string, string> {
+    const headers: Record<string, string> = {
+      "content-type": "application/json",
+    };
+
+    if (config.token) {
+      headers["x-a2a-task-token"] = config.token;
+    }
+
+    const scheme = config.authentication?.schemes?.[0];
+    const credentials = config.authentication?.credentials;
+
+    if (scheme && credentials) {
+      headers.authorization = `${scheme} ${credentials}`;
+    } else if (config.token) {
+      headers.authorization = `Bearer ${config.token}`;
+    }
+
+    return headers;
+  }
+}
+
+/**
+ * Applies append/lastChunk artifact deltas into task-local snapshots.
+ */
+export class TaskArtifactAssembler {
+  private artifacts = new Map<string, Map<string, Artifact>>();
+
+  applyUpdate(event: TaskArtifactUpdateEvent): Artifact {
+    if (!event.artifact?.artifactId) {
+      throw new Error("Task artifact update is missing artifactId");
+    }
+
+    const taskId = resolveTaskId(event);
+    const artifactId = event.artifact.artifactId;
+
+    let taskArtifacts = this.artifacts.get(taskId);
+    if (!taskArtifacts) {
+      taskArtifacts = new Map<string, Artifact>();
+      this.artifacts.set(taskId, taskArtifacts);
+    }
+
+    const prior = taskArtifacts.get(artifactId);
+    const merged = this.mergeArtifact(prior, event);
+    taskArtifacts.set(artifactId, merged);
+    return merged;
+  }
+
+  get(taskId: string, artifactId: string): Artifact | undefined {
+    return this.artifacts.get(taskId)?.get(artifactId);
+  }
+
+  list(taskId: string): Artifact[] {
+    return [...(this.artifacts.get(taskId)?.values() ?? [])];
+  }
+
+  private mergeArtifact(
+    prior: Artifact | undefined,
+    event: TaskArtifactUpdateEvent,
+  ): Artifact {
+    const next = event.artifact as Artifact;
+    const append = Boolean(event.append);
+    const lastChunk = Boolean(event.lastChunk);
+
+    if (!append || !prior) {
+      return {
+        ...next,
+        metadata: this.withLastChunk(next.metadata, lastChunk),
+      };
+    }
+
+    return {
+      ...prior,
+      ...next,
+      parts: [...(prior.parts ?? []), ...(next.parts ?? [])],
+      metadata: this.withLastChunk(
+        {
+          ...(prior.metadata ?? {}),
+          ...(next.metadata ?? {}),
+        },
+        lastChunk,
+      ),
+    };
+  }
+
+  private withLastChunk(
+    metadata: Record<string, unknown> | undefined,
+    lastChunk: boolean,
+  ): Record<string, unknown> {
+    return {
+      ...(metadata ?? {}),
+      "a2a:last_chunk": lastChunk,
+    };
   }
 }

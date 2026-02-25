@@ -11,6 +11,11 @@
 // Imports - Use official A2A SDK types
 // ============================================================================
 
+import {
+  AGENT_CARD_PATH,
+  HTTP_EXTENSION_HEADER,
+} from '@a2a-js/sdk';
+
 import type {
   Task,
   TaskState,
@@ -33,8 +38,6 @@ import type {
   DataPart,
   FilePart,
   FileWithUri,
-  AGENT_CARD_PATH,
-  HTTP_EXTENSION_HEADER,
 } from '@a2a-js/sdk';
 
 // LAFS types
