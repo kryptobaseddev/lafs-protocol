@@ -1,6 +1,7 @@
 import { getTransportMapping, isRegisteredErrorCode } from "./errorRegistry.js";
 import { resolveOutputFormat, LAFSFlagError } from "./flagSemantics.js";
 import type { ConformanceReport, FlagInput } from "./types.js";
+import { getChecksForTier, type ConformanceTier } from "./conformanceProfiles.js";
 import { validateEnvelope } from "./validateEnvelope.js";
 
 function pushCheck(
@@ -12,7 +13,14 @@ function pushCheck(
   checks.push({ name, pass, ...(detail ? { detail } : {}) });
 }
 
-export function runEnvelopeConformance(envelope: unknown): ConformanceReport {
+export interface EnvelopeConformanceOptions {
+  tier?: ConformanceTier;
+}
+
+export function runEnvelopeConformance(
+  envelope: unknown,
+  options: EnvelopeConformanceOptions = {},
+): ConformanceReport {
   const checks: ConformanceReport["checks"] = [];
 
   const validation = validateEnvelope(envelope);
@@ -211,6 +219,13 @@ export function runEnvelopeConformance(envelope: unknown): ConformanceReport {
       consistent,
       consistent ? undefined : detail,
     );
+  } else {
+    pushCheck(
+      checks,
+      "pagination_mode_consistent",
+      true,
+      "page absent — skipped",
+    );
   }
 
   // strict_mode_enforced: verify the schema enforces additional-property rules.
@@ -236,7 +251,14 @@ export function runEnvelopeConformance(envelope: unknown): ConformanceReport {
     }
   }
 
-  return { ok: checks.every((check) => check.pass), checks };
+  const tier = options.tier;
+  if (!tier) {
+    return { ok: checks.every((check) => check.pass), checks };
+  }
+
+  const allowed = new Set(getChecksForTier(tier));
+  const tierChecks = checks.filter((check) => allowed.has(check.name));
+  return { ok: tierChecks.every((check) => check.pass), checks: tierChecks };
 }
 
 export function runFlagConformance(flags: FlagInput): ConformanceReport {

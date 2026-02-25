@@ -13,6 +13,7 @@
 
 - `schemas/v1/envelope.schema.json` - Canonical JSON Schema
 - `schemas/v1/error-registry.json` - Registered error codes
+- `schemas/v1/conformance-profiles.json` - Machine-readable Core/Standard/Complete profiles
 - `src/envelope.ts` - Envelope construction and parsing helpers
 - `src/compliance.ts` - First-class compliance and middleware APIs
 - `src/validateEnvelope.ts` - Runtime schema validator behavior

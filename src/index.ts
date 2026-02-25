@@ -5,6 +5,7 @@ export * from "./validateEnvelope.js";
 export * from "./envelope.js";
 export * from "./flagSemantics.js";
 export * from "./conformance.js";
+export * from "./conformanceProfiles.js";
 export * from "./compliance.js";
 export * from "./tokenEstimator.js";
 export * from "./budgetEnforcement.js";

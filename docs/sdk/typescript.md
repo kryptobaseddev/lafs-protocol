@@ -110,6 +110,12 @@ if (!report.ok) {
 }
 ```
 
+Optional tier filter:
+
+```typescript
+const coreOnly = runEnvelopeConformance(envelope, { tier: "core" });
+```
+
 Checks currently include:
 - `envelope_schema_valid`
 - `envelope_invariants`
@@ -205,6 +211,7 @@ You can import canonical schemas directly:
 
 ```typescript
 import envelopeSchema from "@cleocode/lafs-protocol/schemas/v1/envelope.schema.json";
+import conformanceProfiles from "@cleocode/lafs-protocol/schemas/v1/conformance-profiles.json";
 ```
 
 ## Next steps

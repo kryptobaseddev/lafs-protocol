@@ -22,8 +22,24 @@ if (!validation.valid) {
 const envelopeReport = runEnvelopeConformance(envelope);
 const flagReport = runFlagConformance({ jsonFlag: true });
 
+// tier-scoped report (core | standard | complete)
+const completeTier = runEnvelopeConformance(envelope, { tier: "complete" });
+
 console.log(envelopeReport.ok, flagReport.ok);
 ```
+
+## Machine-readable tier profiles
+
+Tier profiles are published as JSON:
+
+- `schemas/v1/conformance-profiles.json`
+- import path: `@cleocode/lafs-protocol/schemas/v1/conformance-profiles.json`
+
+SDK helpers:
+
+- `getConformanceProfiles()`
+- `getChecksForTier(tier)`
+- `validateConformanceProfiles(availableChecks)`
 
 ## Current envelope checks
 
