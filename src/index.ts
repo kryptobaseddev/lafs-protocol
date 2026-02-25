@@ -1,5 +1,6 @@
 export * from "./types.js";
 export * from "./errorRegistry.js";
+export * from "./deprecationRegistry.js";
 export * from "./validateEnvelope.js";
 export * from "./envelope.js";
 export * from "./flagSemantics.js";
@@ -52,6 +53,11 @@ export {
   TaskNotFoundError,
   TaskManager,
   attachLafsEnvelope,
+
+  // Streaming and Async (T101)
+  TaskEventBus,
+  PushNotificationConfigStore,
+  streamTaskEvents,
 } from "./a2a/index.js";
 
 export type {
@@ -64,6 +70,8 @@ export type {
   CreateTaskOptions,
   ListTasksOptions,
   ListTasksResult,
+  TaskStreamEvent,
+  StreamIteratorOptions,
 } from "./a2a/index.js";
 
 // A2A SDK types (non-conflicting subset)

@@ -107,6 +107,21 @@ export {
   attachLafsEnvelope,
 } from './task-lifecycle.js';
 
+// ============================================================================
+// Streaming and Async (T101)
+// ============================================================================
+
+export {
+  TaskEventBus,
+  PushNotificationConfigStore,
+  streamTaskEvents,
+} from './streaming.js';
+
+export type {
+  TaskStreamEvent,
+  StreamIteratorOptions,
+} from './streaming.js';
+
 export type {
   CreateTaskOptions,
   ListTasksOptions,
