@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Documentation
+
+- Rewrote `docs/programmatic-construction.md` with comprehensive from-scratch construction guidance: factory parameter breakdown, field constraint tables from the JSON schema, success and error envelope patterns, paginated results (cursor and offset modes), session-correlated messages, versioning fields, MVI levels, construction error handling, and schema import patterns for external validators
+
 ## [1.4.0] - 2026-02-24
 
 ### Added
