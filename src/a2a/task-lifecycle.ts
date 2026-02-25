@@ -105,6 +105,17 @@ export class TaskNotFoundError extends Error {
   }
 }
 
+/** Thrown when a refinement/follow-up task references invalid parent tasks */
+export class TaskRefinementError extends Error {
+  readonly referenceTaskIds: string[];
+
+  constructor(message: string, referenceTaskIds: string[]) {
+    super(message);
+    this.name = 'TaskRefinementError';
+    this.referenceTaskIds = referenceTaskIds;
+  }
+}
+
 // ============================================================================
 // ID Generation
 // ============================================================================
@@ -125,6 +136,8 @@ function generateId(): string {
 export interface CreateTaskOptions {
   contextId?: string;
   metadata?: Record<string, unknown>;
+  referenceTaskIds?: string[];
+  parallelFollowUp?: boolean;
 }
 
 /** Options for listing tasks */
@@ -152,7 +165,18 @@ export class TaskManager {
   /** Create a new task in the submitted state */
   createTask(options?: CreateTaskOptions): Task {
     const id = generateId();
-    const contextId = options?.contextId ?? generateId();
+    const resolvedContextId =
+      options?.contextId ?? this.resolveContextForReferenceTasks(options?.referenceTaskIds) ?? generateId();
+    const contextId: string = resolvedContextId;
+
+    const referenceTaskIds = options?.referenceTaskIds ?? [];
+    this.validateReferenceTasks(referenceTaskIds, contextId);
+
+    const metadata: Record<string, unknown> = {
+      ...(options?.metadata ?? {}),
+      ...(referenceTaskIds.length > 0 ? { referenceTaskIds } : {}),
+      ...(options?.parallelFollowUp ? { parallelFollowUp: true } : {}),
+    };
 
     const task: Task = {
       id,
@@ -162,7 +186,7 @@ export class TaskManager {
         state: 'submitted',
         timestamp: new Date().toISOString(),
       },
-      ...(options?.metadata && { metadata: options.metadata }),
+      ...(Object.keys(metadata).length > 0 && { metadata }),
     };
 
     this.tasks.set(id, task);
@@ -176,6 +200,15 @@ export class TaskManager {
     contextTasks.add(id);
 
     return structuredClone(task);
+  }
+
+  /** Create a refinement/follow-up task referencing existing task(s). */
+  createRefinedTask(referenceTaskIds: string[], options?: Omit<CreateTaskOptions, 'referenceTaskIds'>): Task {
+    return this.createTask({
+      ...options,
+      referenceTaskIds,
+      parallelFollowUp: options?.parallelFollowUp,
+    });
   }
 
   /** Get a task by ID. Throws TaskNotFoundError if not found. */
@@ -322,6 +355,37 @@ export class TaskManager {
       throw new TaskNotFoundError(taskId);
     }
     return isTerminalState(task.status.state);
+  }
+
+  private resolveContextForReferenceTasks(referenceTaskIds: string[] | undefined): string | undefined {
+    if (!referenceTaskIds || referenceTaskIds.length === 0) {
+      return undefined;
+    }
+    const firstId = referenceTaskIds[0];
+    if (!firstId) {
+      return undefined;
+    }
+    const first = this.tasks.get(firstId);
+    return first?.contextId;
+  }
+
+  private validateReferenceTasks(referenceTaskIds: string[], contextId: string): void {
+    if (referenceTaskIds.length === 0) {
+      return;
+    }
+
+    for (const refId of referenceTaskIds) {
+      const refTask = this.tasks.get(refId);
+      if (!refTask) {
+        throw new TaskRefinementError(`Referenced task not found: ${refId}`, referenceTaskIds);
+      }
+      if (refTask.contextId !== contextId) {
+        throw new TaskRefinementError(
+          `Referenced task ${refId} has different contextId (${refTask.contextId}) than refinement (${contextId})`,
+          referenceTaskIds,
+        );
+      }
+    }
   }
 }
 

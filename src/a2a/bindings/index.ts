@@ -79,3 +79,32 @@ export function getErrorCodeMapping(errorType: A2AErrorType): ErrorCodeMapping {
 // Also export A2A_GRPC_ERROR_REASONS for convenience (re-exported from grpc.ts via *)
 // but explicitly reference it here so the cross-binding module is self-documenting
 export { A2A_GRPC_ERROR_REASONS } from './grpc.js';
+
+// ============================================================================
+// Version Negotiation
+// ============================================================================
+
+export const SUPPORTED_A2A_VERSIONS = ['1.0'] as const;
+export const DEFAULT_A2A_VERSION = '1.0' as const;
+
+export function parseA2AVersionHeader(headerValue: string | undefined): string[] {
+  if (!headerValue) return [];
+  return headerValue
+    .split(',')
+    .map((v) => v.trim())
+    .filter(Boolean);
+}
+
+export function negotiateA2AVersion(requestedVersions: string[]): string | null {
+  if (requestedVersions.length === 0) {
+    return DEFAULT_A2A_VERSION;
+  }
+
+  const supported = new Set(SUPPORTED_A2A_VERSIONS);
+  for (const version of requestedVersions) {
+    if (supported.has(version as (typeof SUPPORTED_A2A_VERSIONS)[number])) {
+      return version;
+    }
+  }
+  return null;
+}

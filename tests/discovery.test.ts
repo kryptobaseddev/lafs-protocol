@@ -31,11 +31,14 @@ const addFormats = (typeof AddFormatsModule === "function" ? AddFormatsModule : 
 // Load discovery schema for validation
 const schemaPath = join(__dirname, "..", "schemas", "v1", "discovery.schema.json");
 const discoverySchema = JSON.parse(readFileSync(schemaPath, "utf-8"));
+const agentCardSchemaPath = join(__dirname, "..", "schemas", "v1", "agent-card.schema.json");
+const agentCardSchema = JSON.parse(readFileSync(agentCardSchemaPath, "utf-8"));
 
 // Initialize AJV validator
 const ajv = new AjvCtor({ strict: true, allErrors: true });
 addFormats(ajv);
 const validateDiscovery = ajv.compile(discoverySchema);
+const validateAgentCard = ajv.compile(agentCardSchema);
 
 /**
  * Helper to create Express app with discovery middleware
@@ -128,6 +131,50 @@ describe("Discovery Middleware", () => {
 
       expect(response.headers.deprecation).toBeUndefined();
       expect(response.headers.sunset).toBeUndefined();
+    });
+
+    it("should validate against agent-card schema", async () => {
+      const app = createApp(validAgentConfig);
+      const response = await request(app)
+        .get("/.well-known/agent-card.json")
+        .expect(200);
+
+      const valid = validateAgentCard(response.body);
+      if (!valid) {
+        console.error("Agent Card validation errors:", validateAgentCard.errors);
+      }
+      expect(valid).toBe(true);
+    });
+
+    it("should support provider, security schemes, and docs metadata", async () => {
+      const app = createApp({
+        agent: {
+          ...validAgentConfig.agent!,
+          provider: {
+            organization: "Cleo Code",
+            url: "https://cleo.co",
+          },
+          securitySchemes: {
+            bearerAuth: {
+              type: "http",
+              scheme: "bearer",
+              bearerFormat: "JWT",
+            },
+          },
+          security: [{ bearerAuth: [] }],
+          documentationUrl: "https://docs.example.com/agent",
+          iconUrl: "https://docs.example.com/icon.png",
+        },
+      });
+
+      const response = await request(app)
+        .get("/.well-known/agent-card.json")
+        .expect(200);
+
+      expect(response.body.provider.organization).toBe("Cleo Code");
+      expect(response.body.securitySchemes.bearerAuth.type).toBe("http");
+      expect(response.body.documentationUrl).toBe("https://docs.example.com/agent");
+      expect(response.body.iconUrl).toBe("https://docs.example.com/icon.png");
     });
   });
 

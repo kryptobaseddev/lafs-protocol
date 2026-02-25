@@ -52,6 +52,7 @@ export {
   InvalidStateTransitionError,
   TaskImmutabilityError,
   TaskNotFoundError,
+  TaskRefinementError,
   TaskManager,
   attachLafsEnvelope,
 

@@ -10,6 +10,9 @@ import {
   negotiateExtensions,
   formatExtensionsHeader,
   buildLafsExtension,
+  buildExtension,
+  isValidExtensionKind,
+  validateExtensionDeclaration,
   ExtensionSupportRequiredError,
   extensionNegotiationMiddleware,
   LAFS_EXTENSION_URI,
@@ -87,6 +90,7 @@ describe('negotiateExtensions', () => {
     ]);
     expect(result.unsupported).toEqual([]);
     expect(result.missingRequired).toEqual([]);
+    expect(result.activatedByKind).toBeDefined();
   });
 
   it('should ignore unsupported extensions per spec', () => {
@@ -163,6 +167,7 @@ describe('buildLafsExtension', () => {
       supportsContextLedger: false,
       supportsTokenBudgets: false,
       envelopeSchema: 'https://lafs.dev/schemas/v1/envelope.schema.json',
+      kind: 'profile',
     });
   });
 
@@ -176,6 +181,7 @@ describe('buildLafsExtension', () => {
       supportsContextLedger: true,
       supportsTokenBudgets: true,
       envelopeSchema: 'https://custom.example.com/schema.json',
+      kind: 'profile',
     });
   });
 
@@ -187,6 +193,33 @@ describe('buildLafsExtension', () => {
   it('should always use canonical LAFS URI', () => {
     const ext = buildLafsExtension();
     expect(ext.uri).toBe('https://lafs.dev/extensions/envelope/v1');
+  });
+
+  it('supports all extension kinds via generic builder', () => {
+    const extKinds = ['data-only', 'profile', 'method', 'state-machine'] as const;
+    for (const kind of extKinds) {
+      const ext = buildExtension({
+        uri: `https://example.com/ext/${kind}`,
+        description: `${kind} extension`,
+        kind,
+      });
+      expect((ext.params as Record<string, unknown>)['kind']).toBe(kind);
+      expect(validateExtensionDeclaration(ext).valid).toBe(true);
+      expect(isValidExtensionKind(kind)).toBe(true);
+    }
+  });
+
+  it('rejects invalid extension kind declarations', () => {
+    const invalid = {
+      uri: 'https://example.com/ext/invalid',
+      description: 'invalid extension',
+      required: false,
+      params: { kind: 'invalid-kind' },
+    } as AgentExtension;
+
+    const result = validateExtensionDeclaration(invalid);
+    expect(result.valid).toBe(false);
+    expect(result.error).toContain('invalid extension kind');
   });
 });
 

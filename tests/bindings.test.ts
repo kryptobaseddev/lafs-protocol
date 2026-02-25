@@ -37,6 +37,10 @@ import {
   // Cross-binding
   A2A_ERROR_MAPPINGS,
   getErrorCodeMapping,
+  DEFAULT_A2A_VERSION,
+  SUPPORTED_A2A_VERSIONS,
+  parseA2AVersionHeader,
+  negotiateA2AVersion,
 } from '../src/a2a/bindings/index.js';
 
 // ============================================================================
@@ -460,5 +464,26 @@ describe('Cross-binding error mapping', () => {
     expect(mapping.httpStatus).toBe(400);
     expect(mapping.grpcStatus).toBe('FAILED_PRECONDITION');
     expect(mapping.grpcCode).toBe(9);
+  });
+});
+
+describe('A2A version negotiation', () => {
+  it('exposes supported versions and default', () => {
+    expect(SUPPORTED_A2A_VERSIONS).toContain('1.0');
+    expect(DEFAULT_A2A_VERSION).toBe('1.0');
+  });
+
+  it('parses version header values', () => {
+    expect(parseA2AVersionHeader('1.0, 1.1')).toEqual(['1.0', '1.1']);
+    expect(parseA2AVersionHeader(undefined)).toEqual([]);
+  });
+
+  it('negotiates a supported version', () => {
+    expect(negotiateA2AVersion(['1.1', '1.0'])).toBe('1.0');
+    expect(negotiateA2AVersion([])).toBe('1.0');
+  });
+
+  it('returns null when no compatible version exists', () => {
+    expect(negotiateA2AVersion(['2.0', '1.1'])).toBeNull();
   });
 });

@@ -15,6 +15,7 @@ import {
   InvalidStateTransitionError,
   TaskImmutabilityError,
   TaskNotFoundError,
+  TaskRefinementError,
   TaskManager,
   attachLafsEnvelope,
 } from '../src/a2a/task-lifecycle.js';
@@ -177,6 +178,53 @@ describe('TaskManager', () => {
     it('should include timestamp in status', () => {
       const task = manager.createTask();
       expect(task.status.timestamp).toBeDefined();
+    });
+
+    it('should create refinement task with referenceTaskIds metadata', () => {
+      const base = manager.createTask({ contextId: 'ctx-ref' });
+      const refined = manager.createTask({
+        contextId: 'ctx-ref',
+        referenceTaskIds: [base.id],
+      });
+      expect(refined.metadata).toBeDefined();
+      expect(refined.metadata?.['referenceTaskIds']).toEqual([base.id]);
+    });
+
+    it('should infer contextId from referenced task when omitted', () => {
+      const base = manager.createTask({ contextId: 'ctx-derived' });
+      const refined = manager.createTask({ referenceTaskIds: [base.id] });
+      expect(refined.contextId).toBe('ctx-derived');
+    });
+
+    it('should throw TaskRefinementError for unknown reference task', () => {
+      expect(() => manager.createTask({ referenceTaskIds: ['missing-task'] })).toThrow(
+        TaskRefinementError
+      );
+    });
+
+    it('should throw TaskRefinementError for cross-context reference', () => {
+      const base = manager.createTask({ contextId: 'ctx-a' });
+      expect(() =>
+        manager.createTask({
+          contextId: 'ctx-b',
+          referenceTaskIds: [base.id],
+        })
+      ).toThrow(TaskRefinementError);
+    });
+  });
+
+  describe('createRefinedTask', () => {
+    it('should create task referencing parent tasks', () => {
+      const parentA = manager.createTask({ contextId: 'ctx-parent' });
+      const parentB = manager.createTask({ contextId: 'ctx-parent' });
+
+      const refined = manager.createRefinedTask([parentA.id, parentB.id], {
+        parallelFollowUp: true,
+      });
+
+      expect(refined.contextId).toBe('ctx-parent');
+      expect(refined.metadata?.['referenceTaskIds']).toEqual([parentA.id, parentB.id]);
+      expect(refined.metadata?.['parallelFollowUp']).toBe(true);
     });
   });
 

@@ -99,6 +99,7 @@ export {
   InvalidStateTransitionError,
   TaskImmutabilityError,
   TaskNotFoundError,
+  TaskRefinementError,
 
   // Task manager
   TaskManager,

@@ -54,3 +54,14 @@ const result = parseLafsResponse(envelope);
 
 - Task lifecycle: `TaskManager`, `attachLafsEnvelope`
 - Bindings: `@cleocode/lafs-protocol/a2a/bindings`
+
+## Extension kinds and version negotiation
+
+- Supported extension kinds: `data-only`, `profile`, `method`, `state-machine`
+- Helpers:
+  - `buildExtension(...)`
+  - `validateExtensionDeclaration(...)`
+  - `isValidExtensionKind(...)`
+- Binding/version helpers:
+  - `parseA2AVersionHeader(...)`
+  - `negotiateA2AVersion(...)`

@@ -35,7 +35,11 @@ export interface LafsExtensionParams {
   supportsContextLedger: boolean;
   supportsTokenBudgets: boolean;
   envelopeSchema: string;
+  kind?: ExtensionKind;
 }
+
+export type ExtensionKind = 'data-only' | 'profile' | 'method' | 'state-machine';
+const VALID_EXTENSION_KINDS: ExtensionKind[] = ['data-only', 'profile', 'method', 'state-machine'];
 
 /** Result of extension negotiation between client and agent */
 export interface ExtensionNegotiationResult {
@@ -47,6 +51,8 @@ export interface ExtensionNegotiationResult {
   unsupported: string[];
   /** Agent-required URIs not present in client request */
   missingRequired: string[];
+  /** Activated extensions grouped by declared kind (when provided) */
+  activatedByKind: Partial<Record<ExtensionKind, string[]>>;
 }
 
 // ============================================================================
@@ -94,7 +100,22 @@ export function negotiateExtensions(
     }
   }
 
-  return { requested: requestedUris, activated, unsupported, missingRequired };
+  const activatedByKind: Partial<Record<ExtensionKind, string[]>> = {};
+  for (const uri of activated) {
+    const ext = declared.get(uri);
+    const kind = ext?.params && typeof ext.params === 'object'
+      ? (ext.params as Record<string, unknown>)['kind']
+      : undefined;
+    if (typeof kind === 'string' && VALID_EXTENSION_KINDS.includes(kind as ExtensionKind)) {
+      const typedKind = kind as ExtensionKind;
+      if (!activatedByKind[typedKind]) {
+        activatedByKind[typedKind] = [];
+      }
+      activatedByKind[typedKind]!.push(uri);
+    }
+  }
+
+  return { requested: requestedUris, activated, unsupported, missingRequired, activatedByKind };
 }
 
 /**
@@ -126,8 +147,49 @@ export function buildLafsExtension(options?: BuildLafsExtensionOptions): AgentEx
       supportsContextLedger: options?.supportsContextLedger ?? false,
       supportsTokenBudgets: options?.supportsTokenBudgets ?? false,
       envelopeSchema: options?.envelopeSchema ?? 'https://lafs.dev/schemas/v1/envelope.schema.json',
+      kind: 'profile',
     },
   };
+}
+
+export interface BuildExtensionOptions {
+  uri: string;
+  description: string;
+  required?: boolean;
+  kind: ExtensionKind;
+  params?: Record<string, unknown>;
+}
+
+export function buildExtension(options: BuildExtensionOptions): AgentExtension {
+  return {
+    uri: options.uri,
+    description: options.description,
+    required: options.required ?? false,
+    params: {
+      kind: options.kind,
+      ...(options.params ?? {}),
+    },
+  };
+}
+
+export function isValidExtensionKind(kind: string): kind is ExtensionKind {
+  return VALID_EXTENSION_KINDS.includes(kind as ExtensionKind);
+}
+
+export function validateExtensionDeclaration(extension: AgentExtension): { valid: boolean; error?: string } {
+  const kind = extension.params && typeof extension.params === 'object'
+    ? (extension.params as Record<string, unknown>)['kind']
+    : undefined;
+
+  if (kind === undefined) {
+    return { valid: true };
+  }
+
+  if (typeof kind !== 'string' || !isValidExtensionKind(kind)) {
+    return { valid: false, error: `invalid extension kind: ${String(kind)}` };
+  }
+
+  return { valid: true };
 }
 
 // ============================================================================
