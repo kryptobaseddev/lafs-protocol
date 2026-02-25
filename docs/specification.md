@@ -412,6 +412,16 @@ Returns checksum and version for validation.
 - **Validation**: Use `mode=summary` to verify sync state
 - **Default recommendation**: `delta` mode for agent-optimal behavior
 
+### 8.2 Lazy Context Retrieval
+
+To reduce token and I/O overhead, implementations SHOULD support lazy retrieval semantics:
+
+- Clients SHOULD start with `mode=summary` and request `mode=delta` only when `version` or `checksum` changes.
+- Delta responses SHOULD be bounded by `limit` and MAY return paged deltas.
+- Servers SHOULD treat context retrieval as task-scoped and MUST NOT leak entries across `contextId` domains.
+- When a consumer requests additional context beyond MVI defaults, servers MAY return progressive context slices rather than full ledgers.
+- If requested context scope cannot be satisfied within declared budget, servers SHOULD fail with `E_MVI_BUDGET_EXCEEDED`.
+
 ---
 
 ## 9. MVI and Progressive Disclosure
@@ -447,6 +457,9 @@ Clients MAY request expanded/nested data via the `_expand` request parameter.
 - List operations SHOULD return deterministic `page` metadata.
 - Pagination mode (offset or cursor) MUST be documented.
 - Mixed pagination modes in one request MUST fail validation.
+- `page.limit` SHOULD represent the effective item window after `_fields`/`_expand` processing.
+- When `_meta.mvi` is `minimal` and projected payload size exceeds budget, servers SHOULD reduce `page.limit` rather than silently truncate item content.
+- If limit reduction still cannot satisfy declared budget, servers MUST fail with `E_MVI_BUDGET_EXCEEDED`.
 
 ### 9.5 Token Budget Signaling
 
