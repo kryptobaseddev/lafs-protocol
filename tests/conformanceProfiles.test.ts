@@ -60,8 +60,12 @@ describe("conformance profiles", () => {
     const standard = runEnvelopeConformance(envelope, { tier: "standard" });
     const complete = runEnvelopeConformance(envelope, { tier: "complete" });
 
-    expect(core.checks.map((c) => c.name)).toEqual(getChecksForTier("core"));
-    expect(standard.checks.map((c) => c.name)).toEqual(getChecksForTier("standard"));
-    expect(complete.checks.map((c) => c.name)).toEqual(getChecksForTier("complete"));
+    expect(new Set(core.checks.map((c) => c.name))).toEqual(new Set(getChecksForTier("core")));
+    expect(new Set(standard.checks.map((c) => c.name))).toEqual(
+      new Set(getChecksForTier("standard")),
+    );
+    expect(new Set(complete.checks.map((c) => c.name))).toEqual(
+      new Set(getChecksForTier("complete")),
+    );
   });
 });

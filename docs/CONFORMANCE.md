@@ -51,6 +51,9 @@ SDK helpers:
 - `strict_mode_behavior`
 - `pagination_mode_consistent`
 - `strict_mode_enforced`
+- `transport_mapping_consistent`
+- `context_mutation_failure`
+- `context_preservation_valid`
 
 ## CLI usage
 

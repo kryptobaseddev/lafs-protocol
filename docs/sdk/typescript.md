@@ -120,6 +120,9 @@ Checks currently include:
 - `envelope_schema_valid`
 - `envelope_invariants`
 - `error_code_registered`
+- `transport_mapping_consistent`
+- `context_mutation_failure`
+- `context_preservation_valid`
 - `meta_mvi_present`
 - `meta_strict_present`
 - `strict_mode_behavior`

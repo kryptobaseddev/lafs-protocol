@@ -484,3 +484,39 @@ describe("LAFS context mutation conformance (T055)", () => {
     expect(check!.pass).toBe(true);
   });
 });
+
+describe("LAFS context preservation validation (T054/T056)", () => {
+  it("accepts valid context ledger fixture", () => {
+    const envelope = load("fixtures/valid-context-ledger.json");
+    const validation = validateEnvelope(envelope);
+    expect(validation.valid).toBe(true);
+
+    const report = runEnvelopeConformance(envelope);
+    const check = report.checks.find((c) => c.name === "context_preservation_valid");
+    expect(check).toBeDefined();
+    expect(check!.pass).toBe(true);
+  });
+
+  it("detects stale context with non-monotonic version", () => {
+    const envelope = load("fixtures/invalid-context-stale.json");
+    const validation = validateEnvelope(envelope);
+    expect(validation.valid).toBe(true);
+
+    const report = runEnvelopeConformance(envelope);
+    const check = report.checks.find((c) => c.name === "context_preservation_valid");
+    expect(check).toBeDefined();
+    expect(check!.pass).toBe(false);
+    expect(check!.detail).toContain("non-monotonic");
+  });
+
+  it("handles missing context fixture with correct error code", () => {
+    const envelope = load("fixtures/invalid-context-missing.json");
+    const validation = validateEnvelope(envelope);
+    expect(validation.valid).toBe(true);
+
+    const report = runEnvelopeConformance(envelope);
+    const mutationCheck = report.checks.find((c) => c.name === "context_mutation_failure");
+    expect(mutationCheck).toBeDefined();
+    expect(mutationCheck!.pass).toBe(true);
+  });
+});

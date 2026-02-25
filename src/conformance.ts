@@ -251,6 +251,59 @@ export function runEnvelopeConformance(
     }
   }
 
+  // context_preservation_valid: validate monotonic context version behavior and
+  // context-constraint integrity when a context ledger extension is present.
+  {
+    const ext = (typed._extensions ?? {}) as Record<string, unknown>;
+    const ledger = (ext["contextLedger"] ?? ext["context"]) as
+      | Record<string, unknown>
+      | undefined;
+
+    if (!ledger || typeof ledger !== "object") {
+      pushCheck(checks, "context_preservation_valid", true, "context ledger absent — skipped");
+    } else {
+      const version = ledger["version"];
+      const previousVersion = ledger["previousVersion"];
+      const removedConstraints = ledger["removedConstraints"];
+
+      const hasNumericVersion = typeof version === "number";
+      const matchesEnvelopeVersion = hasNumericVersion && version === typed._meta.contextVersion;
+      const monotonicFromPrevious =
+        typeof previousVersion !== "number" || (hasNumericVersion && version >= previousVersion);
+      const constraintsPreserved =
+        !Array.isArray(removedConstraints) || removedConstraints.length === 0 || !typed.success;
+
+      let pass = matchesEnvelopeVersion && monotonicFromPrevious && constraintsPreserved;
+      let detail: string | undefined;
+
+      if (!hasNumericVersion) {
+        pass = false;
+        detail = "context ledger version must be numeric";
+      } else if (!matchesEnvelopeVersion) {
+        detail = `context version mismatch: ledger=${String(version)} envelope=${typed._meta.contextVersion}`;
+      } else if (!monotonicFromPrevious) {
+        detail = `non-monotonic context version: previous=${String(previousVersion)} current=${String(version)}`;
+      } else if (!constraintsPreserved) {
+        detail = "context constraint removal detected on successful response";
+      }
+
+      // Error-path validation for stale/missing context signaling.
+      if (!typed.success && typed.error && ledger["required"] === true) {
+        const stale = ledger["stale"] === true;
+        if (stale && typed.error.code !== "E_CONTEXT_STALE") {
+          pass = false;
+          detail = `stale context should return E_CONTEXT_STALE, got ${typed.error.code}`;
+        }
+        if (!stale && typed.error.code !== "E_CONTEXT_MISSING" && typed.error.code !== "E_CONTEXT_STALE") {
+          pass = false;
+          detail = `required context failure should return E_CONTEXT_MISSING or E_CONTEXT_STALE, got ${typed.error.code}`;
+        }
+      }
+
+      pushCheck(checks, "context_preservation_valid", pass, detail);
+    }
+  }
+
   const tier = options.tier;
   if (!tier) {
     return { ok: checks.every((check) => check.pass), checks };
