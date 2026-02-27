@@ -1,7 +1,7 @@
 # LAFS: LLM-Agent-First Specification
 
 > 📚 **Documentation:** https://codluv.gitbook.io/lafs-protocol/  
-> **Version:** 1.5.0 | **Status:** Production Ready
+> **Version:** 1.6.0 | **Status:** Production Ready
 
 ## 1. Scope
 
@@ -112,6 +112,32 @@ Consumers needing presentation formats should:
    - **Markdown:** `jq` + template engine
    - **Tables:** `jq` + `column` command
    - **Plain text:** `jq` with `-r` (raw) output
+
+### 5.4 Cross-layer flag interaction
+
+Flags operate on two independent layers: **format** (`--human`, `--json`, `--quiet`) and **field extraction** (`--field`, `--fields`, `--mvi`). When flags from both layers are combined, the following semantics apply:
+
+#### 5.4.1 Filter-then-render (default)
+
+When `--field` or `--fields` are combined with a format flag, the field extraction layer applies **first**, followed by the format layer:
+
+- **`--human + --field`**: Extract the named field from the result, then render the extracted value in human-readable format. Implementations SHOULD emit a warning but MUST NOT error.
+- **`--human + --fields`**: Filter result keys, then render the filtered result in human-readable format. Same warning behavior.
+- **`--json + --field`**: Extract the named field and output as plain text (no envelope). This is the default behavior (no cross-layer concern).
+- **`--json + --fields`**: Filter result keys within the JSON envelope. This is the default behavior.
+- **`--quiet + --field`**: Valid combination. Extract field, output plain text.
+- **`--quiet + --fields`**: Valid combination. Filter keys, output minimal.
+
+#### 5.4.2 Error conditions
+
+Cross-layer combinations that involve conflicting format flags still error per §5.1:
+
+- **`--human + --json + --field`**: MUST fail with `E_FORMAT_CONFLICT` (format layer conflict, §5.1).
+- **`--field + --fields`**: MUST fail with `E_FIELD_CONFLICT` (field layer conflict, §9.2).
+
+#### 5.4.3 MVI interaction
+
+- **`--human + --mvi`**: The `--mvi` level MAY be honored for metadata filtering; human rendering is the primary output format. No error or warning.
 
 ---
 
