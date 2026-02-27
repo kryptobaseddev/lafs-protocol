@@ -109,6 +109,15 @@
       "httpStatus": 413,
       "grpcStatus": "RESOURCE_EXHAUSTED",
       "cliExit": 2
+    },
+    {
+      "code": "E_FIELD_CONFLICT",
+      "category": "CONTRACT",
+      "description": "Mutually exclusive field selection modes (single-field extraction and multi-field filtering cannot be combined)",
+      "retryable": false,
+      "httpStatus": 400,
+      "grpcStatus": "INVALID_ARGUMENT",
+      "cliExit": 2
     }
   ]
 }

@@ -4,7 +4,7 @@
 
 LAFS defines a standard envelope format for structured responses from LLM-powered agents and tools. It complements transport protocols like [MCP](https://modelcontextprotocol.io/) and [A2A](https://github.com/google/A2A) by standardizing what comes back — not how it gets there.
 
-**Current version:** 1.4.1 | [📚 Documentation](https://codluv.gitbook.io/lafs-protocol/) | [Spec](lafs.md) | [Migration Guides](migrations/)
+**Current version:** 1.5.0 | [📚 Documentation](https://codluv.gitbook.io/lafs-protocol/) | [Spec](lafs.md) | [Migration Guides](migrations/)
 
 [![GitBook](https://img.shields.io/badge/docs-gitbook-blue)](https://codluv.gitbook.io/lafs-protocol/)
 [![npm](https://img.shields.io/npm/v/@cleocode/lafs-protocol)](https://www.npmjs.com/package/@cleocode/lafs-protocol)

@@ -1,7 +1,7 @@
 # LAFS: LLM-Agent-First Specification
 
 > 📚 **Documentation:** https://codluv.gitbook.io/lafs-protocol/  
-> **Version:** 1.4.1 | **Status:** Production Ready
+> **Version:** 1.5.0 | **Status:** Production Ready
 
 ## 1. Scope
 
@@ -431,16 +431,45 @@ To reduce token and I/O overhead, implementations SHOULD support lazy retrieval 
 - Default list/batch outputs MUST only contain fields required for next action.
 - Verbose fields SHOULD be omitted by default.
 - Systems SHOULD publish operation-level MVI budgets.
+- `_meta.mvi` MUST be one of: `minimal`, `standard`, `full`, or `custom`.
+- `_meta` is a structural envelope field and MUST always be present regardless
+  of `mvi` level. MVI levels govern the contents of `result` only; they MUST NOT
+  affect envelope structural fields (`$schema`, `_meta`, `success`, `error`,
+  `page`, `_extensions`).
+- `minimal`: MUST include only fields within `result` sufficient for the next
+  agent action (typically identifiers and status). Implementations SHOULD
+  document which fields constitute `minimal` per operation.
+- `standard` (default): MUST include all commonly useful fields for the
+  operation.
+- `full`: MUST include all available fields including verbose and
+  rarely-accessed data.
+- `custom`: MUST be set by the server when `_fields` projection has been
+  applied, indicating the result does not conform to any predefined disclosure
+  level. `custom` is not a client-requestable level.
 
 ### 9.2 Field selection (`_fields`)
 
-Clients MAY request a subset of response fields via the `_fields` request parameter.
+Clients MAY request a subset of response fields via the `_fields` request
+parameter.
 
-- `_fields` MUST be an array of strings identifying top-level result field names.
-- When `_fields` is present, the server MUST return only the requested fields plus any MVI-required fields for the declared disclosure level.
-- When `_fields` is absent, the server MUST return fields appropriate for the declared `_meta.mvi` disclosure level.
-- If a requested field does not exist on the resource, the server SHOULD omit it silently (no error). Servers MAY include a warning in `_meta.warnings` for unknown fields.
-- `_fields` MUST NOT affect envelope structural fields (`$schema`, `_meta`, `success`, `error`, `page`, `_extensions`); it applies only to the contents of `result`.
+- `_fields` MUST be an array of strings identifying `result` field names.
+  Path notation (e.g., `task.title`) is not defined by this specification.
+- When `result` is an array, `_fields` applies to the keys of each element.
+- When `result` is a wrapper object whose values are entities or arrays of
+  entities (e.g., `{ "task": { ... } }` or `{ "items": [...] }`), servers
+  SHOULD apply `_fields` to the nested entity fields rather than the wrapper's
+  own keys.
+- When `_fields` is present, the server MUST return only the requested fields
+  plus any MVI-required fields for the declared disclosure level.
+  The server MUST set `_meta.mvi` to `custom` in the response.
+- When `_fields` is absent, the server MUST return fields appropriate for the
+  declared `_meta.mvi` disclosure level.
+- If a requested field does not exist on the resource, the server SHOULD omit
+  it silently (no error). Servers MAY include a warning in `_meta.warnings`
+  for unknown fields.
+- `_fields` MUST NOT affect envelope structural fields (`$schema`, `_meta`,
+  `success`, `error`, `page`, `_extensions`); it applies only to the contents
+  of `result`.
 
 ### 9.3 Expansion mechanism (`_expand`)
 

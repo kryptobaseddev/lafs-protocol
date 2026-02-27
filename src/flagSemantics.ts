@@ -1,4 +1,5 @@
-import type { FlagInput } from "./types.js";
+import { getRegistryCode } from "./errorRegistry.js";
+import type { FlagInput, LAFSError, LAFSErrorCategory } from "./types.js";
 
 export interface FlagResolution {
   format: "json" | "human";
@@ -7,12 +8,22 @@ export interface FlagResolution {
   quiet: boolean;
 }
 
-export class LAFSFlagError extends Error {
+export class LAFSFlagError extends Error implements LAFSError {
   code: string;
-  constructor(code: string, message: string) {
+  category: LAFSErrorCategory;
+  retryable: boolean;
+  retryAfterMs: number | null;
+  details: Record<string, unknown>;
+
+  constructor(code: string, message: string, details: Record<string, unknown> = {}) {
     super(message);
     this.name = "LAFSFlagError";
     this.code = code;
+    const entry = getRegistryCode(code);
+    this.category = (entry?.category ?? "CONTRACT") as LAFSErrorCategory;
+    this.retryable = entry?.retryable ?? false;
+    this.retryAfterMs = null;
+    this.details = details;
   }
 }
 

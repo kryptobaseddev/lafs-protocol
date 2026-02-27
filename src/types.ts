@@ -22,6 +22,14 @@ export interface Warning {
 
 export type MVILevel = 'minimal' | 'standard' | 'full' | 'custom';
 
+export const MVI_LEVELS: ReadonlySet<MVILevel> = new Set<MVILevel>([
+  'minimal', 'standard', 'full', 'custom',
+]);
+
+export function isMVILevel(value: unknown): value is MVILevel {
+  return typeof value === 'string' && MVI_LEVELS.has(value as MVILevel);
+}
+
 export interface LAFSMeta {
   specVersion: string;
   schemaVersion: string;

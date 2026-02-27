@@ -7,6 +7,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.5.0] - 2026-02-26
+
+### Added
+
+- **Field extraction utilities** (`src/fieldExtraction.ts`): runtime SDK support for spec-defined `_fields` (§9.2) and `_mvi` (§9.1) features:
+  - `resolveFieldExtraction()` — resolves `--field`, `--fields`, and `--mvi` CLI flags with conflict detection
+  - `extractFieldFromResult()` / `extractFieldFromEnvelope()` — single-field extraction across four result shapes (flat, wrapper-entity, wrapper-array, direct array)
+  - `applyFieldFilter()` — multi-field projection that preserves envelope structure and sets `_meta.mvi = 'custom'` per §9.1
+  - `FieldExtractionInput`, `FieldExtractionResolution` — supporting types
+- **`MVI_LEVELS` constant** (`src/types.ts`): `ReadonlySet<MVILevel>` for CLI completion generators, validation schemas, and docs tools
+- **`isMVILevel()` type guard** (`src/types.ts`): runtime type narrowing for `MVILevel` values
+- **`E_FIELD_CONFLICT` error code** (`schemas/v1/error-registry.json`): for mutually exclusive `--field` + `--fields` flag combinations (category: `CONTRACT`, HTTP 400, gRPC `INVALID_ARGUMENT`, CLI exit 2)
+- **Test fixtures**: `fixtures/field-extraction-success.json` (flat result) and `fixtures/field-extraction-array.json` (direct array result)
+- **44 new tests** in `tests/fieldExtraction.test.ts` covering all functions, edge cases, and integration flow
+- **Migration note** (`migrations/1.4.1-to-1.5.0.md`): documents `_meta` always-present clarification and new exports
+
+### Changed
+
+- **`LAFSFlagError`** (`src/flagSemantics.ts`): now implements `LAFSError` interface with `category`, `retryable`, `retryAfterMs`, and `details` properties resolved from the error registry. Constructor accepts optional third `details` parameter (backwards compatible)
+- **Conformance MVI check** (`src/conformance.ts`): replaced hardcoded `validMviLevels` array with `isMVILevel()` type guard (check name `meta_mvi_present` unchanged)
+
+### Specification
+
+- **§9.1 MVI default** (`lafs.md`): added behavioral definitions for each MVI level (`minimal`, `standard`, `full`, `custom`), clarified that `_meta` is a structural envelope field that MUST always be present regardless of MVI level, and that `custom` is server-set only (not client-requestable)
+- **§9.2 Field selection** (`lafs.md`): expanded to document wrapper-entity and wrapper-array result shapes, path notation exclusion, array-element projection, and automatic `_meta.mvi = 'custom'` when `_fields` is present
+
+### Statistics
+
+- 337 total tests passing (44 new)
+- 13 error codes in registry (1 new)
+
 ## [1.4.1] - 2026-02-25
 
 ### Added
@@ -451,8 +482,18 @@ This is a major release (1.0.0) marking production readiness. All previously dep
 
 ---
 
-[Unreleased]: https://github.com/lafs-protocol/lafs-protocol/compare/v1.0.0...HEAD
-[1.0.0]: https://github.com/lafs-protocol/lafs-protocol/releases/tag/v1.0.0
+[Unreleased]: https://github.com/kryptobaseddev/lafs-protocol/compare/v1.5.0...HEAD
+[1.5.0]: https://github.com/kryptobaseddev/lafs-protocol/compare/v1.4.1...v1.5.0
+[1.4.1]: https://github.com/kryptobaseddev/lafs-protocol/compare/v1.4.0...v1.4.1
+[1.4.0]: https://github.com/kryptobaseddev/lafs-protocol/compare/v1.3.2...v1.4.0
+[1.3.2]: https://github.com/kryptobaseddev/lafs-protocol/compare/v1.3.1...v1.3.2
+[1.3.1]: https://github.com/kryptobaseddev/lafs-protocol/compare/v1.3.0...v1.3.1
+[1.3.0]: https://github.com/kryptobaseddev/lafs-protocol/compare/v1.2.3...v1.3.0
+[1.2.3]: https://github.com/kryptobaseddev/lafs-protocol/compare/v1.2.2...v1.2.3
+[1.2.2]: https://github.com/kryptobaseddev/lafs-protocol/compare/v1.2.0...v1.2.2
+[1.2.0]: https://github.com/kryptobaseddev/lafs-protocol/compare/v1.1.0...v1.2.0
+[1.1.0]: https://github.com/kryptobaseddev/lafs-protocol/compare/v1.0.0...v1.1.0
+[1.0.0]: https://github.com/kryptobaseddev/lafs-protocol/releases/tag/v1.0.0
 [0.5.0]: https://github.com/lafs-protocol/lafs-protocol/releases/tag/v0.5.0
 [0.4.0]: https://github.com/lafs-protocol/lafs-protocol/releases/tag/v0.4.0
 [0.3.0]: https://github.com/lafs-protocol/lafs-protocol/releases/tag/v0.3.0

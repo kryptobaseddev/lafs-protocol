@@ -1,5 +1,6 @@
 import { getTransportMapping, isRegisteredErrorCode } from "./errorRegistry.js";
 import { resolveOutputFormat, LAFSFlagError } from "./flagSemantics.js";
+import { isMVILevel } from "./types.js";
 import type { ConformanceReport, FlagInput } from "./types.js";
 import { getChecksForTier, type ConformanceTier } from "./conformanceProfiles.js";
 import { validateEnvelope } from "./validateEnvelope.js";
@@ -161,12 +162,12 @@ export function runEnvelopeConformance(
     }
   }
 
-  const validMviLevels = ["minimal", "standard", "full", "custom"];
+  const mviValid = isMVILevel(typed._meta.mvi);
   pushCheck(
     checks,
     "meta_mvi_present",
-    validMviLevels.includes(typed._meta.mvi),
-    validMviLevels.includes(typed._meta.mvi) ? undefined : `invalid mvi level: ${String(typed._meta.mvi)}`,
+    mviValid,
+    mviValid ? undefined : `invalid mvi level: ${String(typed._meta.mvi)}`,
   );
   pushCheck(checks, "meta_strict_present", typeof typed._meta.strict === "boolean");
 
