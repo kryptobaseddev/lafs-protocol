@@ -9,7 +9,10 @@
       "retryable": false,
       "httpStatus": 400,
       "grpcStatus": "INVALID_ARGUMENT",
-      "cliExit": 2
+      "cliExit": 2,
+      "agentAction": "stop",
+      "typeUri": "https://lafs.dev/errors/v1/format-conflict",
+      "docUrl": "https://lafs.dev/docs/errors/format-conflict"
     },
     {
       "code": "E_VALIDATION_SCHEMA",
@@ -18,7 +21,10 @@
       "retryable": false,
       "httpStatus": 400,
       "grpcStatus": "INVALID_ARGUMENT",
-      "cliExit": 2
+      "cliExit": 2,
+      "agentAction": "retry_modified",
+      "typeUri": "https://lafs.dev/errors/v1/validation-schema",
+      "docUrl": "https://lafs.dev/docs/errors/validation-schema"
     },
     {
       "code": "E_NOT_FOUND_RESOURCE",
@@ -27,7 +33,10 @@
       "retryable": false,
       "httpStatus": 404,
       "grpcStatus": "NOT_FOUND",
-      "cliExit": 4
+      "cliExit": 4,
+      "agentAction": "stop",
+      "typeUri": "https://lafs.dev/errors/v1/not-found-resource",
+      "docUrl": "https://lafs.dev/docs/errors/not-found-resource"
     },
     {
       "code": "E_CONFLICT_VERSION",
@@ -36,7 +45,10 @@
       "retryable": true,
       "httpStatus": 409,
       "grpcStatus": "ABORTED",
-      "cliExit": 7
+      "cliExit": 7,
+      "agentAction": "refresh_context",
+      "typeUri": "https://lafs.dev/errors/v1/conflict-version",
+      "docUrl": "https://lafs.dev/docs/errors/conflict-version"
     },
     {
       "code": "E_RATE_LIMITED",
@@ -45,7 +57,10 @@
       "retryable": true,
       "httpStatus": 429,
       "grpcStatus": "RESOURCE_EXHAUSTED",
-      "cliExit": 8
+      "cliExit": 8,
+      "agentAction": "wait",
+      "typeUri": "https://lafs.dev/errors/v1/rate-limited",
+      "docUrl": "https://lafs.dev/docs/errors/rate-limited"
     },
     {
       "code": "E_TRANSIENT_UPSTREAM",
@@ -54,7 +69,10 @@
       "retryable": true,
       "httpStatus": 503,
       "grpcStatus": "UNAVAILABLE",
-      "cliExit": 9
+      "cliExit": 9,
+      "agentAction": "retry",
+      "typeUri": "https://lafs.dev/errors/v1/transient-upstream",
+      "docUrl": "https://lafs.dev/docs/errors/transient-upstream"
     },
     {
       "code": "E_INTERNAL_UNEXPECTED",
@@ -63,7 +81,10 @@
       "retryable": false,
       "httpStatus": 500,
       "grpcStatus": "INTERNAL",
-      "cliExit": 1
+      "cliExit": 1,
+      "agentAction": "escalate",
+      "typeUri": "https://lafs.dev/errors/v1/internal-unexpected",
+      "docUrl": "https://lafs.dev/docs/errors/internal-unexpected"
     },
     {
       "code": "E_CONTEXT_MISSING",
@@ -72,7 +93,10 @@
       "retryable": false,
       "httpStatus": 400,
       "grpcStatus": "FAILED_PRECONDITION",
-      "cliExit": 6
+      "cliExit": 6,
+      "agentAction": "retry_modified",
+      "typeUri": "https://lafs.dev/errors/v1/context-missing",
+      "docUrl": "https://lafs.dev/docs/errors/context-missing"
     },
     {
       "code": "E_CONTEXT_STALE",
@@ -81,7 +105,10 @@
       "retryable": true,
       "httpStatus": 409,
       "grpcStatus": "ABORTED",
-      "cliExit": 7
+      "cliExit": 7,
+      "agentAction": "refresh_context",
+      "typeUri": "https://lafs.dev/errors/v1/context-stale",
+      "docUrl": "https://lafs.dev/docs/errors/context-stale"
     },
     {
       "code": "E_MIGRATION_UNSUPPORTED_VERSION",
@@ -90,7 +117,10 @@
       "retryable": false,
       "httpStatus": 426,
       "grpcStatus": "FAILED_PRECONDITION",
-      "cliExit": 10
+      "cliExit": 10,
+      "agentAction": "stop",
+      "typeUri": "https://lafs.dev/errors/v1/migration-unsupported-version",
+      "docUrl": "https://lafs.dev/docs/errors/migration-unsupported-version"
     },
     {
       "code": "E_DISCLOSURE_UNKNOWN_FIELD",
@@ -99,7 +129,10 @@
       "retryable": false,
       "httpStatus": 400,
       "grpcStatus": "INVALID_ARGUMENT",
-      "cliExit": 2
+      "cliExit": 2,
+      "agentAction": "retry_modified",
+      "typeUri": "https://lafs.dev/errors/v1/disclosure-unknown-field",
+      "docUrl": "https://lafs.dev/docs/errors/disclosure-unknown-field"
     },
     {
       "code": "E_MVI_BUDGET_EXCEEDED",
@@ -108,7 +141,10 @@
       "retryable": false,
       "httpStatus": 413,
       "grpcStatus": "RESOURCE_EXHAUSTED",
-      "cliExit": 2
+      "cliExit": 2,
+      "agentAction": "retry_modified",
+      "typeUri": "https://lafs.dev/errors/v1/mvi-budget-exceeded",
+      "docUrl": "https://lafs.dev/docs/errors/mvi-budget-exceeded"
     },
     {
       "code": "E_FIELD_CONFLICT",
@@ -117,7 +153,10 @@
       "retryable": false,
       "httpStatus": 400,
       "grpcStatus": "INVALID_ARGUMENT",
-      "cliExit": 2
+      "cliExit": 2,
+      "agentAction": "stop",
+      "typeUri": "https://lafs.dev/errors/v1/field-conflict",
+      "docUrl": "https://lafs.dev/docs/errors/field-conflict"
     }
   ]
 }

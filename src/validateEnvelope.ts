@@ -9,7 +9,7 @@ const AddFormatsModule = require("ajv-formats") as { default?: (ajv: unknown) =>
 const AjvCtor = (typeof AjvModule === "function" ? AjvModule : AjvModule.default) as new (opts: object) => {
   compile: (schema: unknown) => {
     (input: unknown): boolean;
-    errors?: Array<{ instancePath?: string; message?: string }>;
+    errors?: Array<{ instancePath?: string; keyword?: string; message?: string; params?: Record<string, unknown> }>;
   };
 };
 
@@ -20,23 +20,38 @@ addFormats(ajv);
 
 const validate = ajv.compile(envelopeSchema);
 
+/** Structured representation of a single validation error from AJV */
+export interface StructuredValidationError {
+  path: string;
+  keyword: string;
+  message: string;
+  params: Record<string, unknown>;
+}
+
 export interface EnvelopeValidationResult {
   valid: boolean;
   errors: string[];
+  structuredErrors: StructuredValidationError[];
 }
 
 export function validateEnvelope(input: unknown): EnvelopeValidationResult {
   const valid = validate(input);
   if (valid) {
-    return { valid: true, errors: [] };
+    return { valid: true, errors: [], structuredErrors: [] };
   }
 
-  const errors = (validate.errors ?? []).map((error: { instancePath?: string; message?: string }) => {
-    const path = error.instancePath || "/";
-    return `${path} ${error.message ?? "validation error"}`.trim();
-  });
+  const structuredErrors: StructuredValidationError[] = (validate.errors ?? []).map(
+    (error: { instancePath?: string; keyword?: string; message?: string; params?: Record<string, unknown> }) => ({
+      path: error.instancePath || "/",
+      keyword: error.keyword ?? "unknown",
+      message: error.message ?? "validation error",
+      params: error.params ?? {},
+    })
+  );
 
-  return { valid: false, errors };
+  const errors = structuredErrors.map((se) => `${se.path} ${se.message}`.trim());
+
+  return { valid: false, errors, structuredErrors };
 }
 
 export function assertEnvelope(input: unknown): LAFSEnvelope {

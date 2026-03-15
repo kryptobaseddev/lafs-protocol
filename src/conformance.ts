@@ -1,7 +1,7 @@
-import { getTransportMapping, isRegisteredErrorCode } from "./errorRegistry.js";
+import { getTransportMapping, isRegisteredErrorCode, getRegistryCode } from "./errorRegistry.js";
 import { resolveOutputFormat, LAFSFlagError } from "./flagSemantics.js";
-import { isMVILevel } from "./types.js";
-import type { ConformanceReport, FlagInput } from "./types.js";
+import { isAgentAction, isMVILevel } from "./types.js";
+import type { ConformanceReport, FlagInput, LAFSAgentAction } from "./types.js";
 import { getChecksForTier, type ConformanceTier } from "./conformanceProfiles.js";
 import { validateEnvelope } from "./validateEnvelope.js";
 
@@ -39,7 +39,7 @@ export function runEnvelopeConformance(
   const typed = envelope as {
     success: boolean;
     result: unknown;
-    error?: null | { code: string };
+    error?: null | { code: string; agentAction?: string };
     page?: unknown;
     _extensions?: Record<string, unknown>;
     _meta: {
@@ -84,6 +84,56 @@ export function runEnvelopeConformance(
       "error_code_registered",
       true,
       "error field absent or null — skipped (optional when success=true)",
+    );
+  }
+
+  // agent_action_valid: if error.agentAction is present, it must be a valid LAFSAgentAction
+  if (typed.error && typed.error.agentAction !== undefined) {
+    const valid = isAgentAction(typed.error.agentAction);
+    pushCheck(
+      checks,
+      "agent_action_valid",
+      valid,
+      valid ? undefined : `invalid agentAction: ${String(typed.error.agentAction)}`,
+    );
+  } else {
+    pushCheck(
+      checks,
+      "agent_action_valid",
+      true,
+      "agentAction absent — skipped",
+    );
+  }
+
+  // error_registry_agent_action: if error code is registered and agentAction is present,
+  // check if it matches the registry default (warning-level, not a hard failure)
+  if (typed.error && typed.error.agentAction !== undefined && isRegisteredErrorCode(typed.error.code)) {
+    const registryEntry = getRegistryCode(typed.error.code);
+    const registryAction = (registryEntry as Record<string, unknown> | undefined)?.["agentAction"] as string | undefined;
+    if (registryAction) {
+      const matches = typed.error.agentAction === registryAction;
+      pushCheck(
+        checks,
+        "error_registry_agent_action",
+        true, // always passes — advisory only
+        matches
+          ? undefined
+          : `agentAction "${typed.error.agentAction}" differs from registry default "${registryAction}" for ${typed.error.code} (advisory)`,
+      );
+    } else {
+      pushCheck(
+        checks,
+        "error_registry_agent_action",
+        true,
+        "registry entry has no default agentAction — skipped",
+      );
+    }
+  } else {
+    pushCheck(
+      checks,
+      "error_registry_agent_action",
+      true,
+      typed.error ? "agentAction absent or code unregistered — skipped" : "no error present — skipped",
     );
   }
 

@@ -367,6 +367,47 @@ Custom error codes MUST match the same regex pattern. Implementations SHOULD cho
 - Retry semantics MUST be encoded in `retryable` and `retryAfterMs`.
 - CLI/HTTP/gRPC mappings SHOULD follow the registry.
 
+### 7.3 Agent action semantics
+
+Error objects MAY include an `agentAction` field providing a machine-readable
+instruction for the consuming agent. When present, `agentAction` MUST be one of:
+
+| Value | Semantics |
+|-------|-----------|
+| `retry` | Transient failure. Agent SHOULD retry the same request, optionally after `retryAfterMs`. |
+| `retry_modified` | Request was invalid. Agent SHOULD modify request parameters and retry. The `details` field SHOULD indicate which parameters to change. |
+| `wait` | Rate limited. Agent MUST wait at least `retryAfterMs` milliseconds before retrying. Exponential backoff is RECOMMENDED. |
+| `escalate` | Requires human or operator intervention. Agent SHOULD surface the error to the user with the `requestId` for correlation. |
+| `stop` | Terminal error. Agent MUST NOT retry this request. |
+| `refresh_context` | Context is stale. Agent SHOULD fetch fresh context via `contextVersion` and retry. |
+| `authenticate` | Authentication required or expired. Agent SHOULD obtain or refresh credentials before retrying. |
+
+When `agentAction` is absent, agents SHOULD derive the action from `category`
+using the default mapping published in the error registry.
+
+Implementations SHOULD always include `agentAction` in error responses to
+eliminate ambiguity and reduce agent reasoning overhead.
+
+#### 7.3.1 Escalation signal
+
+Error objects MAY include an `escalationRequired` boolean field. When `true`,
+the agent MUST NOT attempt automated recovery and SHOULD surface the error
+to a human operator. This field is independent of `retryable`: an error may
+be retryable by a human but not by an agent.
+
+#### 7.3.2 Suggested action
+
+Error objects MAY include a `suggestedAction` string field providing a brief,
+specific instruction for recovery. This field is distinct from `message` (which
+describes what happened) and carries actionable guidance for the consumer.
+
+#### 7.3.3 Documentation URL
+
+Error objects MAY include a `docUrl` string field containing a URI pointing to
+documentation for the error type. Agents capable of web retrieval MAY use this
+for autonomous error resolution. The error registry SHOULD publish `docUrl`
+values for all registered error codes.
+
 ---
 
 ## 8. Context Preservation
@@ -458,10 +499,14 @@ To reduce token and I/O overhead, implementations SHOULD support lazy retrieval 
 - Verbose fields SHOULD be omitted by default.
 - Systems SHOULD publish operation-level MVI budgets.
 - `_meta.mvi` MUST be one of: `minimal`, `standard`, `full`, or `custom`.
-- `_meta` is a structural envelope field and MUST always be present regardless
-  of `mvi` level. MVI levels govern the contents of `result` only; they MUST NOT
-  affect envelope structural fields (`$schema`, `_meta`, `success`, `error`,
-  `page`, `_extensions`).
+- `_meta` MUST always be present as a structural envelope field. `success` MUST
+  always be present. `error` MUST be present when `success` is `false`.
+- MVI levels govern the verbosity of `result`, `_meta` fields, and `error` fields.
+  At `minimal`, implementations SHOULD omit fields that are derivable from the
+  error registry or that echo back request parameters the agent already knows.
+- The following envelope structural invariants are NOT affected by MVI level:
+  the mutual exclusivity of `result` and `error`, the presence of `success`,
+  and the presence of `_meta`.
 - `minimal`: MUST include only fields within `result` sufficient for the next
   agent action (typically identifiers and status). Implementations SHOULD
   document which fields constitute `minimal` per operation.
@@ -472,6 +517,49 @@ To reduce token and I/O overhead, implementations SHOULD support lazy retrieval 
 - `custom`: MUST be set by the server when `_fields` projection has been
   applied, indicating the result does not conform to any predefined disclosure
   level. `custom` is not a client-requestable level.
+
+#### 9.1.1 MVI field inclusion for `_meta`
+
+At `minimal`, `_meta` MUST include only:
+- `requestId` (REQUIRED)
+- `contextVersion` (REQUIRED)
+- `sessionId` (REQUIRED when present in the full response)
+- `warnings` (REQUIRED when present in the full response)
+
+At `standard`, `_meta` MUST additionally include:
+- `timestamp`
+- `operation`
+- `mvi`
+
+At `full`, `_meta` MUST include all defined fields including `specVersion`,
+`schemaVersion`, `transport`, and `strict`.
+
+Fields omitted at a given MVI level are echo-backs of request parameters that
+the agent already knows, or static constants that do not vary per response.
+
+#### 9.1.2 MVI field inclusion for `error`
+
+At `minimal`, `error` MUST include only:
+- `code` (REQUIRED)
+- `agentAction` (REQUIRED when present)
+- `retryAfterMs` (REQUIRED when non-null)
+- `details` (REQUIRED when non-empty)
+- `escalationRequired` (REQUIRED when present)
+
+At `standard` and `full`, `error` MUST include all fields defined in Section 7,
+including `message`, `category`, `retryable`, and `retryAfterMs`.
+
+Fields omitted at `minimal` are either human-readable prose (`message`) or
+derivable from the error code via the error registry (`category`, `retryable`).
+
+#### 9.1.3 MVI field inclusion for envelope structure
+
+At `minimal`:
+- `$schema` MAY be omitted (static constant)
+- `result` MAY be omitted when its value is `null` (derivable from `success: false`)
+
+At `standard` and `full`, all structural fields MUST be present per the
+envelope schema.
 
 ### 9.2 Field selection (`_fields`)
 

@@ -221,14 +221,37 @@ export class ExtensionSupportRequiredError extends Error {
     };
   }
 
-  /** Convert to RFC 9457 Problem Details object */
-  toProblemDetails(): Record<string, unknown> {
+  /** Convert to RFC 9457 Problem Details object with agent-actionable fields */
+  toProblemDetails(): Record<string, unknown> & { agentAction: string } {
     return {
       type: 'https://a2a-protocol.org/errors/extension-support-required',
       title: 'Extension Support Required',
       status: this.httpStatus,
       detail: this.message,
       missingExtensions: this.missingExtensions,
+      agentAction: 'retry_modified',
+    };
+  }
+
+  /** Convert to a LAFSError-compatible object */
+  toLafsError(): {
+    code: string;
+    message: string;
+    category: 'CONTRACT';
+    retryable: boolean;
+    retryAfterMs: null;
+    details: Record<string, unknown>;
+  } {
+    return {
+      code: 'E_CONTRACT_EXTENSION_REQUIRED',
+      message: this.message,
+      category: 'CONTRACT',
+      retryable: true,
+      retryAfterMs: null,
+      details: {
+        missingExtensions: this.missingExtensions,
+        agentAction: 'retry_modified',
+      },
     };
   }
 }
@@ -272,6 +295,7 @@ export function extensionNegotiationMiddleware(
 
     if (enforceRequired && result.missingRequired.length > 0) {
       const error = new ExtensionSupportRequiredError(result.missingRequired);
+      res.setHeader('Content-Type', 'application/problem+json');
       res.status(error.httpStatus).json(error.toProblemDetails());
       return;
     }

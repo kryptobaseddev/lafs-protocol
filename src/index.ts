@@ -6,6 +6,7 @@ export * from "./envelope.js";
 export * from "./flagSemantics.js";
 export * from "./fieldExtraction.js";
 export * from "./flagResolver.js";
+export * from "./mviProjection.js";
 export * from "./conformance.js";
 export * from "./conformanceProfiles.js";
 export * from "./compliance.js";
@@ -13,6 +14,8 @@ export * from "./tokenEstimator.js";
 export * from "./budgetEnforcement.js";
 export * from "./mcpAdapter.js";
 export * from "./discovery.js";
+export { lafsErrorToProblemDetails, PROBLEM_DETAILS_CONTENT_TYPE } from './problemDetails.js';
+export type { LafsProblemDetails } from './problemDetails.js';
 
 // Operations & Reliability
 export * from "./health/index.js";

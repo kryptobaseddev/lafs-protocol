@@ -1,4 +1,5 @@
 import errorRegistry from "../schemas/v1/error-registry.json" with { type: "json" };
+import type { LAFSAgentAction } from "./types.js";
 
 export interface RegistryCode {
   code: string;
@@ -8,6 +9,9 @@ export interface RegistryCode {
   httpStatus: number;
   grpcStatus: string;
   cliExit: number;
+  agentAction?: string;
+  typeUri?: string;
+  docUrl?: string;
 }
 
 export interface ErrorRegistry {
@@ -31,6 +35,21 @@ export function isRegisteredErrorCode(code: string): boolean {
 
 export function getRegistryCode(code: string): RegistryCode | undefined {
   return getErrorRegistry().codes.find((item) => item.code === code);
+}
+
+export function getAgentAction(code: string): LAFSAgentAction | undefined {
+  const entry = getRegistryCode(code);
+  return entry?.agentAction as LAFSAgentAction | undefined;
+}
+
+export function getTypeUri(code: string): string | undefined {
+  const entry = getRegistryCode(code);
+  return entry?.typeUri;
+}
+
+export function getDocUrl(code: string): string | undefined {
+  const entry = getRegistryCode(code);
+  return entry?.docUrl;
 }
 
 export function getTransportMapping(

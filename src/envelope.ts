@@ -1,8 +1,9 @@
-import { isRegisteredErrorCode } from "./errorRegistry.js";
+import { isRegisteredErrorCode, getRegistryCode, getAgentAction, getDocUrl } from "./errorRegistry.js";
 import type {
   LAFSEnvelope,
   LAFSError,
   LAFSErrorCategory,
+  LAFSAgentAction,
   LAFSMeta,
   LAFSTransport,
   MVILevel,
@@ -68,15 +69,56 @@ function createMeta(input: CreateEnvelopeMetaInput): LAFSMeta {
   };
 }
 
+export const CATEGORY_ACTION_MAP: Record<LAFSErrorCategory, LAFSAgentAction> = {
+  VALIDATION: 'retry_modified',
+  AUTH: 'authenticate',
+  PERMISSION: 'escalate',
+  NOT_FOUND: 'stop',
+  CONFLICT: 'retry_modified',
+  RATE_LIMIT: 'wait',
+  TRANSIENT: 'retry',
+  INTERNAL: 'escalate',
+  CONTRACT: 'retry_modified',
+  MIGRATION: 'stop',
+};
+
 function normalizeError(error: CreateEnvelopeErrorInput["error"]): LAFSError {
-  return {
+  const registryEntry = getRegistryCode(error.code);
+
+  const category = (error.category ?? registryEntry?.category ?? "INTERNAL") as LAFSErrorCategory;
+  const retryable = error.retryable ?? registryEntry?.retryable ?? false;
+
+  // Derive agentAction: explicit > registry > category fallback
+  const agentAction: LAFSAgentAction | undefined =
+    error.agentAction ??
+    getAgentAction(error.code) ??
+    CATEGORY_ACTION_MAP[category];
+
+  const docUrl = error.docUrl ?? getDocUrl(error.code);
+
+  const result: LAFSError = {
     code: error.code,
     message: error.message,
-    category: (error.category ?? "INTERNAL") as LAFSErrorCategory,
-    retryable: error.retryable ?? false,
+    category,
+    retryable,
     retryAfterMs: error.retryAfterMs ?? null,
     details: error.details ?? {},
   };
+
+  if (agentAction !== undefined) {
+    result.agentAction = agentAction;
+  }
+  if (error.escalationRequired !== undefined) {
+    result.escalationRequired = error.escalationRequired;
+  }
+  if (error.suggestedAction !== undefined) {
+    result.suggestedAction = error.suggestedAction;
+  }
+  if (docUrl !== undefined) {
+    result.docUrl = docUrl;
+  }
+
+  return result;
 }
 
 export function createEnvelope(input: CreateEnvelopeInput): LAFSEnvelope {
@@ -112,6 +154,10 @@ export class LafsError extends Error implements LAFSError {
   retryAfterMs: number | null;
   details: Record<string, unknown>;
   registered: boolean;
+  agentAction?: LAFSAgentAction;
+  escalationRequired?: boolean;
+  suggestedAction?: string;
+  docUrl?: string;
 
   constructor(error: LAFSError) {
     super(error.message);
@@ -122,6 +168,10 @@ export class LafsError extends Error implements LAFSError {
     this.retryAfterMs = error.retryAfterMs;
     this.details = error.details;
     this.registered = isRegisteredErrorCode(error.code);
+    if (error.agentAction !== undefined) this.agentAction = error.agentAction;
+    if (error.escalationRequired !== undefined) this.escalationRequired = error.escalationRequired;
+    if (error.suggestedAction !== undefined) this.suggestedAction = error.suggestedAction;
+    if (error.docUrl !== undefined) this.docUrl = error.docUrl;
   }
 }
 

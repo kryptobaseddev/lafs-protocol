@@ -6,6 +6,7 @@
  */
 
 import type { A2AErrorType } from './jsonrpc.js';
+import type { LAFSError } from '../../types.js';
 
 // ============================================================================
 // Endpoint Constants (spec Section 11.3)
@@ -95,6 +96,33 @@ export function createProblemDetails(
     status: A2A_HTTP_STATUS_CODES[errorType],
     detail,
     ...extensions,
+  };
+}
+
+/**
+ * Create an RFC 9457 Problem Details object bridging A2A error types with LAFS error data.
+ * Includes LAFS agent-actionable extension fields from the LAFSError.
+ *
+ * @param errorType - The A2A error type name
+ * @param lafsError - The LAFS error object to extract extension fields from
+ * @param requestId - Optional request identifier for the `instance` field
+ */
+export function createLafsProblemDetails(
+  errorType: A2AErrorType,
+  lafsError: LAFSError,
+  requestId?: string
+): ProblemDetails {
+  const base = createProblemDetails(errorType, lafsError.message);
+
+  return {
+    ...base,
+    ...(requestId != null && { instance: requestId }),
+    retryable: lafsError.retryable,
+    ...(lafsError.agentAction != null && { agentAction: lafsError.agentAction }),
+    ...(lafsError.retryAfterMs != null && { retryAfterMs: lafsError.retryAfterMs }),
+    ...(lafsError.escalationRequired != null && { escalationRequired: lafsError.escalationRequired }),
+    ...(lafsError.suggestedAction != null && { suggestedAction: lafsError.suggestedAction }),
+    ...(lafsError.docUrl != null && { docUrl: lafsError.docUrl }),
   };
 }
 

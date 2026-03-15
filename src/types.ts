@@ -45,6 +45,23 @@ export interface LAFSMeta {
   warnings?: Warning[];
 }
 
+export type LAFSAgentAction =
+  | 'retry'
+  | 'retry_modified'
+  | 'escalate'
+  | 'stop'
+  | 'wait'
+  | 'refresh_context'
+  | 'authenticate';
+
+export const AGENT_ACTIONS: ReadonlySet<LAFSAgentAction> = new Set<LAFSAgentAction>([
+  'retry', 'retry_modified', 'escalate', 'stop', 'wait', 'refresh_context', 'authenticate',
+]);
+
+export function isAgentAction(value: unknown): value is LAFSAgentAction {
+  return typeof value === 'string' && AGENT_ACTIONS.has(value as LAFSAgentAction);
+}
+
 export interface LAFSError {
   code: string;
   message: string;
@@ -52,8 +69,11 @@ export interface LAFSError {
   retryable: boolean;
   retryAfterMs: number | null;
   details: Record<string, unknown>;
+  agentAction?: LAFSAgentAction;
+  escalationRequired?: boolean;
+  suggestedAction?: string;
+  docUrl?: string;
 }
-
 export interface LAFSPageCursor {
   mode: "cursor";
   nextCursor: string | null;

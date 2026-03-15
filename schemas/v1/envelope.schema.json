@@ -98,7 +98,7 @@
     },
     "error": {
       "type": ["object", "null"],
-      "additionalProperties": false,
+      "additionalProperties": true,
       "required": [
         "code",
         "message",
@@ -141,6 +141,25 @@
         },
         "details": {
           "type": "object"
+        },
+        "agentAction": {
+          "type": "string",
+          "enum": ["retry", "retry_modified", "escalate", "stop", "wait", "refresh_context", "authenticate"],
+          "description": "Machine-actionable instruction for the consuming agent"
+        },
+        "escalationRequired": {
+          "type": "boolean",
+          "description": "Whether human/owner intervention is required"
+        },
+        "suggestedAction": {
+          "type": "string",
+          "maxLength": 512,
+          "description": "Brief actionable instruction for error recovery"
+        },
+        "docUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "Documentation URL for this error type"
         }
       }
     },

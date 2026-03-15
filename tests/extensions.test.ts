@@ -319,6 +319,7 @@ describe('extensionNegotiationMiddleware', () => {
 
     expect(response.body.type).toBe('https://a2a-protocol.org/errors/extension-support-required');
     expect(response.body.status).toBe(400);
+    expect(response.headers['content-type']).toMatch(/application\/problem\+json/);
   });
 
   it('should not reject when enforceRequired is false', async () => {
