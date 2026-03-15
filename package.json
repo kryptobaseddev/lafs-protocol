@@ -1,6 +1,6 @@
 {
   "name": "@cleocode/lafs-protocol",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "private": false,
   "type": "module",
   "description": "LLM-Agent-First Specification schemas and conformance tooling",

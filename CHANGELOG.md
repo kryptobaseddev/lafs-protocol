@@ -7,6 +7,64 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.7.0] - 2026-03-15
+
+### Added
+
+- **MVI projection engine** (`src/mviProjection.ts`): `projectEnvelope()` strips envelope fields based on MVI level, achieving 73-75% token reduction at `minimal`. `estimateProjectedTokens()` provides token cost estimates for projected envelopes.
+- **`agentAction` field** on `LAFSError`: machine-readable instruction for agent control flow with 7 values (`retry`, `retry_modified`, `escalate`, `stop`, `wait`, `refresh_context`, `authenticate`). Auto-populated from error registry or category fallback via `CATEGORY_ACTION_MAP`.
+- **`escalationRequired` field** on `LAFSError`: boolean signal for whether human/owner intervention is required (inspired by Cloudflare's `owner_action_required`).
+- **`suggestedAction` field** on `LAFSError`: brief actionable recovery instruction for agents.
+- **`docUrl` field** on `LAFSError`: documentation URL for self-learning agents (Stripe/GitHub pattern).
+- **Core RFC 9457 Problem Details bridge** (`src/problemDetails.ts`): `lafsErrorToProblemDetails()` converts any `LAFSError` to RFC 9457-compliant `LafsProblemDetails` with LAFS extension members. `PROBLEM_DETAILS_CONTENT_TYPE` constant. Available for all transports, not just A2A HTTP.
+- **`createLafsProblemDetails()`** (`src/a2a/bindings/http.ts`): bridges A2A error types with `LAFSError` data including `instance`, `retryable`, `agentAction`, `escalationRequired`, `docUrl`.
+- **Structured validation errors** (`src/validateEnvelope.ts`): `StructuredValidationError` interface with `path`, `keyword`, `message`, `params` from AJV. `structuredErrors` field on `EnvelopeValidationResult` replaces flat string parsing.
+- **Error registry enrichment** (`schemas/v1/error-registry.json`): all 13 error codes now include `agentAction`, `typeUri` (RFC 9457-style stable URI), and `docUrl` fields.
+- **Registry accessor functions** (`src/errorRegistry.ts`): `getAgentAction()`, `getTypeUri()`, `getDocUrl()`.
+- **Conformance checks**: `agent_action_valid` (validates agentAction enum) and `error_registry_agent_action` (advisory check against registry default) added to standard and complete tiers.
+- **`toLafsError()`** on `ExtensionSupportRequiredError` (`src/a2a/extensions.ts`): returns proper `LAFSError` for envelope integration.
+- **New fixtures**: `valid-error-minimal.json` (MVI minimal projection output), `valid-error-actionable.json` (rate limit with agentAction), `valid-error-escalation.json` (internal error with escalation).
+- **Architecture Decision Record**: `docs/architecture/ADR-001-RFC9457-ERROR-OPTIMIZATION.md` documenting the design rationale, gap analysis, and verified token savings.
+- **RFC design document**: `docs/architecture/RFC-ERROR-OPTIMIZATION.md` with full technical specification.
+- **60 new tests** across 4 test files: `mviProjection.test.ts` (28), `problemDetails.test.ts` (16), `agentAction.test.ts` (13), `structuredValidation.test.ts` (7), plus 1 assertion in `extensions.test.ts`.
+
+### Changed
+
+- **`normalizeError()`** (`src/envelope.ts`): now registry-driven. Auto-populates `category`, `retryable`, `agentAction`, and `docUrl` from error registry when callers provide only `code` and `message`. Exported `CATEGORY_ACTION_MAP` maps all 10 error categories to default agent actions.
+- **`LafsError` class** (`src/envelope.ts`): carries new optional fields (`agentAction`, `escalationRequired`, `suggestedAction`, `docUrl`).
+- **`toProblemDetails()`** on `ExtensionSupportRequiredError`: now returns typed output with `agentAction: 'retry_modified'`.
+- **`Content-Type` header**: extension negotiation middleware now sets `application/problem+json` on error responses (was defaulting to `application/json`).
+- **Envelope schema** (`schemas/v1/envelope.schema.json`): error object `additionalProperties` changed from `false` to `true` per RFC 9457 extension member philosophy. Added `agentAction` (enum), `escalationRequired` (boolean), `suggestedAction` (string, maxLength 512), `docUrl` (URI) as optional properties.
+
+### Specification
+
+- **§7.3 Agent action semantics** (`lafs.md`): new section defining `agentAction` field with RFC 2119 language, including subsections for `escalationRequired` (§7.3.1), `suggestedAction` (§7.3.2), and `docUrl` (§7.3.3).
+- **§9.1 MVI default** (`lafs.md`): amended to extend MVI governance beyond `result` to `_meta` and `error` fields. Added §9.1.1 (MVI field inclusion for `_meta`), §9.1.2 (MVI field inclusion for `error`), §9.1.3 (MVI field inclusion for envelope structure).
+
+### Statistics
+
+- 416 total tests passing (60 new)
+- 13 error codes in registry (all enriched with agentAction, typeUri, docUrl)
+- Verified token savings: 73-75% reduction at MVI minimal
+
+## [1.6.0] - 2026-02-27
+
+### Added
+
+- **Unified flag resolver** (`src/flagResolver.ts`): `resolveFlags()` composes format resolution (§5.1-5.3) with field extraction resolution (§9.2) and validates cross-layer interactions per §5.4.
+  - `UnifiedFlagInput` — combined input for format and field extraction layers
+  - `UnifiedFlagResolution` — combined result with cross-layer warnings
+  - Cross-layer validation: `--human + --field` and `--human + --fields` combinations produce warnings per §5.4.1 (filter-then-render semantics)
+- **15 new tests** in `tests/flag-resolver.test.ts` covering all flag combinations, conflicts, and MVI interaction
+
+### Specification
+
+- **§5.4 Cross-layer flag semantics** (`lafs.md`): new section defining filter-then-render semantics for cross-layer flag combinations (`--human + --field`, `--human + --fields`)
+
+### Statistics
+
+- 352 total tests passing (15 new)
+
 ## [1.5.0] - 2026-02-26
 
 ### Added
