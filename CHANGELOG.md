@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.8.0] - 2026-03-19
+
+### Changed
+
+- **Error envelopes may now include `result`**: When `success: false`, the `result` field is no longer forced to `null`. Validation tools (linters, type checkers) can return actionable data (e.g., `suggestedFix`, per-file error breakdowns) alongside error metadata. The `error` field is still required on failure. This change updates `CreateEnvelopeErrorInput`, `createEnvelope()`, the JSON schema, and the `envelope_invariants` conformance check.
+
+### Added
+
+- **TTY-aware format default**: New `tty` field on `FlagInput` and `UnifiedFlagInput`. When `true` and no explicit format flag or project/user default is set, the resolved format defaults to `"human"` instead of `"json"`. CLI tools should pass `process.stdout.isTTY ?? false`. Non-TTY environments (piped, CI, agents) continue to default to JSON per the LAFS protocol.
+
 ## [1.7.0] - 2026-03-15
 
 ### Added
