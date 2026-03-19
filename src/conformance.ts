@@ -54,10 +54,12 @@ export function runEnvelopeConformance(
   };
 
   // envelope_invariants: success=true allows error to be null OR omitted;
-  // success=false requires error to be a non-null object and result===null.
+  // success=false requires error to be a non-null object.
+  // result MAY be non-null on error — validation tools (linters, type checkers)
+  // need to return actionable data (e.g., suggestedFix) alongside the error.
   const invariant = typed.success
     ? typed.error == null  // null or undefined (omitted) both valid for success
-    : typed.result === null && typed.error != null;
+    : typed.error != null; // error must be present, result is optional
   pushCheck(
     checks,
     "envelope_invariants",
@@ -66,7 +68,7 @@ export function runEnvelopeConformance(
       ? undefined
       : typed.success
         ? "success=true but error is present and non-null"
-        : "success=false requires result===null and error to be a non-null object",
+        : "success=false requires error to be a non-null object",
   );
 
   // error_code_registered: only checked when error is present (error is optional when success=true)

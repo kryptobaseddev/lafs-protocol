@@ -130,6 +130,15 @@ export interface FlagInput {
   humanFlag?: boolean;
   projectDefault?: "json" | "human";
   userDefault?: "json" | "human";
+  /**
+   * When true, indicates the output is connected to an interactive terminal.
+   * If no explicit format flag or project/user default is set, TTY terminals
+   * default to `"human"` format while non-TTY (piped, CI, agents) defaults
+   * to `"json"` per the LAFS protocol.
+   *
+   * CLI tools should pass `process.stdout.isTTY ?? false` here.
+   */
+  tty?: boolean;
   /** Suppress non-essential output for scripting. When true, only essential data is returned. */
   quiet?: boolean;
 }

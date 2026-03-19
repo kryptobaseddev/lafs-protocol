@@ -94,10 +94,15 @@ describe("LAFS error envelope", () => {
     expect(report.checks.some((check) => check.name === "error_code_registered" && !check.pass)).toBe(true);
   });
 
-  it("rejects error envelope with non-null result (invariant violation)", () => {
+  it("passes envelope_invariants for error envelope with non-null result", () => {
     const envelope = load("fixtures/invalid-error-with-result.json");
     const report = runEnvelopeConformance(envelope);
-    expect(report.ok).toBe(false);
+    // result alongside error is valid — validation tools return actionable data
+    // (e.g., suggestedFix) alongside error metadata.
+    // The envelope_invariants check should pass (result is allowed on error).
+    // Other checks (e.g., error_code_registered) may still fail for this fixture.
+    const invariantCheck = report.checks.find((c) => c.name === "envelope_invariants");
+    expect(invariantCheck?.pass).toBe(true);
   });
 });
 

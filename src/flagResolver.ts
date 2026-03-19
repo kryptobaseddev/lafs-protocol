@@ -21,6 +21,12 @@ export interface UnifiedFlagInput {
   requestedFormat?: 'json' | 'human';
   projectDefault?: 'json' | 'human';
   userDefault?: 'json' | 'human';
+  /**
+   * TTY detection hint. When true, defaults to human format if no
+   * explicit format flag or project/user default is set.
+   * CLI tools should pass `process.stdout.isTTY ?? false`.
+   */
+  tty?: boolean;
   // Field extraction layer (§9.2)
   field?: string;
   fields?: string | string[];
@@ -53,6 +59,7 @@ export function resolveFlags(input: UnifiedFlagInput): UnifiedFlagResolution {
     requestedFormat: input.requestedFormat,
     projectDefault: input.projectDefault,
     userDefault: input.userDefault,
+    tty: input.tty,
   };
   const format = resolveOutputFormat(formatInput);
 

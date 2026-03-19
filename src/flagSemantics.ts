@@ -52,5 +52,10 @@ export function resolveOutputFormat(input: FlagInput): FlagResolution {
   if (input.userDefault) {
     return { format: input.userDefault, source: "user", quiet };
   }
+  // TTY terminals default to human-readable output for usability.
+  // Non-TTY (piped, CI, agents) defaults to JSON per LAFS protocol.
+  if (input.tty) {
+    return { format: "human", source: "default", quiet };
+  }
   return { format: "json", source: "default", quiet };
 }

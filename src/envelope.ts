@@ -38,7 +38,16 @@ export interface CreateEnvelopeSuccessInput {
 export interface CreateEnvelopeErrorInput {
   success: false;
   error: Partial<LAFSError> & Pick<LAFSError, "code" | "message">;
-  result?: null;
+  /**
+   * Optional result payload to include alongside the error.
+   * For validation tools (linters, type checkers), the actionable data
+   * (what to fix, suggested fixes) IS the result even when the operation
+   * "fails". Setting this allows agents to access both the error metadata
+   * and the detailed result in a single response.
+   *
+   * When omitted or null, the envelope emits `result: null` (default behavior).
+   */
+  result?: LAFSEnvelope["result"] | null;
   page?: LAFSEnvelope["page"];
   _extensions?: LAFSEnvelope["_extensions"];
   meta: CreateEnvelopeMetaInput;
@@ -140,7 +149,9 @@ export function createEnvelope(input: CreateEnvelopeInput): LAFSEnvelope {
     $schema: LAFS_SCHEMA_URL,
     _meta: meta,
     success: false,
-    result: null,
+    // Pass through result if provided — validation tools need actionable data
+    // alongside error metadata. Default to null for traditional error responses.
+    result: input.result ?? null,
     error: normalizeError(input.error),
     ...(input.page !== undefined ? { page: input.page } : {}),
     ...(input._extensions !== undefined ? { _extensions: input._extensions } : {}),

@@ -271,7 +271,6 @@
       "then": {
         "required": ["error"],
         "properties": {
-          "result": { "type": "null" },
           "error": { "type": "object" }
         }
       }
